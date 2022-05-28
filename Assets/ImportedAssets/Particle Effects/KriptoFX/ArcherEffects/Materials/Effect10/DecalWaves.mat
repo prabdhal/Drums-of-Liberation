@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DecalWaves
+  m_Shader: {fileID: 4800000, guid: e6ed112f94dfaa5499de6dbeb552865e, type: 3}
+  m_ShaderKeywords: USE_CUTOUT_THRESHOLD USE_FRAME_BLENDING USE_FRESNEL_FADING USE_SOFT_PARTICLES
+    _BLENDMODE_BLEND _EMISSION
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClipTex:
+        m_Texture: {fileID: 2800000, guid: 70f2e297185be7d43ac45e6fec9fab10, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CutoutTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FalloffTex:
+        m_Texture: {fileID: 2800000, guid: 23740055e2b119e40a939138ab8070f8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: cf403560443b82a4aa4adb0ba3fe171c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: d7d39e15e3eb68841b0bb17933758760, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowTex:
+        m_Texture: {fileID: 2800000, guid: 48556abb4407fee4aaf27c2accc56107, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BlendMode: 1
+    - _BumpScale: 1
+    - _CullMode: 0
+    - _Cutoff: 0.5
+    - _Cutout: 0.062
+    - _CutoutThreshold: 0.06
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstMode: 10
+    - _FresnelFadeFactor: 2
+    - _FresnelPow: 5
+    - _FresnelR0: 0.04
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _InvFade: 7
+    - _IsDecalProjector: 0
+    - _LightTranslucent: 0.5
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _OffsetDecal: 5
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcMode: 5
+    - _UVSec: 0
+    - _UseAlphaMask: 0
+    - _UseCutout: 0
+    - _UseCutoutTex: 0
+    - _UseCutoutThreshold: 1
+    - _UseFrameBlending: 1
+    - _UseFresnel: 0
+    - _UseFresnelFading: 1
+    - _UseLighting: 0
+    - _UseNoiseDistortion: 0
+    - _UseParticlesAlphaCutout: 0
+    - _UseSoft: 1
+    - _UseSoftCutout: 0
+    - _UseSoftInverted: 0
+    - _UseVertexStreamRandom: 0
+    - _ZWrite: 1
+    - _ZWriteMode: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CutoutColor: {r: 0, g: 3, b: 0.5172415, a: 1}
+    - _DistortionSpeedScale: {r: 2, g: -2, b: 0.1, a: 0.1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColor: {r: 0.8062885, g: 0.72794116, b: 3, a: 0.457}
