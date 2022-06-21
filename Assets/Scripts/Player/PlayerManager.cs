@@ -24,6 +24,8 @@ public class PlayerManager : MonoBehaviour
     private int maxMagicIdx = 2;
     public bool IsJumping { get; set; }
     public bool TargetLock { get; set; }
+    public bool OnPause { get { return onPause; } }
+    private bool onPause = false;
 
     public Transform popupPos;
 
@@ -55,6 +57,7 @@ public class PlayerManager : MonoBehaviour
 
         PlayerControls.Instance.OnCycleRightEvent += IncreaseMagicIdx;
         PlayerControls.Instance.OnCycleLeftEvent += DecreaseMagicIdx;
+        PlayerControls.Instance.OnPauseEvent += OnPauseMenu;
 
         Stats.Init();
         magicIdx = 0;
@@ -91,5 +94,15 @@ public class PlayerManager : MonoBehaviour
             playerFreeCam.gameObject.SetActive(true);
             playerLockCam.gameObject.SetActive(false);
         }
+    }
+
+    private void OnPauseMenu()
+    {
+        onPause = !onPause;
+
+        if (onPause)
+            GameMenuManager.Instance.PauseGame();
+        else
+            GameMenuManager.Instance.ResumeGame();
     }
 }

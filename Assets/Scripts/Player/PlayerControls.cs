@@ -103,6 +103,9 @@ public class PlayerControls : MonoBehaviour
         playerInput.Player.CycleLeft.performed += OnCycleLeft;
         playerInput.Player.CycleLeft.Enable();
 
+        playerInput.Player.MenuButton.performed += OnPause;
+        playerInput.Player.MenuButton.Enable();
+
         playerInput.Player.Interact.started += OnInteractActive;
         playerInput.Player.Interact.canceled += OnInteractDisable;
         playerInput.Player.Interact.Enable();
@@ -143,6 +146,9 @@ public class PlayerControls : MonoBehaviour
 
         playerInput.Player.MagicAttack.performed -= OnMagicAttack;
         playerInput.Player.MagicAttack.Disable();
+
+        playerInput.Player.MenuButton.performed -= OnPause;
+        playerInput.Player.MenuButton.Disable();
 
         playerInput.Player.Interact.started -= OnInteractActive;
         playerInput.Player.Interact.canceled -= OnInteractDisable;
@@ -273,5 +279,10 @@ public class PlayerControls : MonoBehaviour
 
         OnLockOnEvent?.Invoke();
         Debug.Log("On Lock On Event Invoked!");
+    }
+
+    private void OnPause(InputAction.CallbackContext obj)
+    {
+        OnPauseEvent?.Invoke();
     }
 }

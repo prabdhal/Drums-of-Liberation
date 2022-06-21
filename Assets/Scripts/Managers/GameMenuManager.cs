@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class MainMenuManager : MonoBehaviour
+public class GameMenuManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject backgroundPanel;
     [SerializeField]
-    private GameObject mainMenuPanel;
+    private GameObject menuPanel;
     [SerializeField]
     private GameObject optionsPanel;
 
     #region Singleton
-    public static MainMenuManager Instance;
+    public static GameMenuManager Instance;
 
     private void Awake()
     {
@@ -22,27 +22,29 @@ public class MainMenuManager : MonoBehaviour
 
     #endregion
 
+
     private void Start()
     {
         CloseAllMenus();
+    }
+
+    public void ResumeGame()
+    {
+        CloseAllMenus();
+
         Time.timeScale = 1f;
-
-        mainMenuPanel.SetActive(true);
     }
 
-
-
-    public void NewGameButton()
+    public void PauseGame()
     {
-        GameManager.Instance.LoadScene(StringData.CutSceneOne);
+        CloseAllMenus();
+
+        menuPanel.SetActive(true);
+        backgroundPanel.SetActive(true);
+        Time.timeScale = 0f;
     }
 
-    public void ContinueGameButton()
-    {
-        GameManager.Instance.LoadScene(StringData.CutSceneOne);
-    }
-
-    public void MainOptionsButton()
+    public void GameOptionsButton()
     {
         CloseAllMenus();
 
@@ -50,23 +52,28 @@ public class MainMenuManager : MonoBehaviour
         backgroundPanel.SetActive(true);
     }
 
-    public void BackMainMenuButton()
+    public void BackGameMenuButton()
     {
         CloseAllMenus();
 
-        mainMenuPanel.SetActive(true);
+        menuPanel.SetActive(true);
         backgroundPanel.SetActive(true);
     }
 
-    public void QuitButton()
+    public void BackToMainMenu()
     {
-        Application.Quit();
+        GameManager.Instance.LoadScene(StringData.MainMenuScene);
     }
 
     public void CloseAllMenus()
     {
         optionsPanel.SetActive(false);
-        mainMenuPanel.SetActive(false);
+        menuPanel.SetActive(false);
         backgroundPanel.SetActive(false);
+    }
+
+    public void QuitButton()
+    {
+        Application.Quit();
     }
 }
