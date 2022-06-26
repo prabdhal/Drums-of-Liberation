@@ -56,9 +56,6 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         else
             curTimer -= Time.deltaTime;
-
-        //if (useRaycastCollision)
-        //    DetectCollisionViaRayCast();
     }
 
     protected virtual void FixedUpdate()
@@ -77,7 +74,7 @@ public class Projectile : MonoBehaviour
         this.range = range;
     }
 
-    private void OnCollisionEnter(Collision col)
+    protected virtual void OnCollisionEnter(Collision col)
     {
         if (col.collider.CompareTag(StringData.PlayerTag) && tags.Contains(Tags.Player))
         {
@@ -85,6 +82,7 @@ public class Projectile : MonoBehaviour
 
             OnHitPlayerEvent();
             Instantiate(collisionEffect, contact.point, transform.rotation);
+            Debug.Log("destroyed: " + transform.name);
             Destroy(gameObject);
         }
         else if (col.collider.CompareTag(StringData.EnemyTag) && tags.Contains(Tags.Enemy))
@@ -92,6 +90,12 @@ public class Projectile : MonoBehaviour
             ContactPoint contact = col.contacts[0];
 
             OnHitEvent(col.gameObject);
+            if (GameManager.Instance.Enemies.TryGetValue(col.collider.name, out EnemyManager enemy))
+            {
+                enemy.GetHitDirection(transform);
+                enemy.PlayerIsDetected(true);
+                // add particle effects 
+            }
             Instantiate(collisionEffect, contact.point, transform.rotation);
             Destroy(gameObject);
         }

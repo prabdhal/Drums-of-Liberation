@@ -9,10 +9,8 @@ public class PlayerManager : MonoBehaviour
     private Animator anim;
     private CharacterController controller;
 
-    [SerializeField]
-    private CinemachineFreeLook playerFreeCam;
-    [SerializeField]
-    private CinemachineVirtualCamera playerLockCam;
+    [SerializeField] CinemachineFreeLook playerFreeCam;
+    [SerializeField] CinemachineVirtualCamera playerLockCam;
 
     // state
     public bool IsGrounded { get { return controller.isGrounded; } }
@@ -31,8 +29,9 @@ public class PlayerManager : MonoBehaviour
 
     // stats
     public PlayerStats Stats { get { return stats; } set { stats = value; } }
-    [SerializeField]
-    private PlayerStats stats;
+    [SerializeField] PlayerStats stats;
+    public StatusEffectManager StatusEffectManager { get { return statusEffectManager;} set { StatusEffectManager = value; } }
+    [SerializeField] StatusEffectManager statusEffectManager;
 
     public EnemyManager lockOnTarget;
     public bool isDiving = false;
@@ -54,6 +53,7 @@ public class PlayerManager : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         controller = GetComponent<CharacterController>();
+        statusEffectManager = GetComponentInChildren<StatusEffectManager>();
 
         PlayerControls.Instance.OnCycleRightEvent += IncreaseMagicIdx;
         PlayerControls.Instance.OnCycleLeftEvent += DecreaseMagicIdx;

@@ -52,13 +52,10 @@ public class SpiderlingManager : EnemyManager, ISummon
             State = EnemyState.Combat;
             CombatState();
         }
-        else if (PlayerIsDetected())
+        else if (PlayerIsDetected() && !IsInteracting)
         {
             State = EnemyState.Pursue;
             PursueState();
-        }
-        else if (PlayerIsDetected() && targetDis <= Patrol.stoppingDistance)
-        {
         }
         else if (!PlayerIsDetected() && !IsInteracting)
         {

@@ -21,6 +21,8 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     [SerializeField] float skillSpeed01 = 500f;
     [SerializeField] float startSkillCooldown01 = 5f;
     private float currSkillCooldown01 = 0;
+    [SerializeField] TempStatDebuffType skillDebuffType;
+    [SerializeField] float skillStunDuration01;
     [Tooltip("The attack collider gameobject of attack 01.")]
     [SerializeField] GameObject spellPrefab01;
     [SerializeField] Transform spellOrigin01;
@@ -131,7 +133,7 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     public void InstantiateSpell01()
     {
         GameObject go = Instantiate(spellPrefab01, spellOrigin01.position, spellOrigin01.rotation);
-        var proj = go.GetComponent<Projectile>();
+        var proj = go.GetComponent<EnemyProjectile>();
         proj.Init(skillSpeed01, skillRange01);
         proj.OnHitPlayerEvent += ApplyDamageAttack01;
 
@@ -190,7 +192,11 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
         float damage = manager.Stats.MagicalPower.Value - PlayerManager.Instance.Stats.MagicResistance.Value;
 
         PlayerManager.Instance.Stats.CurrentHealth -= damage;
-        //Debug.Log("Player took " + damage + " from " + skillName01);
+
+        // apply stun
+        TempStatDebuffEffect effect = new TempStatDebuffEffect(0, skillStunDuration01, 1f, skillDebuffType);
+        PlayerManager.Instance.StatusEffectManager.ApplyDebuffEffects(effect);
+        Debug.Log("Player took " + damage + " from " + skillName01);
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);

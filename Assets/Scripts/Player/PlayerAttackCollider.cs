@@ -12,8 +12,10 @@ public class PlayerAttackCollider : MonoBehaviour
             if (GameManager.Instance.Enemies.TryGetValue(other.name, out EnemyManager enemy))
             {
                 OnAttackEvent?.Invoke(enemy);
+                enemy.GetHitDirection(transform);
                 enemy.PlayerIsDetected(true);
                 // add particle effects 
+                
             }
         }
     }

@@ -1,4 +1,3 @@
-using Cinemachine;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -14,56 +13,45 @@ public class PlayerController : MonoBehaviour
 
     private float horizontal;
     private float vertical;
-    private Vector3 moveDir; 
+    private Vector3 moveDir;
     private Vector3 playerVelocity;
     private Vector3 diveMoveDir;
 
     // stats
     private float curSpeed;
-    [SerializeField]
-    private float moveSpeed = 5f;
-    [SerializeField]
-    private float strafeSpeed = 3.5f;
-    [SerializeField]
-    private float sprintSpeed = 8f;
-    [SerializeField]
-    private float rotSpeed = 5f;
-    [SerializeField]
-    private float diveSpeed = 7f;
-    [SerializeField]
-    private float diveStrafeSpeed = 5f;
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float strafeSpeed = 3.5f;
+    [SerializeField] float sprintSpeed = 8f;
+    [SerializeField] float rotSpeed = 5f;
+    [SerializeField] float diveSpeed = 7f;
+    [SerializeField] float diveStrafeSpeed = 5f;
 
-    //jump 
-    private float initialJumpVelocity;
-    [SerializeField]
-    private float maxJumpHeight = 4.0f;
-    [SerializeField]
-    private float maxJumpTime = 0.75f;
+    ////jump 
+    //private float initialJumpVelocity;
+    //[SerializeField]
+    //private float maxJumpHeight = 4.0f;
+    //[SerializeField]
+    //private float maxJumpTime = 0.75f;
 
-    private float x;
-    private float z;
+    private float diveX;
+    private float diveZ;
 
-    [SerializeField]
-    private float startRollTimer = 0.5f;
-    [SerializeField]
-    private float startStrafeRollTimer = 0.5f;
+    [SerializeField] float startRollTimer = 0.5f;
+    [SerializeField] float startStrafeRollTimer = 0.5f;
     private float curRollTimer = 0f;
 
-    [SerializeField]
-    private float startDiveTimeoutTimer = 0.5f;
+    [SerializeField] float startDiveTimeoutTimer = 0.5f;
     private float curDiveTimeoutTimer;
-    
-    [SerializeField]
-    private float startJumpTimer = 1f;
-    private float curJumpTimer;
+
+    //[SerializeField] float startJumpTimer = 1f;
+    //private float curJumpTimer;
 
     private float colHeight;
     private float colY;
     private float controllerHeight;
     private float controllerY;
 
-    [SerializeField]
-    private MovementState movementState;
+    [SerializeField] MovementState movementState;
 
 
 
@@ -86,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
         curRollTimer = startRollTimer;
         curDiveTimeoutTimer = startDiveTimeoutTimer;
-        curJumpTimer = startJumpTimer;
+        //curJumpTimer = startJumpTimer;
 
         //SetupJumpVariables();
     }
@@ -95,8 +83,14 @@ public class PlayerController : MonoBehaviour
     {
         HandleGravity();
         combat.CombatUpdate();
-        AnimationHandler();
 
+        if (PlayerManager.Instance.StatusEffectManager.IsStunned)
+        {
+            anim.SetBool(StringData.IsRolling, false);
+            anim.Play(StringData.Idle);
+            return;
+        }
+        AnimationHandler();
         if (manager.isDiving)
         {
             DiveHandler();
@@ -144,7 +138,9 @@ public class PlayerController : MonoBehaviour
 
     private void MovementHandler()
     {
-        if (manager.IsInteracting)
+        if (PlayerManager.Instance.StatusEffectManager.IsRooted)
+            curSpeed = 0f;
+        else if (manager.IsInteracting)
             curSpeed = 0.1f;
         else if (controls.IsSprinting)
             curSpeed = sprintSpeed;
@@ -255,7 +251,7 @@ public class PlayerController : MonoBehaviour
 
         if (manager.TargetLock)
         {
-            diveMoveDir = new Vector3(x, 0f, z);
+            diveMoveDir = new Vector3(diveX, 0f, diveZ);
             diveMoveDir = diveMoveDir.x * new Vector3(transform.right.x, 0f, transform.right.z) + diveMoveDir.z * new Vector3(transform.forward.x, 0f, transform.forward.z);
         }
         else
@@ -304,12 +300,12 @@ public class PlayerController : MonoBehaviour
             anim.Play(StringData.DiveRollForward);
         }
 
-        x = controls.MovementDirection.x;
-        z = controls.MovementDirection.y;
-        if (x == 0 && z == 0)
-            z = 1;
+        diveX = controls.MovementDirection.x;
+        diveZ = controls.MovementDirection.y;
+        if (diveX == 0 && diveZ == 0)
+            diveZ = 1;
 
-        anim.SetFloat(StringData.RollX, x);
-        anim.SetFloat(StringData.RollZ, z);
+        anim.SetFloat(StringData.RollX, diveX);
+        anim.SetFloat(StringData.RollZ, diveZ);
     }
 }

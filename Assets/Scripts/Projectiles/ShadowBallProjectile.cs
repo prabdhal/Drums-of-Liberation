@@ -6,7 +6,6 @@ public class ShadowBallProjectile : Projectile
     {
         base.Start();
 
-        Debug.Log("Speed: " + speed);
         if (PlayerManager.Instance.lockOnTarget != null)
         {
             Vector3 dir = (new Vector3(PlayerManager.Instance.lockOnTarget.transform.position.x, transform.position.y, PlayerManager.Instance.lockOnTarget.transform.position.z) - transform.position).normalized;
@@ -24,5 +23,10 @@ public class ShadowBallProjectile : Projectile
     public override void Init(float speed, float range)
     {
         base.Init(speed, range);
+    }
+
+    protected override void OnCollisionEnter(Collision col)
+    {
+        base.OnCollisionEnter(col);
     }
 }

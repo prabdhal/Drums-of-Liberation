@@ -96,6 +96,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnLightAttack()
     {
+        if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
+
         switch (manager.CombatIdx)
         {
             case 0:
@@ -128,6 +130,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnHeavyAttack()
     {
+        if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
+
         switch (manager.CombatIdx)
         {
             case 0:
@@ -160,6 +164,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void OnMagicAttack()
     {
+        if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
+
         switch (manager.MagicIdx)
         {
             case 0:
@@ -194,7 +200,7 @@ public class PlayerCombat : MonoBehaviour
         magicalDamage = Mathf.Clamp(magicalDamage, 0, magicalDamage);
 
         enemy.Stats.CurrentHealth -= magicalDamage;
-        Debug.Log(enemy.name + " was attacked and took " + magicalDamage + " points of magical damage");
+        //Debug.Log(enemy.name + " was attacked and took " + magicalDamage + " points of magical damage");
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, enemy.popupPos);

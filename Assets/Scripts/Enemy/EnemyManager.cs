@@ -312,4 +312,24 @@ public class EnemyManager : MonoBehaviour
         transform.tag = StringData.Untagged;
         Destroy(gameObject, GlobalValues.DestroyGOUponDeathTimer);
     }
+
+    public void GetHitDirection(Transform hitObj)
+    {
+        Vector3 incomingDir = transform.position - hitObj.position;
+
+        float dir = Vector3.Dot(transform.forward, incomingDir);
+
+        if (dir > 0.5f)
+            anim.Play(StringData.HitB);
+        else if (dir < 0.5f && dir > -0.5f)
+        {
+            dir = Vector3.Dot(transform.right, incomingDir);
+            if (dir < 0)
+                anim.Play(StringData.HitR);
+            else
+                anim.Play(StringData.HitL);
+        }
+        else if (dir < -0.5f)
+            anim.Play(StringData.HitF);
+    }
 }

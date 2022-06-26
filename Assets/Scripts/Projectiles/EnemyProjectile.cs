@@ -14,4 +14,9 @@ public class EnemyProjectile : Projectile
 
         base.Start();
     }
+
+    public override void Init(float speed, float range)
+    {
+        base.Init(speed, range);
+    }
 }

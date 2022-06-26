@@ -35,6 +35,11 @@ public static class StringData
     public static string MagicAttack01 = "MagicAttack01";
     public static string MagicAttack02 = "MagicAttack02";
     public static string MagicAttack03 = "MagicAttack03";
+    public static string HitF = "HitF";
+    public static string HitF2 = "HitF2";
+    public static string HitB = "HitB";
+    public static string HitR = "HitR";
+    public static string HitL = "HitL";
     public static string LockOn = "lockOn";
     public static string IsRolling = "isRolling";
     public static string DiveRollForward = "DiveRollForward";
