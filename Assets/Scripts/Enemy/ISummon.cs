@@ -2,11 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public enum EnemyState
+public interface ISummon 
 {
-  Idle,
-  Patrol,
-  Pursue,
-  Combat
+    public Transform Summoner { get; set; }
 }

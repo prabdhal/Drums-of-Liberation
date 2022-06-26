@@ -1,31 +1,67 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider))]
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : MonoBehaviour
 {
-    private Rigidbody rb;
+    protected Rigidbody rb;
+    protected SphereCollider col;
 
-    [SerializeField]
-    private float speed = 500f;
-    [SerializeField]
-    private float range = 200f;
+    protected float speed = 300f;
+    protected float range = 50f;
 
-    private Vector3 startPos;
+    protected Vector3 startPos;
+
+    [SerializeField] float deathTimer = 5f;
+
+    [SerializeField] Tags[] collisionTags;
+    private List<Tags> tags = new List<Tags>();
+    [SerializeField] LayerMask detectLayer;
+
+    [SerializeField] GameObject collisionEffect;
+
+    private float curTimer;
+
+    [SerializeField] bool useRaycastCollision = false;
+
+    public delegate void OnHitDel(GameObject target);
+    public event OnHitDel OnHitEvent;
+
+    public delegate void OnHitPlayerDel();
+    public event OnHitPlayerDel OnHitPlayerEvent;
+
+    [SerializeField] bool isPlayer = false;
 
 
-    private void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        col = GetComponent<SphereCollider>();
 
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         rb.useGravity = false;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX;
-        rb.constraints = RigidbodyConstraints.FreezeRotationZ;
         startPos = transform.position;
+        curTimer = deathTimer;
+
+        for (int i = 0; i < collisionTags.Length; i++)
+        {
+            tags.Add(collisionTags[i]);
+        }
     }
 
-    private void FixedUpdate()
+    private void Update()
+    {
+        if (curTimer <= 0)
+            Destroy(gameObject);
+        else
+            curTimer -= Time.deltaTime;
+
+        //if (useRaycastCollision)
+        //    DetectCollisionViaRayCast();
+    }
+
+    protected virtual void FixedUpdate()
     {
         float distanceTravelled = Vector3.Distance(startPos, transform.position);
 
@@ -35,9 +71,67 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void Init(float speed, float range)
+    public virtual void Init(float speed, float range)
     {
         this.speed = speed;
         this.range = range;
     }
+
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.collider.CompareTag(StringData.PlayerTag) && tags.Contains(Tags.Player))
+        {
+            ContactPoint contact = col.contacts[0];
+
+            OnHitPlayerEvent();
+            Instantiate(collisionEffect, contact.point, transform.rotation);
+            Destroy(gameObject);
+        }
+        else if (col.collider.CompareTag(StringData.EnemyTag) && tags.Contains(Tags.Enemy))
+        {
+            ContactPoint contact = col.contacts[0];
+
+            OnHitEvent(col.gameObject);
+            Instantiate(collisionEffect, contact.point, transform.rotation);
+            Destroy(gameObject);
+        }
+        else if (col.collider.CompareTag(StringData.Obstacle) && tags.Contains(Tags.Obstacle))
+        {
+            ContactPoint contact = col.contacts[0];
+
+            Instantiate(collisionEffect, contact.point, transform.rotation);
+            Destroy(gameObject);
+        }
+    }
+
+    //private void DetectCollisionViaRayCast()
+    //{
+    //    Debug.Log("using Raycast");
+    //    RaycastHit hit;
+    //    Vector3 origin = transform.position;
+    //    Vector3 dir = transform.TransformDirection(Vector3.forward);
+
+    //    if (Physics.Raycast(origin, dir, out hit, Mathf.Infinity, detectLayer))
+    //    {
+    //        Debug.DrawRay(origin, dir, Color.red);
+
+    //        if (detectLayer.Equals(StringData.PlayerTag))
+    //        {
+    //            OnHitPlayerEvent();
+    //            Instantiate(collisionEffect, hit.point, transform.rotation);
+    //            Destroy(gameObject);
+    //        }
+    //        else if (detectLayer.Equals(StringData.EnemyTag))
+    //        {
+    //            OnHitEvent(hit.collider.gameObject);
+    //            Instantiate(collisionEffect, hit.point, transform.rotation);
+    //            Destroy(gameObject);
+    //        }
+    //        else if (detectLayer.Equals(StringData.Obstacle))
+    //        {
+    //            Instantiate(collisionEffect, hit.point, transform.rotation);
+    //            Destroy(gameObject);
+    //        }
+    //    }
+    //}
 }

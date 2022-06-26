@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
         curDiveTimeoutTimer = startDiveTimeoutTimer;
         curJumpTimer = startJumpTimer;
 
-        SetupJumpVariables();
+        //SetupJumpVariables();
     }
 
     private void Update()
@@ -106,17 +106,17 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool(StringData.IsRolling, false);
         }
-        JumpHandler();
+        //JumpHandler();
 
         if (manager.TargetLock)
         {
-            Debug.Log("lock movement");
+            //Debug.Log("lock movement");
             LockMovementHandler();
             LockRotationHandler();
         }
         else
         {
-            Debug.Log("movement");
+            //Debug.Log("movement");
             MovementHandler();
             RotationHandler();
         }
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleGravity()
     {
-        bool isFalling = playerVelocity.y <= 0.0f || !controls.IsJumpPressed;
+        bool isFalling = playerVelocity.y <= 0.0f;
         float fallMultiplier = 2.0f;
 
         if (controller.isGrounded)
@@ -225,27 +225,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void SetupJumpVariables()
-    {
-        float timeToApex = maxJumpTime / 2f;
-        GlobalValues.GravityForce = (-2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
-        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
-    }
+    //private void SetupJumpVariables()
+    //{
+    //    float timeToApex = maxJumpTime / 2f;
+    //    GlobalValues.GravityForce = (-2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
+    //    initialJumpVelocity = (2 * maxJumpHeight) / timeToApex;
+    //}
 
-    private void JumpHandler()
-    {
-        if (!manager.IsJumping && controller.isGrounded && controls.IsJumpPressed && curJumpTimer <= 0)
-        {
-            manager.IsJumping = true;
-            anim.Play("Jump_Start");
-            playerVelocity.y = initialJumpVelocity;
-            curJumpTimer = startJumpTimer;
-        }
-        else if (manager.IsJumping)
-            manager.IsJumping = false;
+    //private void JumpHandler()
+    //{
+    //    if (!manager.IsJumping && controller.isGrounded && controls.IsJumpPressed && curJumpTimer <= 0)
+    //    {
+    //        manager.IsJumping = true;
+    //        anim.Play("Jump_Start");
+    //        playerVelocity.y = initialJumpVelocity;
+    //        curJumpTimer = startJumpTimer;
+    //    }
+    //    else if (manager.IsJumping)
+    //        manager.IsJumping = false;
 
-        curJumpTimer -= Time.deltaTime;
-    }
+    //    curJumpTimer -= Time.deltaTime;
+    //}
 
     private void DiveHandler()
     {

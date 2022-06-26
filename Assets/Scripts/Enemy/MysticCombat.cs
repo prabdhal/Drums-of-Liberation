@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BigOrcCombat : MonoBehaviour, ICombat
+public class MysticCombat : MonoBehaviour, ICombat
 {
     private EnemyManager manager;
     public float BasicAttackRange { get { return basicAttackRange; } }

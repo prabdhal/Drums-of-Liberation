@@ -49,6 +49,7 @@ public static class StringData
     public static string EnemyMoveState = "state";
     public static string Attack01 = "Attack01";
     public static string Attack02 = "Attack02";
+    public static string Attack03 = "Attack03";
 
     // Scene Manager
     public static string ClearScreen = "ClearScreen";

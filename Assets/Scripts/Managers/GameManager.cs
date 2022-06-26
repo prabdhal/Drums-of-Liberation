@@ -36,4 +36,26 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void AddEnemy(EnemyManager manager)
+    {
+        enemies.Add(manager);
+        UpdateDictionary();
+    }
+
+    public void RemoveEnemy(EnemyManager manager)
+    {
+        enemies.Remove(manager);
+        UpdateDictionary();
+    }
+
+    private void UpdateDictionary()
+    {
+        foreach (var enemy in enemies)
+        {
+            if (Enemies.ContainsKey(enemy.name)) continue;
+
+            Enemies.Add(enemy.name, enemy);
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BigOrcCombat : MonoBehaviour, ICombat
+public class FortGolemCombat : MonoBehaviour, ICombat
 {
     private EnemyManager manager;
     public float BasicAttackRange { get { return basicAttackRange; } }
@@ -81,7 +81,7 @@ public class BigOrcCombat : MonoBehaviour, ICombat
         else
             canUseSkill = false;
 
-        CooldownHandler();
+            CooldownHandler();
     }
 
     private void CooldownHandler()

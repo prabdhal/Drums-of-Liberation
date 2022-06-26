@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,65 +8,41 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour
 {
     //components
-    private NavMeshAgent agent;
-    private CapsuleCollider col;
-    private Rigidbody rb;
-    private Animator anim;
-    private PerfectLookAt lookAt;
+    public NavMeshAgent agent;
+    protected CapsuleCollider col;
+    protected Rigidbody rb;
+    protected Animator anim;
+    protected PerfectLookAt lookAt;
 
     public Transform popupPos;
 
     // stats
     public EnemyStats Stats { get { return stats; } set { stats = value; } }
-    [SerializeField]
-    private EnemyStats stats;
+    [SerializeField] protected EnemyStats stats;
 
     [Space]
 
-    [SerializeField] bool isStrafer = false;
-    [SerializeField] float rotSpeed = 10f;
-    private float currSpeed;
+    [SerializeField]
+    protected float rotSpeed = 10f;
+    protected float currSpeed;
 
     [Tooltip("Drag in head object only if head's z-axis is straight, else create an empty object on head with straight z-axis and drag that.")]
-    [SerializeField]
-    private Transform head;
-    [SerializeField]
-    private GameObject tempLookAtObj;
+    [SerializeField] protected Transform head;
+    //protected GameObject tempLookAtObj;
     [Tooltip("Raycast from head to player offset.")]
-    [SerializeField]
-    private Vector3 detectionOffset;
-    [SerializeField]
-    private string enemyTag = "Player";
+    [SerializeField] protected Vector3 detectionOffset;
+    [SerializeField] protected string enemyTag = StringData.PlayerTag;
 
-    [SerializeField]
-    private Patrol Patrol;
-    [SerializeField]
-    private Pursue Pursue;
-    [SerializeField]
-    private ICombat Combat;
-
-    [Space]
-
-    [SerializeField] Transform backStrafeObj, rightStrafeObj, leftStrafeObj;
-    Transform curStrafeObj;
-    [SerializeField] float startStrafeTimer = 3f;
-    float curStrafeTimer;
-    [SerializeField] StrafeDirections strafeDir;
-    [SerializeField] int curStrafeDir;
-    [SerializeField] float chaseDistance = 13f;
-    [SerializeField] float strafeDistance = 10f;
-    [SerializeField] float dangerDistance = 3f;
-    private bool isStrafing = false;
-    [SerializeField] float strafeSpeedMultiplier = 5f;
+    [SerializeField] protected Patrol Patrol;
+    [SerializeField] protected Pursue Pursue;
+    [SerializeField] protected ICombat Combat;
 
     [Space]
 
     [Tooltip("The XP reward upon killing this enemy.")]
     [SerializeField]
-    private float xpReward = 150f;
-
+    protected float xpReward = 150f;
     public EnemyState State = EnemyState.Patrol;
-
 
     // Important properties for state handler
     public Vector3 PlayerPos { get { return PlayerManager.Instance.transform.position; } }
@@ -75,19 +50,18 @@ public class EnemyManager : MonoBehaviour
     public bool IsDetected { get { return PlayerIsDetected(); } }
     public bool IsSearching { get { return SearchingPlayer(); } }
     public Vector3? TargetPos { get { return targetPos; } }
-    private Vector3? targetPos = null;
+    protected Vector3? targetPos = null;
     public bool IsInteracting { get { return anim.GetBool(StringData.IsInteracting); } }
     public bool IsDead { get { return isDead; } }
-    private bool isDead = false;
+    protected bool isDead = false;
 
     private Vector3 _lastPosition;
-
 
     public event OnDeath OnDeathEvent;
     public delegate void OnDeath(EnemyManager enemy);
 
 
-    private void Start()
+    protected virtual void Start()
     {
         Stats.Init();
 
@@ -106,13 +80,12 @@ public class EnemyManager : MonoBehaviour
         agent.updateRotation = false;
         agent.acceleration = 9999;
         agent.autoBraking = false;
-        agent.stoppingDistance = 1f;
+        agent.stoppingDistance = 2f;
 
         col.center = new Vector3(0f, 1f, 0f);
         col.height = 2f;
 
         _lastPosition = gameObject.transform.position;
-        curStrafeDir = UnityEngine.Random.Range(0, Enum.GetNames(typeof(StrafeDirections)).Length + 1);
 
         Patrol.currWP = UnityEngine.Random.Range(0, Patrol.waypoints.Length - 1);
 
@@ -121,7 +94,7 @@ public class EnemyManager : MonoBehaviour
         OnDeathEvent += OnDeath_EnemyManager;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (Stats.CurrentHealth <= 0)
             isDead = true;
@@ -138,7 +111,7 @@ public class EnemyManager : MonoBehaviour
         StateHandler();
     }
 
-    private void GetRelativeMoveDirection()
+    protected virtual void GetRelativeMoveDirection()
     {
         var currentPosition = gameObject.transform.position;
         var moveDirection = currentPosition - _lastPosition;
@@ -153,45 +126,35 @@ public class EnemyManager : MonoBehaviour
 
         _lastPosition = currentPosition;
     }
-    
-    private void RotationHandler(Vector3 rotateTo)
+
+    protected virtual void RotationHandler(Vector3 rotateTo)
     {
         if (IsInteracting) return;
 
-        if (isStrafing)
-        {
-            var lookPos = ((Vector3)TargetPos - transform.position).normalized;
-            lookPos.y = 0;
-            Quaternion lookRot = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(agent.transform.rotation, lookRot, rotSpeed * Time.deltaTime);
-        }
-        else
-        {
-            Vector3 targetDir = (rotateTo - transform.position).normalized;
-            Quaternion lookRot = Quaternion.LookRotation(targetDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotSpeed * Time.deltaTime);
-        }
+        Vector3 targetDir = (rotateTo - transform.position).normalized;
+        Quaternion lookRot = Quaternion.LookRotation(targetDir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotSpeed * Time.deltaTime);
     }
 
-    private void StateHandler()
+    protected virtual void StateHandler()
     {
         agent.speed = currSpeed;
+
         if (IsDetected && Combat.CanUseSkill)
         {
-            isStrafing = false;
             State = EnemyState.Combat;
             //lookAt.m_TargetObject = PlayerManager.Instance.gameObject;
             CombatState();
         }
-        else if (isStrafer && IsDetected && Combat.CanUseSkill == false && !IsInteracting ||
-           isStrafer && IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
+        else if (IsDetected && Combat.CanUseSkill == false && !IsInteracting ||
+           IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
         {
             State = EnemyState.Pursue;
             //lookAt.m_TargetObject = PlayerManager.Instance.gameObject;
             PursueState();
         }
-        else if (isStrafer == false && IsDetected && Combat.CanUseSkill == false && !IsInteracting ||
-           isStrafer == false && IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
+        else if (IsDetected && Combat.CanUseSkill == false && !IsInteracting ||
+           IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
         {
             State = EnemyState.Pursue;
             //lookAt.m_TargetObject = PlayerManager.Instance.gameObject;
@@ -199,7 +162,6 @@ public class EnemyManager : MonoBehaviour
         }
         else if (TargetPos == null && !IsInteracting)
         {
-            isStrafing = false;
             State = EnemyState.Patrol;
             //lookAt.m_TargetObject = tempLookAtObj;
             PatrolState();
@@ -207,7 +169,7 @@ public class EnemyManager : MonoBehaviour
         Combat.CombatHandler();
     }
 
-    private void PatrolState()
+    protected virtual void PatrolState()
     {
         //Debug.Log("Patrol State");
         RotationHandler(agent.steeringTarget);
@@ -240,7 +202,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void NonStrafePursue()
+    protected virtual void NonStrafePursue()
     {
         RotationHandler(agent.steeringTarget);
 
@@ -260,95 +222,16 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void PursueState()
+    protected virtual void PursueState()
     {
+        agent.SetDestination(PlayerManager.Instance.transform.position);
+        anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
+        agent.isStopped = false;
+
         RotationHandler(agent.steeringTarget);
-
-        float targetDis = Vector3.Distance(transform.position, (Vector3)TargetPos);
-
-        
-        if (targetDis > chaseDistance)
-        {
-            isStrafing = false;
-            anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
-            currSpeed = Stats.MovementSpeed.Value * Pursue.speedRatioMultiplier;
-            agent.isStopped = false;
-            agent.SetDestination((Vector3)TargetPos);
-            //Debug.Log("init chasing to get within st dis");
-            curStrafeTimer = 0f;
-            return;
-        }
-        else if (!isStrafing && targetDis > strafeDistance)
-        {
-            anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
-            currSpeed = Stats.MovementSpeed.Value * Pursue.speedRatioMultiplier;
-            agent.isStopped = false;
-            agent.SetDestination((Vector3)TargetPos);
-            //Debug.Log("Chasing to get within strafe distance");
-            curStrafeTimer = 0f;
-            return;
-        }
-        else if (targetDis <= chaseDistance && Combat.SkillCooldownIsReady == false)
-        {
-            isStrafing = true;
-
-            if (targetDis <= dangerDistance)
-            {
-                curStrafeObj = backStrafeObj;
-                strafeDir = (StrafeDirections)curStrafeDir;
-                curStrafeTimer = startStrafeTimer;
-                //Debug.Log("Strafing back since within danger:" + dangerDistance);
-            }
-            else if (curStrafeTimer <= 0)
-            {
-                curStrafeDir = UnityEngine.Random.Range(0, Enum.GetNames(typeof(StrafeDirections)).Length);
-                if ((int)strafeDir != curStrafeDir)
-                {
-                    switch ((StrafeDirections)curStrafeDir)
-                    {
-                        case StrafeDirections.Right:
-                            curStrafeObj = rightStrafeObj;
-                            break;
-                        case StrafeDirections.Left:
-                            curStrafeObj = leftStrafeObj;
-                            break;
-                        default:
-                            curStrafeObj = leftStrafeObj;
-                            break;
-                    }
-                    strafeDir = (StrafeDirections)curStrafeDir;
-                }
-
-                curStrafeTimer = startStrafeTimer;
-                //Debug.Log("Strafing right/left");
-            }
-            else
-            {
-                curStrafeTimer -= Time.deltaTime;
-                //Debug.Log("Strafing timer");
-            }
-
-            if (curStrafeObj == null) curStrafeObj = rightStrafeObj;
-
-            currSpeed = Stats.MovementSpeed.Value * strafeSpeedMultiplier;
-            agent.isStopped = false;
-            anim.SetInteger(StringData.EnemyMoveState, 6);
-            agent.SetDestination(curStrafeObj.position);
-            //Debug.Log("Strafing");
-        }
-        else
-        {
-            isStrafing = false;
-            anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
-            currSpeed = Stats.MovementSpeed.Value * Pursue.speedRatioMultiplier;
-            agent.isStopped = false;
-            agent.SetDestination((Vector3)TargetPos);
-            curStrafeTimer = 0f;
-            //Debug.Log("PURSUE: Target outside of range - sprint");
-        }
     }
 
-    private void CombatState()
+    protected virtual void CombatState()
     {
         //Debug.Log("Combat State");
         RotationHandler(PlayerPos);
@@ -358,7 +241,7 @@ public class EnemyManager : MonoBehaviour
         Combat.AttackHandler(anim, DistanceFromPlayer);
     }
 
-    public bool PlayerIsDetected(bool overrideDetection = false)
+    public virtual bool PlayerIsDetected(bool overrideDetection = false)
     {
         if (isDead) return false;
 
@@ -394,7 +277,7 @@ public class EnemyManager : MonoBehaviour
         return false;
     }
 
-    private bool SearchingPlayer()
+    protected bool SearchingPlayer()
     {
         if (isDead) return false;
 
@@ -414,7 +297,7 @@ public class EnemyManager : MonoBehaviour
         return false;
     }
 
-    private void OnDeath_EnemyManager(EnemyManager enemy)
+    protected virtual void OnDeath_EnemyManager(EnemyManager enemy)
     {
         anim.SetBool(StringData.IsInteracting, true);
         anim.SetBool(StringData.IsDead, true);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BigOrcCombat : MonoBehaviour, ICombat
+public class TrollCombat : MonoBehaviour, ICombat
 {
     private EnemyManager manager;
     public float BasicAttackRange { get { return basicAttackRange; } }
@@ -17,10 +17,10 @@ public class BigOrcCombat : MonoBehaviour, ICombat
 
     [Header("Skill 01")]
     [SerializeField]
-    private string skillName01 = "";
+    private string skillName01 = "Acid";
     [SerializeField]
     [TextArea(2, 3)]
-    private string skillDescription01 = "";
+    private string skillDescription01 = "A vicious left claw swipe, capable of causing the opponent to take bleed damage over time";
     [SerializeField]
     private float skillRange01 = 3f;
     [SerializeField]
@@ -35,10 +35,10 @@ public class BigOrcCombat : MonoBehaviour, ICombat
 
     [Header("Skill 02")]
     [SerializeField]
-    private string skillName02 = "";
+    private string skillName02 = "Acid Shot";
     [SerializeField]
     [TextArea(2, 3)]
-    private string skillDescription02 = "";
+    private string skillDescription02 = "A vicious right claw swipe that deals extra damage, capable of causing the opponent to take bleed damage over time";
     [SerializeField]
     private float skillRange02 = 3f;
     [SerializeField]
@@ -81,7 +81,7 @@ public class BigOrcCombat : MonoBehaviour, ICombat
         else
             canUseSkill = false;
 
-        CooldownHandler();
+            CooldownHandler();
     }
 
     private void CooldownHandler()
@@ -160,6 +160,26 @@ public class BigOrcCombat : MonoBehaviour, ICombat
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack02;
     }
+
+    #endregion
+
+    #region Instantiate Attack Methods
+
+    //private void InstantiateAttack01()
+    //{
+    //  GameObject skill = Instantiate(skill01Prefab, skill01Origin.position, skill01Origin.rotation);
+    //  Projectile proj = skill.GetComponent<Projectile>();
+    //  proj.OnApplyDamageEvent += ApplyDamageAttack01;
+    //  proj.Init(skill01Speed, Utilities.GlobalMethods.GetDirection(skill01Direction, transform));
+    //}
+
+    //private void InstantiateAttack02()
+    //{
+    //  GameObject skill = Instantiate(skill02Prefab, skill02Origin.position, skill02Origin.rotation);
+    //  Projectile proj = skill.GetComponent<Projectile>();
+    //  proj.OnApplyDamageEvent += ApplyDamageAttack02;
+    //  proj.Init(skill02Speed, Utilities.GlobalMethods.GetDirection(skill02Direction, transform));
+    //}
 
     #endregion
 }

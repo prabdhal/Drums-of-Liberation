@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class PlayerAttackCollider : MonoBehaviour
 {
-    private PlayerCombat combat;
-
     public delegate void OnAttackDel(EnemyManager enemy);
     public event OnAttackDel OnAttackEvent;
-
-    private void Start()
-    {
-        combat = GameObject.FindGameObjectWithTag(StringData.PlayerTag).GetComponentInChildren<PlayerCombat>();
-    }
 
     private void OnTriggerEnter(Collider other)
     {

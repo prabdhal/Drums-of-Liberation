@@ -17,8 +17,8 @@ public class PlayerControls : MonoBehaviour
     private InputAction lockOn;
     private InputAction pause;
 
-    public event OnJumpDel OnJumpEvent;
-    public delegate void OnJumpDel();
+    //public event OnJumpDel OnJumpEvent;
+    //public delegate void OnJumpDel();
     public event OnLightAttackDel OnLightAttackEvent;
     public delegate void OnLightAttackDel();
     public event OnHeavyAttackDel OnHeavyAttackEvent;
@@ -48,8 +48,8 @@ public class PlayerControls : MonoBehaviour
     private Vector2 _rotationDirection;
     public bool IsSprinting { get { return _isSprinting; } }
     private bool _isSprinting = false;
-    public bool IsJumpPressed { get { return _isJumpPressed; } }
-    private bool _isJumpPressed = false;
+    //public bool IsJumpPressed { get { return _isJumpPressed; } }
+    //private bool _isJumpPressed = false;
     public bool GetInteractingValue { get { return interacting; } }
     private bool interacting = false;
 
@@ -77,9 +77,9 @@ public class PlayerControls : MonoBehaviour
         sprint = playerInput.Player.Sprint;
         dive = playerInput.Player.Dive;
 
-        playerInput.Player.Jump.started += OnJumpStart;
-        playerInput.Player.Jump.canceled += OnJumpEnd;
-        playerInput.Player.Jump.Enable();
+        //playerInput.Player.Jump.started += OnJumpStart;
+        //playerInput.Player.Jump.canceled += OnJumpEnd;
+        //playerInput.Player.Jump.Enable();
 
         playerInput.Player.Interact.performed += OnInteract;
         playerInput.Player.Interact.Enable();
@@ -121,9 +121,9 @@ public class PlayerControls : MonoBehaviour
 
     private void OnDisable()
     {
-        playerInput.Player.Jump.started -= OnJumpStart;
-        playerInput.Player.Jump.canceled -= OnJumpEnd;
-        playerInput.Player.Jump.Disable();
+        //playerInput.Player.Jump.started -= OnJumpStart;
+        //playerInput.Player.Jump.canceled -= OnJumpEnd;
+        //playerInput.Player.Jump.Disable();
 
         playerInput.Player.Interact.performed -= OnInteract;
         playerInput.Player.Interact.Disable();
@@ -173,33 +173,33 @@ public class PlayerControls : MonoBehaviour
         _cameraDirection = movement.ReadValue<Vector2>();
     }
 
-    private void OnJumpStart(InputAction.CallbackContext context)
-    {
-        if (PlayerManager.Instance.IsInteracting || !PlayerManager.Instance.IsGrounded) return;
+    //private void OnJumpStart(InputAction.CallbackContext context)
+    //{
+    //    if (PlayerManager.Instance.IsInteracting || !PlayerManager.Instance.IsGrounded) return;
 
-        _isJumpPressed = true;
-        Debug.Log("jump true: " + _isJumpPressed);
-    }
+    //    _isJumpPressed = true;
+    //    Debug.Log("jump true: " + _isJumpPressed);
+    //}
 
-    private void OnJumpEnd(InputAction.CallbackContext context)
-    {
-        _isJumpPressed = false;
-        Debug.Log("jump false: " + _isJumpPressed);
-    }
+    //private void OnJumpEnd(InputAction.CallbackContext context)
+    //{
+    //    _isJumpPressed = false;
+    //    Debug.Log("jump false: " + _isJumpPressed);
+    //}
 
     private void OnInteract(InputAction.CallbackContext context)
     {
-        Debug.Log("Interact");
+        //Debug.Log("Interact");
     }
     private void OnInteractActive(InputAction.CallbackContext obj)
     {
-        Debug.Log("Interacting is TRUE");
+        //Debug.Log("Interacting is TRUE");
         interacting = true;
     }
 
     private void OnInteractDisable(InputAction.CallbackContext obj)
     {
-        Debug.Log("Interacting is FALSE");
+        //Debug.Log("Interacting is FALSE");
         interacting = false;
     }
 

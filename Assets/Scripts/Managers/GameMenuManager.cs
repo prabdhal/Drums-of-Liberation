@@ -1,13 +1,15 @@
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class GameMenuManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject backgroundPanel;
-    [SerializeField]
-    private GameObject menuPanel;
-    [SerializeField]
-    private GameObject optionsPanel;
+    [SerializeField] GameObject backgroundPanel;
+    [SerializeField] GameObject menuPanel;
+    [SerializeField] GameObject optionsPanel;
+    [SerializeField] GameObject graphicsPanel;
+
+    [SerializeField] Light light;
+    private bool shadowOn = true;
 
     #region Singleton
     public static GameMenuManager Instance;
@@ -26,6 +28,7 @@ public class GameMenuManager : MonoBehaviour
     private void Start()
     {
         CloseAllMenus();
+        shadowOn = true;
     }
 
     public void ResumeGame()
@@ -52,6 +55,14 @@ public class GameMenuManager : MonoBehaviour
         backgroundPanel.SetActive(true);
     }
 
+    public void GameGraphicsButton()
+    {
+        CloseAllMenus();
+
+        graphicsPanel.SetActive(true);
+        backgroundPanel.SetActive(true);
+    }
+
     public void BackGameMenuButton()
     {
         CloseAllMenus();
@@ -65,9 +76,20 @@ public class GameMenuManager : MonoBehaviour
         GameManager.Instance.LoadScene(StringData.MainMenuScene);
     }
 
+    public void ShadowButton()
+    {
+        shadowOn = !shadowOn;
+
+        if (shadowOn)
+            light.shadows = LightShadows.Soft;
+        else
+            light.shadows = LightShadows.None;
+    }
+
     public void CloseAllMenus()
     {
         optionsPanel.SetActive(false);
+        graphicsPanel.SetActive(false);
         menuPanel.SetActive(false);
         backgroundPanel.SetActive(false);
     }

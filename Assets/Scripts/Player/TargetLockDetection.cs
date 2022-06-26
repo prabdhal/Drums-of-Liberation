@@ -49,7 +49,6 @@ public class TargetLockDetection : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, target.transform.position);
 
-        Debug.Log("Distance from player: " + distance);
         return distance > lockViewDistance;
     }
 

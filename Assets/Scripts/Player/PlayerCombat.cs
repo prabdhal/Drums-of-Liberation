@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -29,13 +27,13 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     private Transform magicAttack01Origin;
     [SerializeField]
-    [Range(0,1000)]
+    [Range(0, 1000)]
     private float baseMagicAttack01Damage;
     [SerializeField]
-    [Range(0,1000)]
+    [Range(0, 1000)]
     private float baseMagicAttack01Speed = 500f;
     [SerializeField]
-    [Range(0,1000)]
+    [Range(0, 1000)]
     private float baseMagicAttack01Range = 200f;
 
     [SerializeField]
@@ -43,7 +41,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     private Transform magicAttack02Origin;
     [SerializeField]
-    [Range(0,1000)]
+    [Range(0, 1000)]
     private float baseMagicAttack02Damage;
     [Range(0, 1000)]
     private float baseMagicAttack02Speed = 500f;
@@ -56,7 +54,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]
     private Transform magicAttack03Origin;
     [SerializeField]
-    [Range(0,1000)]
+    [Range(0, 1000)]
     private float baseMagicAttack03Damage;
     [Range(0, 1000)]
     private float baseMagicAttack03Speed = 500f;
@@ -181,14 +179,16 @@ public class PlayerCombat : MonoBehaviour
         var go = Instantiate(magicAttack01Prefab, magicAttack01Origin.position, magicAttack01Origin.transform.rotation);
         var proj = go.GetComponent<Projectile>();
         proj.Init(baseMagicAttack01Speed, baseMagicAttack01Range);
-
-        var col = go.GetComponent<ProjectileCollision>();
-        col.OnHitEvent += ApplyMagicDamage01;
+        proj.OnHitEvent += ApplyMagicDamage01;
     }
 
     private void ApplyMagicDamage01(GameObject target)
     {
-        EnemyManager enemy = target.GetComponent<EnemyManager>();
+        EnemyManager enemy;
+        if (GameManager.Instance.Enemies.TryGetValue(target.name, out EnemyManager e))
+            enemy = e;
+        else
+            enemy = target.GetComponent<EnemyManager>();
 
         float magicalDamage = manager.Stats.MagicalPower.Value + baseMagicAttack01Damage - enemy.Stats.MagicResistance.Value;
         magicalDamage = Mathf.Clamp(magicalDamage, 0, magicalDamage);
@@ -205,13 +205,17 @@ public class PlayerCombat : MonoBehaviour
     public void InstantiateMagicAttack02()
     {
         var go = Instantiate(magicAttack01Prefab, magicAttack01Origin.position, magicAttack01Origin.transform.rotation);
-        var proj = go.GetComponent<ProjectileCollision>();
+        var proj = go.GetComponent<Projectile>();
         proj.OnHitEvent += ApplyMagicDamage02;
     }
 
     private void ApplyMagicDamage02(GameObject target)
     {
-        EnemyManager enemy = target.GetComponent<EnemyManager>();
+        EnemyManager enemy;
+        if (GameManager.Instance.Enemies.TryGetValue(target.name, out EnemyManager e))
+            enemy = e;
+        else
+            enemy = target.GetComponent<EnemyManager>();
 
         float magicalDamage = manager.Stats.MagicalPower.Value + baseMagicAttack02Damage - enemy.Stats.MagicResistance.Value;
         magicalDamage = Mathf.Clamp(magicalDamage, 0, magicalDamage);
@@ -228,13 +232,17 @@ public class PlayerCombat : MonoBehaviour
     public void InstantiateMagicAttack03()
     {
         var go = Instantiate(magicAttack01Prefab, magicAttack01Origin.position, magicAttack01Origin.transform.rotation);
-        var proj = go.GetComponent<ProjectileCollision>();
+        var proj = go.GetComponent<Projectile>();
         proj.OnHitEvent += ApplyMagicDamage03;
     }
 
     private void ApplyMagicDamage03(GameObject target)
     {
-        EnemyManager enemy = target.GetComponent<EnemyManager>();
+        EnemyManager enemy;
+        if (GameManager.Instance.Enemies.TryGetValue(target.name, out EnemyManager e))
+            enemy = e;
+        else
+            enemy = target.GetComponent<EnemyManager>();
 
         float magicalDamage = manager.Stats.MagicalPower.Value + baseMagicAttack03Damage - enemy.Stats.MagicResistance.Value;
         magicalDamage = Mathf.Clamp(magicalDamage, 0, magicalDamage);
