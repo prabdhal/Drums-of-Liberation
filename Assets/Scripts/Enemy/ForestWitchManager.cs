@@ -41,7 +41,7 @@ public class ForestWitchManager : EnemyManager
             State = EnemyState.Combat;
             CombatState();
         }
-        else if (PlayerIsDetected() && targetDis <= dangerRange)
+        else if (PlayerIsDetected() && targetDis <= dangerRange && !Combat.CanUseSkill)
         {
             GetFurthestLocation();
 

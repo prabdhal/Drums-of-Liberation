@@ -51,9 +51,13 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
     [SerializeField] float skillRange03 = 3f;
     [SerializeField] float startSkillCooldown03 = 10f;
     private float currSkillCooldown03 = 0;
+    [SerializeField] float jumpForce = 1f;
+    [SerializeField] float jumpHeight = 1f;
+    [SerializeField] float jumpTimer = 2f;
+    private float curJumpTimer = 0;
+    private bool isJumping = false;
+    [SerializeField] LayerMask groundLayer;
     [Tooltip("The attack collider gameobject of attack 03.")]
-    [SerializeField] GameObject spellPrefab03;
-    [SerializeField] Transform spellOrigin03;
 
 
 
@@ -62,9 +66,9 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
         manager = GetComponent<EnemyManager>();
         basicAttackRange = skillRange01;
 
-        currSkillCooldown01 = 0;
-        currSkillCooldown02 = 0;
-        currSkillCooldown03 = 0;
+        currSkillCooldown01 = 0f;
+        currSkillCooldown02 = 0f;
+        currSkillCooldown03 = 0f;
 
         clawAttackCollider.SetActive(false);
         attackColliderScript01 = clawAttackCollider.GetComponent<EnemyAttackCollider>();
@@ -72,9 +76,12 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
 
     public void CombatHandler()
     {
+        CooldownHandler();
+        JumpHandler();
+        
         float playerDis = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
 
-        if (currSkillCooldown01 <= 0 || currSkillCooldown02 <= 0 /*|| currSkillCooldown03 <= 0*/)
+        if (currSkillCooldown01 <= 0 || currSkillCooldown02 <= 0 || currSkillCooldown03 <= 0)
             skillCooldownIsReady = true;
         else
             skillCooldownIsReady = false;
@@ -85,20 +92,18 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
             isInRange = false;
 
         if (currSkillCooldown01 <= 0 && playerDis <= skillRange01 ||
-            currSkillCooldown02 <= 0 && playerDis <= skillRange02 /*||
-            currSkillCooldown03 <= 0 && playerDis <= skillRange03*/)
+            currSkillCooldown02 <= 0 && playerDis <= skillRange02 ||
+            currSkillCooldown03 <= 0 && playerDis >= skillRange03)
             canUseSkill = true;
         else
             canUseSkill = false;
-
-        CooldownHandler();
     }
 
     private void CooldownHandler()
     {
         currSkillCooldown01 = Mathf.Clamp(currSkillCooldown01 -= Time.deltaTime, 0f, startSkillCooldown01);
         currSkillCooldown02 = Mathf.Clamp(currSkillCooldown02 -= Time.deltaTime, 0f, startSkillCooldown02);
-        //currSkillCooldown03 = Mathf.Clamp(currSkillCooldown03 -= Time.deltaTime, 0f, startSkillCooldown03);
+        currSkillCooldown03 = Mathf.Clamp(currSkillCooldown03 -= Time.deltaTime, 0f, startSkillCooldown03);
     }
 
     public void AttackHandler(Animator anim, float playerDistance)
@@ -116,19 +121,47 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
             anim.Play(StringData.Attack02);
             currSkillCooldown02 = startSkillCooldown02;
         }
-        //if (currSkillCooldown03 <= 0 && playerDistance <= skillRange03 && !anim.GetBool(StringData.IsInteracting))
-        //{
-        //    anim.SetBool(StringData.IsInteracting, true);
-        //    anim.Play(StringData.Attack03);
-        //    currSkillCooldown03 = startSkillCooldown03;
-        //}
+        if (currSkillCooldown03 <= 0 && playerDistance >= skillRange03 && !anim.GetBool(StringData.IsInteracting))
+        {
+            anim.SetBool(StringData.IsInteracting, true);
+            anim.Play(StringData.Attack03);
+            currSkillCooldown03 = startSkillCooldown03;
+            InstantiateSpell03();
+        }
+    }
+
+    private void JumpHandler()
+    {
+        manager.anim.SetBool(StringData.IsJumping, isJumping);
+        if (isJumping)
+        {
+            if (curJumpTimer <= 0)
+            {
+                RaycastHit hit;
+                Vector3 origin = transform.position;
+
+                Debug.DrawRay(origin, -transform.up, Color.red);
+                if (Physics.Raycast(origin, -transform.up, out hit, 0.1f, groundLayer))
+                {
+                    isJumping = false;
+                    manager.agent.enabled = true;
+                    manager.rb.isKinematic = true;
+                }
+            }
+            else if (curJumpTimer > jumpTimer / 2f)
+            {
+                manager.rb.AddForce(new Vector3(transform.forward.x, jumpHeight, transform.forward.z) * jumpForce * Time.deltaTime, ForceMode.Impulse);
+            }
+            else if (curJumpTimer > 0)
+            {
+                manager.rb.AddForce(new Vector3(transform.forward.x, -jumpHeight, transform.forward.z) * jumpForce * 3f * Time.deltaTime, ForceMode.Impulse);
+            }
+            curJumpTimer -= Time.deltaTime;
+            return;
+        }
     }
 
     #region Instantiate Methods
-
-    public void InstantiateSpell01()
-    {
-    }
 
     public void InstantiateSpell02()
     {
@@ -141,6 +174,10 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
 
     public void InstantiateSpell03()
     {
+        manager.agent.enabled = false;
+        curJumpTimer = jumpTimer;
+        isJumping = true;
+        manager.rb.isKinematic = false;
     }
 
     #endregion
@@ -177,6 +214,8 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
 
     #endregion
 
+    #region Colliders
+
     public void EnableClawAttackCollider()
     {
         clawAttackCollider.SetActive(true);
@@ -187,4 +226,6 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
         clawAttackCollider.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack01;
     }
+
+    #endregion
 }

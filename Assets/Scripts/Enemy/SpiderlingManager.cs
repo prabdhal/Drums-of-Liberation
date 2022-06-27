@@ -52,7 +52,7 @@ public class SpiderlingManager : EnemyManager, ISummon
             State = EnemyState.Combat;
             CombatState();
         }
-        else if (PlayerIsDetected() && !IsInteracting)
+        else if (PlayerIsDetected() && !IsInteracting && !Combat.CanUseSkill)
         {
             State = EnemyState.Pursue;
             PursueState();
@@ -90,14 +90,14 @@ public class SpiderlingManager : EnemyManager, ISummon
         if (targetDis > chaseRange)
         {
             anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
-            agent.isStopped = false;
+            if (agent.enabled) agent.isStopped = false;
         }
         else
         {
             anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Idle);
             agent.isStopped = true;
         }
-        agent.SetDestination(PlayerManager.Instance.transform.position);
+        if (agent.enabled) agent.SetDestination(PlayerManager.Instance.transform.position);
         RotationHandler(PlayerManager.Instance.transform.position);
     }
 
@@ -105,7 +105,7 @@ public class SpiderlingManager : EnemyManager, ISummon
     {
         RotationHandler(PlayerManager.Instance.transform.position);
         anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Idle);
-        agent.isStopped = true;
+        if (agent.enabled) agent.isStopped = true;
 
         Combat.AttackHandler(anim, DistanceFromPlayer);
     }
@@ -114,15 +114,7 @@ public class SpiderlingManager : EnemyManager, ISummon
     {
         if (isDead) return false;
 
-        float distanceFromSummoner = Vector3.Distance(Summoner.position, PlayerManager.Instance.transform.position);
-
-        if (distanceFromSummoner <= 25f)
-        {
-            targetPos = PlayerPos;
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
 

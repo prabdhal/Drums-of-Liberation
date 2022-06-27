@@ -8,10 +8,10 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour
 {
     //components
-    public NavMeshAgent agent;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public Animator anim;
     protected CapsuleCollider col;
-    protected Rigidbody rb;
-    protected Animator anim;
     protected PerfectLookAt lookAt;
 
     public Transform popupPos;
@@ -87,7 +87,7 @@ public class EnemyManager : MonoBehaviour
 
         _lastPosition = gameObject.transform.position;
 
-        Patrol.currWP = UnityEngine.Random.Range(0, Patrol.waypoints.Length - 1);
+        Patrol.currWP = Random.Range(0, Patrol.waypoints.Length - 1);
 
         transform.tag = StringData.EnemyTag;
 
@@ -146,14 +146,14 @@ public class EnemyManager : MonoBehaviour
             //lookAt.m_TargetObject = PlayerManager.Instance.gameObject;
             CombatState();
         }
-        else if (IsDetected && Combat.CanUseSkill == false && !IsInteracting ||
+        else if (IsDetected && !Combat.CanUseSkill && !IsInteracting ||
            IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
         {
             State = EnemyState.Pursue;
             //lookAt.m_TargetObject = PlayerManager.Instance.gameObject;
             PursueState();
         }
-        else if (IsDetected && Combat.CanUseSkill == false && !IsInteracting ||
+        else if (IsDetected && !Combat.CanUseSkill && !IsInteracting ||
            IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
         {
             State = EnemyState.Pursue;
@@ -183,8 +183,8 @@ public class EnemyManager : MonoBehaviour
 
             if (Patrol.currWaitTimer <= 0)
             {
-                float waitTimer = UnityEngine.Random.Range(Patrol.waitTimerMin, Patrol.waitTimerMax);
-                Patrol.currWP = UnityEngine.Random.Range(0, Patrol.waypoints.Length - 1);
+                float waitTimer = Random.Range(Patrol.waitTimerMin, Patrol.waitTimerMax);
+                Patrol.currWP = Random.Range(0, Patrol.waypoints.Length - 1);
 
                 Patrol.currWaitTimer = waitTimer;
             }
@@ -303,8 +303,6 @@ public class EnemyManager : MonoBehaviour
         anim.SetBool(StringData.IsDead, true);
         anim.SetTrigger(StringData.Dead);
         PlayerManager.Instance.Stats.AddPlayerExperience(xpReward);
-        //taskChecker.CheckTaskCompletion(enemyTag);
-        //QuestManager.Instance.UpdateKillQuestProgress(enemyTag);
         agent.ResetPath();
         agent.isStopped = true;
         agent.enabled = false;
@@ -315,6 +313,8 @@ public class EnemyManager : MonoBehaviour
 
     public void GetHitDirection(Transform hitObj)
     {
+        if (IsInteracting) return; 
+
         Vector3 incomingDir = transform.position - hitObj.position;
 
         float dir = Vector3.Dot(transform.forward, incomingDir);

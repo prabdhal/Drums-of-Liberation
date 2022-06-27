@@ -14,12 +14,4 @@ public class BossDetectionRange : MonoBehaviour
             playerIsDetected = true;
         }
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(StringData.PlayerTag))
-        {
-            playerIsDetected = false;
-        }
-    }
 }

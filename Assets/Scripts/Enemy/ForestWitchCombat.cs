@@ -23,10 +23,8 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     private float currSkillCooldown01 = 0;
     [SerializeField] TempStatDebuffType skillDebuffType;
     [SerializeField] float skillStunDuration01;
-    [Tooltip("The attack collider gameobject of attack 01.")]
     [SerializeField] GameObject spellPrefab01;
     [SerializeField] Transform spellOrigin01;
-    private EnemyAttackCollider attackColliderScript01;
 
     [Space]
 
@@ -37,7 +35,6 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     [SerializeField] float skillRange02 = 3f;
     [SerializeField] float startSkillCooldown02 = 10f;
     private float currSkillCooldown02 = 10f;
-    [Tooltip("The attack collider gameobject of attack 02.")]
     [SerializeField] GameObject[] spellPrefabs02;
     [SerializeField] GameObject spellPrefab02;
     private GameObject creatureSummon;
@@ -46,6 +43,7 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     [SerializeField] int maxSpiderlings = 5;
     private List<EnemyManager> spiderlings = new List<EnemyManager>();
     private int summonIdx = 1;
+    public bool CanSummon { get { return spiderlings.Count < maxSpiderlings; }  }
 
     [Space]
 
@@ -57,7 +55,6 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     [SerializeField] float skillRange03 = 3f;
     [SerializeField] float startSkillCooldown03 = 10f;
     private float currSkillCooldown03 = 10f;
-    [Tooltip("The attack collider gameobject of attack 03.")]
     [SerializeField] GameObject teleportEffect;
     [SerializeField] Transform teleportEffectOrigin;
     public Transform[] TeleportLocations { get { return teleportLocations; } }
@@ -69,7 +66,7 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     {
         manager = GetComponent<EnemyManager>();
         basicAttackRange = skillRange01;
-        attackColliderScript01 = spellPrefab01.GetComponent<EnemyAttackCollider>();
+
         currSkillCooldown01 = 0f;
         currSkillCooldown02 = 0f;
         currSkillCooldown03 = 0f;
@@ -90,7 +87,7 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
             isInRange = false;
 
         if (currSkillCooldown01 <= 0 && playerDis <= skillRange01 ||
-            currSkillCooldown02 <= 0 && playerDis <= skillRange02 ||
+            currSkillCooldown02 <= 0 && playerDis <= skillRange02 && CanSummon ||
             currSkillCooldown03 <= 0 && playerDis <= skillRange03)
             canUseSkill = true;
         else
