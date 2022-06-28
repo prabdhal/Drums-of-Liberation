@@ -35,20 +35,30 @@ public class HumanManager : EnemyManager
 
     protected override void StateHandler()
     {
-        agent.speed = currSpeed;
+        Debug.Log("Is searching: " + IsSearching);
+        Debug.Log("Is detected: " + IsDetected); 
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
+
+        if (IsInteracting) agent.speed = 0.1f;
+        else agent.speed = currSpeed;
+
         if (IsDetected && Combat.CanUseSkill)
         {
             isStrafing = false;
             State = EnemyState.Combat;
             CombatState();
         }
-        else if (IsDetected && Combat.CanUseSkill == false && !IsInteracting ||
-           IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
+        else if (IsSearching && distanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
+        {
+            State = EnemyState.Searching;
+            SearchingState();
+        }
+        else if (IsDetected && Combat.CanUseSkill == false && !IsInteracting)
         {
             State = EnemyState.Pursue;
             PursueState();
         }
-        else if (TargetPos == null && !IsInteracting)
+        else if (!IsDetected && !IsSearching && !IsInteracting)
         {
             isStrafing = false;
             State = EnemyState.Patrol;
@@ -93,8 +103,7 @@ public class HumanManager : EnemyManager
     {
         RotationHandler(agent.steeringTarget);
 
-        float targetDis = Vector3.Distance(transform.position, (Vector3)TargetPos);
-
+        float targetDis = Vector3.Distance(transform.position, PlayerManager.Instance.transform.position);
 
         if (targetDis > chaseDistance)
         {
@@ -102,8 +111,9 @@ public class HumanManager : EnemyManager
             anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
             currSpeed = Stats.MovementSpeed.Value * Pursue.speedRatioMultiplier;
             agent.isStopped = false;
-            agent.SetDestination((Vector3)TargetPos);
+            agent.SetDestination(PlayerManager.Instance.transform.position);
             curStrafeTimer = 0f;
+            Debug.Log(transform.name + " is chasing the player");
             return;
         }
         else if (!isStrafing && targetDis > strafeDistance)
@@ -111,8 +121,9 @@ public class HumanManager : EnemyManager
             anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
             currSpeed = Stats.MovementSpeed.Value * Pursue.speedRatioMultiplier;
             agent.isStopped = false;
-            agent.SetDestination((Vector3)TargetPos);
+            agent.SetDestination(PlayerManager.Instance.transform.position);
             curStrafeTimer = 0f;
+            Debug.Log(transform.name + " is chasing the player");
             return;
         }
         else if (targetDis <= chaseDistance && Combat.SkillCooldownIsReady == false)
@@ -123,7 +134,8 @@ public class HumanManager : EnemyManager
             {
                 curStrafeObj = backStrafeObj;
                 strafeDir = (StrafeDirections)curStrafeDir;
-                curStrafeTimer = startStrafeTimer;
+                curStrafeTimer = 1f;
+                Debug.Log(transform.name + " is strafing backwards to safety");
             }
             else if (curStrafeTimer <= 0)
             {
@@ -146,6 +158,7 @@ public class HumanManager : EnemyManager
                 }
 
                 curStrafeTimer = startStrafeTimer;
+                Debug.Log(transform.name + " is strafing to a new direction: " + ((StrafeDirections)curStrafeDir).ToString());
             }
             else
             {
@@ -165,6 +178,31 @@ public class HumanManager : EnemyManager
             anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
             currSpeed = Stats.MovementSpeed.Value * Pursue.speedRatioMultiplier;
             agent.isStopped = false;
+            agent.SetDestination(PlayerManager.Instance.transform.position);
+            curStrafeTimer = 0f;
+        }
+    }
+
+    private void SearchingState()
+    {
+        if (targetPos == null)
+            return;
+
+        float distance = Vector3.Distance(transform.position, (Vector3)TargetPos);
+
+        if (distance <= Patrol.stoppingDistance)
+        {
+            isStrafing = false;
+            anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.CombatIdle);
+            agent.isStopped = true;
+            curStrafeTimer = 0f;
+        }
+        else
+        {
+            isStrafing = false;
+            anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Sprinting);
+            currSpeed = Stats.MovementSpeed.Value * Pursue.speedRatioMultiplier;
+            agent.isStopped = false;
             agent.SetDestination((Vector3)TargetPos);
             curStrafeTimer = 0f;
         }
@@ -172,18 +210,29 @@ public class HumanManager : EnemyManager
 
     protected override void CombatState()
     {
-        RotationHandler(PlayerPos);
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
+        RotationHandler(PlayerManager.Instance.transform.position);
         anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.CombatIdle);
         agent.isStopped = true;
 
-        Combat.AttackHandler(anim, DistanceFromPlayer);
+        Combat.AttackHandler(anim, distanceFromPlayer);
+    }
+
+    public override bool PlayerIsDetected(bool overrideDetection = false)
+    {
+        return base.PlayerIsDetected(overrideDetection);
+    }
+
+    protected override bool SearchingPlayer()
+    {
+        return base.SearchingPlayer();
     }
 
     protected override void RotationHandler(Vector3 rotateTo)
     {
         if (isStrafing)
         {
-            var lookPos = ((Vector3)TargetPos - transform.position).normalized;
+            var lookPos = (PlayerManager.Instance.transform.position - transform.position).normalized;
             lookPos.y = 0;
             Quaternion lookRot = Quaternion.LookRotation(lookPos);
             transform.rotation = Quaternion.Slerp(agent.transform.rotation, lookRot, rotSpeed * Time.deltaTime);

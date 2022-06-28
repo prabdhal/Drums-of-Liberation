@@ -146,6 +146,7 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
                     isJumping = false;
                     manager.agent.enabled = true;
                     manager.rb.isKinematic = true;
+                    manager.col.enabled = true;
                 }
             }
             else if (curJumpTimer > jumpTimer / 2f)
@@ -178,6 +179,7 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
         curJumpTimer = jumpTimer;
         isJumping = true;
         manager.rb.isKinematic = false;
+        manager.col.enabled = false;
     }
 
     #endregion

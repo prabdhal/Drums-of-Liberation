@@ -34,14 +34,14 @@ public class ForestWitchManager : EnemyManager
         else
             agent.speed = currSpeed;
 
-        float targetDis = Vector3.Distance(transform.position, PlayerPos);
+        float targetDis = Vector3.Distance(transform.position, PlayerManager.Instance.transform.position);
 
         if (PlayerIsDetected() && Combat.CanUseSkill)
         {
             State = EnemyState.Combat;
             CombatState();
         }
-        else if (PlayerIsDetected() && targetDis <= dangerRange && !Combat.CanUseSkill)
+        else if (PlayerIsDetected() && targetDis <= dangerRange)
         {
             GetFurthestLocation();
 
@@ -94,6 +94,7 @@ public class ForestWitchManager : EnemyManager
     {
         anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Idle);
         agent.isStopped = true;
+        RotationHandler(agent.steeringTarget);
     }
 
     protected override void PursueState()
@@ -106,20 +107,21 @@ public class ForestWitchManager : EnemyManager
 
     protected override void CombatState()
     {
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
         RotationHandler(PlayerManager.Instance.transform.position);
         anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.CombatIdle);
         agent.isStopped = true;
 
-        Combat.AttackHandler(anim, DistanceFromPlayer);
+        Combat.AttackHandler(anim, distanceFromPlayer);
     }
 
     public override bool PlayerIsDetected(bool overrideDetection = false)
     {
         if (isDead) return false;
 
-        if (detectionRange.PlayerIsDetected)
+        if (detectionRange.PlayerIsDetected && !PlayerManager.Instance.IsDead)
         {
-            targetPos = PlayerPos;
+            targetPos = PlayerManager.Instance.transform.position;
             return true;
         }
 

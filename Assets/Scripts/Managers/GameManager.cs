@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject damagePopPrefab;
 
+    [SerializeField] ScreenFader screenFader;
+    [SerializeField] float startNextSceneTimer = 2f;
+    private float curNextSceneTimer = 0f;
+
+
 
     #region Singleton
     public static GameManager Instance;
@@ -25,6 +30,9 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
+        if (screenFader == null)
+            screenFader = FindObjectOfType<ScreenFader>();
+
         foreach (var enemy in enemies)
         {
             Enemies.Add(enemy.name, enemy);
@@ -39,23 +47,36 @@ public class GameManager : MonoBehaviour
     public void AddEnemy(EnemyManager manager)
     {
         enemies.Add(manager);
-        UpdateDictionary();
+        UpdateDictionary(true);
     }
 
     public void RemoveEnemy(EnemyManager manager)
     {
         enemies.Remove(manager);
-        UpdateDictionary();
+        UpdateDictionary(false);
     }
 
-    private void UpdateDictionary()
+    private void UpdateDictionary(bool add)
     {
         foreach (var enemy in enemies)
         {
             if (Enemies.ContainsKey(enemy.name)) continue;
 
-            Enemies.Add(enemy.name, enemy);
+            if (add)
+                Enemies.Add(enemy.name, enemy);
+            else
+                Enemies.Remove(enemy.name);
         }
     }
 
+    public void ResetScene()
+    {
+        screenFader.FadeToBlack();
+
+        if (curNextSceneTimer <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else curNextSceneTimer -= Time.deltaTime;
+    }
 }

@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 525158638}
   - component: {fileID: 525158641}
   - component: {fileID: 525158640}
-  - component: {fileID: 525158639}
   m_Layer: 0
   m_Name: Teleport
   m_TagString: Untagged
@@ -58,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525158637}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.333334, y: 0, z: 5}
+  m_LocalPosition: {x: -16.583334, y: 0, z: 13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -115,19 +114,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &525158639
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 525158637}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &588135666
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +253,6 @@ GameObject:
   - component: {fileID: 1695829985}
   - component: {fileID: 1695829988}
   - component: {fileID: 1695829987}
-  - component: {fileID: 1695829986}
   m_Layer: 0
   m_Name: Teleport
   m_TagString: Untagged
@@ -283,7 +268,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1695829984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.166667, y: 0, z: 9.166667}
+  m_LocalPosition: {x: 10.27, y: 0, z: 21.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -340,19 +325,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1695829986
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1695829984}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1820323679
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,7 +336,6 @@ GameObject:
   - component: {fileID: 1820323680}
   - component: {fileID: 1820323683}
   - component: {fileID: 1820323682}
-  - component: {fileID: 1820323681}
   m_Layer: 0
   m_Name: Teleport
   m_TagString: Untagged
@@ -380,7 +351,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820323679}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.666666, y: 0, z: -9.166668}
+  m_LocalPosition: {x: 19.86, y: 0, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -437,19 +408,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1820323681
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820323679}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1839778508
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,7 +450,6 @@ GameObject:
   - component: {fileID: 1885637898}
   - component: {fileID: 1885637901}
   - component: {fileID: 1885637900}
-  - component: {fileID: 1885637899}
   m_Layer: 0
   m_Name: Teleport
   m_TagString: Untagged
@@ -508,7 +465,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885637897}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.000001, y: 0, z: -8.611112}
+  m_LocalPosition: {x: -18.25, y: 0, z: -5.8611116}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -565,19 +522,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1885637899
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885637897}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2101343440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2117,7 +2061,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfef2fa603785574cb650b027fd283ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 8026553018833061770}
+  rb: {fileID: 0}
+  anim: {fileID: 0}
   popupPos: {fileID: 8026553019099185225}
   stats:
     maxHealthVal: 500
@@ -2127,7 +2073,7 @@ MonoBehaviour:
     armorVal: 5
     magicResistanceVal: 25
     movementSpeedVal: 1.5
-  rotSpeed: 1000
+  rotSpeed: 10000
   head: {fileID: 8028746307683810048}
   detectionOffset: {x: 0, y: 1, z: 0}
   enemyTag: Player
@@ -2172,15 +2118,17 @@ MonoBehaviour:
   basicAttackRange: 15
   skillName01: Stun Shot
   skillDescription01: Fires a projectile which stuns the target for 2 seconds.
-  skillRange01: 15
-  skillSpeed01: 2000
-  startSkillCooldown01: 1200
+  skillRange01: 25
+  skillSpeed01: 3000
+  startSkillCooldown01: 12
+  skillDebuffType: 1
+  skillStunDuration01: 3
   spellPrefab01: {fileID: 5105245015990398385, guid: 1527cc80721cb0040b8332bb5acbbec1, type: 3}
   spellOrigin01: {fileID: 2101343441}
   skillName02: Summon Spiderling
   skillDescription02: 'Summons upto 5 spiderlings that poison the target. '
-  skillRange02: 40
-  startSkillCooldown02: 1000
+  skillRange02: 100
+  startSkillCooldown02: 10
   spellPrefabs02:
   - {fileID: 3021238974973699265, guid: 715e802a3fcd16e4d89bd4918881bf86, type: 3}
   spellPrefab02: {fileID: 8758445437163666431, guid: bb52149ec667b2f4e8f2ba0ffef0c914, type: 3}
@@ -2189,11 +2137,11 @@ MonoBehaviour:
   - {fileID: 1188214511}
   - {fileID: 369845419}
   - {fileID: 588135667}
-  maxSpiderlings: 5
+  maxSpiderlings: 10
   skillName03: Teleport
   skillDescription03: Teleports the witch a safe distance away from the target.
-  skillRange03: 5
-  startSkillCooldown03: 3000
+  skillRange03: 6
+  startSkillCooldown03: 30
   teleportEffect: {fileID: 1173535846773884327, guid: 7ed15de5323578145b07a95a22ef4cb7, type: 3}
   teleportEffectOrigin: {fileID: 1452855655}
   teleportLocations:

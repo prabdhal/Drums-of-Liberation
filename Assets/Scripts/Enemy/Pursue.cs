@@ -16,5 +16,5 @@ public class Pursue
   public LayerMask targetLayer;
   [Tooltip("The time the user spends searching for the target at the last seen location.")]
   public float startSearchingTimer = 10f;
-  [HideInInspector] public float currSearchingTimer = 10f;
+  public float currSearchingTimer = 10f;
 }

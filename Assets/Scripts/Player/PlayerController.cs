@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (manager.IsDead) return;
+
         HandleGravity();
         combat.CombatUpdate();
 

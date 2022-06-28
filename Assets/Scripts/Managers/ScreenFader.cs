@@ -1,47 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
 public class ScreenFader : MonoBehaviour
 {
-  [SerializeField]
-  private Animator anim;
-  [SerializeField]
-  private GameObject blackScreen;
+    [SerializeField] Animator anim;
+    [SerializeField] GameObject blackScreen;
 
 
-  [SerializeField]
-  private PlayableDirector director;
-  [SerializeField]
-  private float timeBeforeEndOfTimeline = 4f;
+    [SerializeField] PlayableDirector director;
+    [SerializeField] float timeBeforeEndOfTimeline = 4f;
 
-  private bool fadeToBlack = false;
+    [SerializeField] EndSceneTrigger endSceneTrigger;
+
+    [SerializeField] bool hasDirector;
 
 
-  private void Start()
-  {
-    anim = GetComponent<Animator>();
-    director = FindObjectOfType<PlayableDirector>();
 
-    blackScreen.SetActive(true);
-    FadeToScreen();
-  }
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+        if (hasDirector)
+            director = FindObjectOfType<PlayableDirector>();
 
-  private void Update()
-  {
-    if (director.duration - director.time <= timeBeforeEndOfTimeline)
-      FadeToBlack();
-  }
+        blackScreen.SetActive(true);
+        FadeToScreen();
+    }
 
-  public void FadeToBlack()
-  {
-    anim.Play(StringData.BlackScreen);
-  }
+    private void Update()
+    {
+        if (hasDirector)
+        {
+            Debug.Log("duration: " + director.duration);
+            Debug.Log("time: " + director.time);
+            if (director.duration - director.time <= timeBeforeEndOfTimeline)
+                FadeToBlack();
+            if (director.duration - director.time <= 0.1f)
+            {
+                Debug.Log("Get next scene");
+                endSceneTrigger.EndScene();
+            }
 
-  public void FadeToScreen()
-  {
-    anim.Play(StringData.ClearScreen);
-  }
+        }
+    }
+
+    public void FadeToBlack()
+    {
+        anim.Play(StringData.BlackScreen);
+    }
+
+    public void FadeToScreen()
+    {
+        anim.Play(StringData.ClearScreen);
+    }
 
 }

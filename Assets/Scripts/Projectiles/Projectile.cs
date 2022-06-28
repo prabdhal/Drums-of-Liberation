@@ -82,7 +82,6 @@ public class Projectile : MonoBehaviour
 
             OnHitPlayerEvent();
             Instantiate(collisionEffect, contact.point, transform.rotation);
-            Debug.Log("destroyed: " + transform.name);
             Destroy(gameObject);
         }
         else if (col.collider.CompareTag(StringData.EnemyTag) && tags.Contains(Tags.Enemy))

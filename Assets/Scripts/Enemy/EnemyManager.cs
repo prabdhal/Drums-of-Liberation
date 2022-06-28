@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public Animator anim;
-    protected CapsuleCollider col;
+    [HideInInspector] public CapsuleCollider col;
     protected PerfectLookAt lookAt;
 
     public Transform popupPos;
@@ -45,8 +45,6 @@ public class EnemyManager : MonoBehaviour
     public EnemyState State = EnemyState.Patrol;
 
     // Important properties for state handler
-    public Vector3 PlayerPos { get { return PlayerManager.Instance.transform.position; } }
-    public float DistanceFromPlayer { get { return Vector3.Distance(PlayerPos, transform.position); } }
     public bool IsDetected { get { return PlayerIsDetected(); } }
     public bool IsSearching { get { return SearchingPlayer(); } }
     public Vector3? TargetPos { get { return targetPos; } }
@@ -54,6 +52,8 @@ public class EnemyManager : MonoBehaviour
     public bool IsInteracting { get { return anim.GetBool(StringData.IsInteracting); } }
     public bool IsDead { get { return isDead; } }
     protected bool isDead = false;
+
+    protected bool canSearchForPlayer = false;
 
     private Vector3 _lastPosition;
 
@@ -80,7 +80,7 @@ public class EnemyManager : MonoBehaviour
         agent.updateRotation = false;
         agent.acceleration = 9999;
         agent.autoBraking = false;
-        agent.stoppingDistance = 2f;
+        agent.stoppingDistance = 1.5f;
 
         col.center = new Vector3(0f, 1f, 0f);
         col.height = 2f;
@@ -96,14 +96,16 @@ public class EnemyManager : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (Stats.CurrentHealth <= 0)
-            isDead = true;
+        if (IsDead) return;
 
-        if (IsDead && agent.enabled)
+        if (Stats.CurrentHealth <= 0)
         {
+            isDead = true;
             OnDeathEvent(this);
-            return;
         }
+
+        if (PlayerManager.Instance.IsDead) 
+            State = EnemyState.Patrol;
 
         Stats.Update();
 
@@ -114,7 +116,6 @@ public class EnemyManager : MonoBehaviour
     protected virtual void GetRelativeMoveDirection()
     {
         var currentPosition = gameObject.transform.position;
-        var moveDirection = currentPosition - _lastPosition;
 
         Vector2 movement = UtilityMethods.AgentVelocityToVector2DInput(agent);
 
@@ -138,7 +139,13 @@ public class EnemyManager : MonoBehaviour
 
     protected virtual void StateHandler()
     {
-        agent.speed = currSpeed;
+        Debug.Log("Is searching: " + IsSearching);
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
+
+        if (State.Equals(EnemyState.Pursue))
+            agent.speed = currSpeed * Pursue.speedRatioMultiplier;
+        else
+            agent.speed = currSpeed;
 
         if (IsDetected && Combat.CanUseSkill)
         {
@@ -147,20 +154,20 @@ public class EnemyManager : MonoBehaviour
             CombatState();
         }
         else if (IsDetected && !Combat.CanUseSkill && !IsInteracting ||
-           IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
+           IsSearching && distanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
         {
             State = EnemyState.Pursue;
             //lookAt.m_TargetObject = PlayerManager.Instance.gameObject;
             PursueState();
         }
         else if (IsDetected && !Combat.CanUseSkill && !IsInteracting ||
-           IsSearching && DistanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
+           IsSearching && distanceFromPlayer > Combat.BasicAttackRange && !IsInteracting)
         {
             State = EnemyState.Pursue;
             //lookAt.m_TargetObject = PlayerManager.Instance.gameObject;
             NonStrafePursue();
         }
-        else if (TargetPos == null && !IsInteracting)
+        else if (!IsSearching && !IsDetected && !IsInteracting)
         {
             State = EnemyState.Patrol;
             //lookAt.m_TargetObject = tempLookAtObj;
@@ -234,11 +241,12 @@ public class EnemyManager : MonoBehaviour
     protected virtual void CombatState()
     {
         //Debug.Log("Combat State");
-        RotationHandler(PlayerPos);
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
+        RotationHandler(PlayerManager.Instance.transform.position);
         anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.CombatIdle);
         agent.isStopped = true;
 
-        Combat.AttackHandler(anim, DistanceFromPlayer);
+        Combat.AttackHandler(anim, distanceFromPlayer);
     }
 
     public virtual bool PlayerIsDetected(bool overrideDetection = false)
@@ -246,11 +254,16 @@ public class EnemyManager : MonoBehaviour
         if (isDead) return false;
 
         if (overrideDetection)
-            targetPos = PlayerManager.Instance.transform.position;
-
-        if (DistanceFromPlayer <= Pursue.detectionRange)
         {
-            Vector3 targetDir = (PlayerPos - head.position) + detectionOffset;
+            canSearchForPlayer = true;
+            RotationHandler(PlayerManager.Instance.transform.position);
+        }
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
+
+        if (distanceFromPlayer <= Pursue.detectionRange)
+        {
+            //Debug.Log(transform.name + " veiws player within its detection range");
+            Vector3 targetDir = (PlayerManager.Instance.transform.position - head.position) + detectionOffset;
             float angle;
             if (TargetPos == null)
                 angle = Vector3.SignedAngle(head.forward, targetDir, transform.up);
@@ -259,6 +272,7 @@ public class EnemyManager : MonoBehaviour
 
             if (angle >= -Pursue.detectionRadius / 2 && angle <= Pursue.detectionRadius / 2)
             {
+                //Debug.Log(transform.name + " veiws player within its detection angle");
                 RaycastHit hit;
                 Vector3 origin = head.position;
 
@@ -267,26 +281,29 @@ public class EnemyManager : MonoBehaviour
                 {
                     if (!hit.transform.tag.Equals(StringData.PlayerTag)) return false;
 
-                    Debug.Log("Player is in view of " + transform.name);
+                    //Debug.Log("Player is in view of " + transform.name);
                     targetPos = PlayerManager.Instance.transform.position;
                     Pursue.currSearchingTimer = Pursue.startSearchingTimer;
+                    canSearchForPlayer = true;
                     return true;
                 }
             }
+            return false;
         }
         return false;
     }
 
-    protected bool SearchingPlayer()
+    protected virtual bool SearchingPlayer()
     {
         if (isDead) return false;
 
-        if (TargetPos != null && !IsDetected)
+        if (!IsDetected && canSearchForPlayer)
         {
             if (Pursue.currSearchingTimer <= 0)
             {
                 Pursue.currSearchingTimer = Pursue.startSearchingTimer;
                 targetPos = null;
+                canSearchForPlayer = false;
                 return false;
             }
             else
@@ -301,8 +318,9 @@ public class EnemyManager : MonoBehaviour
     {
         anim.SetBool(StringData.IsInteracting, true);
         anim.SetBool(StringData.IsDead, true);
-        anim.SetTrigger(StringData.Dead);
+        anim.Play(StringData.Dead);
         PlayerManager.Instance.Stats.AddPlayerExperience(xpReward);
+        GameManager.Instance.RemoveEnemy(this);
         agent.ResetPath();
         agent.isStopped = true;
         agent.enabled = false;
@@ -313,7 +331,7 @@ public class EnemyManager : MonoBehaviour
 
     public void GetHitDirection(Transform hitObj)
     {
-        if (IsInteracting) return; 
+        if (anim.GetBool(StringData.IsInteracting)) return; 
 
         Vector3 incomingDir = transform.position - hitObj.position;
 

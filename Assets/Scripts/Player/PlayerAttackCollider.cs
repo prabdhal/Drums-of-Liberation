@@ -15,7 +15,7 @@ public class PlayerAttackCollider : MonoBehaviour
                 enemy.GetHitDirection(transform);
                 enemy.PlayerIsDetected(true);
                 // add particle effects 
-                
+
             }
         }
     }

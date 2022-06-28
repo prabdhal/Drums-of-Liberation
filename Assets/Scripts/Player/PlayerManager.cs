@@ -24,6 +24,8 @@ public class PlayerManager : MonoBehaviour
     public bool TargetLock { get; set; }
     public bool OnPause { get { return onPause; } }
     private bool onPause = false;
+    public bool IsDead { get { return isDead; }  }
+    private bool isDead = false;
 
     public Transform popupPos;
 
@@ -65,6 +67,12 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        if (stats.CurrentHealth <= 0)
+        {
+            Dead();
+            return;
+        }
+
         IsInteracting = anim.GetBool(StringData.IsInteracting);
     }
 
@@ -104,5 +112,14 @@ public class PlayerManager : MonoBehaviour
             GameMenuManager.Instance.PauseGame();
         else
             GameMenuManager.Instance.ResumeGame();
+    }
+
+    private void Dead()
+    {
+        isDead = true;
+        IsInteracting = true;
+        tag = StringData.Untagged;
+        anim.Play(StringData.Dead);
+        GameManager.Instance.ResetScene();
     }
 }

@@ -52,7 +52,7 @@ public class SpiderlingManager : EnemyManager, ISummon
             State = EnemyState.Combat;
             CombatState();
         }
-        else if (PlayerIsDetected() && !IsInteracting && !Combat.CanUseSkill)
+        else if (PlayerIsDetected() && !IsInteracting)
         {
             State = EnemyState.Pursue;
             PursueState();
@@ -103,16 +103,17 @@ public class SpiderlingManager : EnemyManager, ISummon
 
     protected override void CombatState()
     {
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
         RotationHandler(PlayerManager.Instance.transform.position);
         anim.SetInteger(StringData.EnemyMoveState, (int)MovementState.Idle);
         if (agent.enabled) agent.isStopped = true;
 
-        Combat.AttackHandler(anim, DistanceFromPlayer);
+        Combat.AttackHandler(anim, distanceFromPlayer);
     }
 
     public override bool PlayerIsDetected(bool overrideDetection = false)
     {
-        if (isDead) return false;
+        if (isDead || PlayerManager.Instance.IsDead) return false;
 
         return true;
     }

@@ -7,6 +7,7 @@ public enum EnemyState
 {
   Idle,
   Patrol,
+  Searching,
   Pursue,
   Combat
 }
