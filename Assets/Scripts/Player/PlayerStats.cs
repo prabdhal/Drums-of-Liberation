@@ -68,6 +68,8 @@ public class PlayerStats
     [SerializeField] Image experienceBar;
     [SerializeField] TextMeshProUGUI playerLevelText;
 
+    public delegate void OnLevelUp();
+    public event OnLevelUp OnLevelUpEvent;
 
     public void Init()
     {
@@ -99,25 +101,56 @@ public class PlayerStats
         AttackSpeed.Update();
     }
 
+    private void InitPlayerStats()
+    {
+        playerLevel = PlayerDataManager.PlayerLevel;
+        requiredXP = playerRequiredXpPerLevel[playerLevel];
+
+        MaxHealth = new CharacterStat(playerMaxHealthIncreasePerLevel[playerLevel]);
+        CurrentHealth = PlayerDataManager.CurrentHealth;
+        MaxMana = new CharacterStat(playerMaxManaIncreasePerLevel[playerLevel]);
+        CurrentMana = PlayerDataManager.CurrentMana;
+        MaxStamina = new CharacterStat(playerMaxStaminaIncreasePerLevel[playerLevel]);
+        CurrentStamina = PlayerDataManager.CurrentStamina;
+        PhysicalPower = new CharacterStat(playerPhysicalPowerIncreasePerLevel[playerLevel]);
+        MagicalPower = new CharacterStat(playerMagicalPowerIncreasePerLevel[playerLevel]);
+        Armor = new CharacterStat(playerArmorIncreasePerLevel[playerLevel]);
+        MagicResistance = new CharacterStat(playerMagicResistIncreasePerLevel[playerLevel]);
+        MovementSpeed = new CharacterStat(3);
+        AttackSpeed = new CharacterStat(0);
+    }
+
+    public void AddPlayerExperience(float xp)
+    {
+        playerXP += xp;
+
+        if (playerXP >= requiredXP)
+        {
+            float surplus = playerXP - requiredXP;
+            playerLevel++;
+            playerXP = surplus;
+            UpdateStatsUponLevelingUp();
+            OnLevelUpEvent?.Invoke();
+        }
+    }
+
     public void UpdateStatsUponLevelingUp()
     {
         if (playerLevel > 0)
             UpdateCurrentValuesUponLevelUp();
         else
+            UpdateCurrentValuesUponLevelUp(0);
+
 
         UpdateUI(true, true, true, true);
     }
 
-    private void UpdateCurrentValuesUponLevelUp()
+    private void UpdateCurrentValuesUponLevelUp(int diff = 1)
     {
-        CurrentHealth += playerMaxHealthIncreasePerLevel[playerLevel] - playerMaxHealthIncreasePerLevel[playerLevel - 1];
-        CurrentMana += playerMaxManaIncreasePerLevel[playerLevel] - playerMaxManaIncreasePerLevel[playerLevel - 1];
-        CurrentStamina += playerMaxStaminaIncreasePerLevel[playerLevel] - playerMaxStaminaIncreasePerLevel[playerLevel - 1];
-    }
+        CurrentHealth += playerMaxHealthIncreasePerLevel[playerLevel] - playerMaxHealthIncreasePerLevel[playerLevel - diff];
+        CurrentMana += playerMaxManaIncreasePerLevel[playerLevel] - playerMaxManaIncreasePerLevel[playerLevel - diff];
+        CurrentStamina += playerMaxStaminaIncreasePerLevel[playerLevel] - playerMaxStaminaIncreasePerLevel[playerLevel - diff];
 
-    private void InitPlayerStats()
-    {
-        playerLevel = PlayerDataManager.PlayerLevel;
         requiredXP = playerRequiredXpPerLevel[playerLevel];
 
         MaxHealth = new CharacterStat(playerMaxHealthIncreasePerLevel[playerLevel]);
@@ -192,9 +225,9 @@ public class PlayerStats
         if (xp)
             UpdateExperienceUI();
 
-        CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth.Value);
-        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, MaxStamina.Value);
-        CurrentMana = Mathf.Clamp(CurrentMana, 0f, MaxMana.Value);
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0f, MaxHealth.BaseValue);
+        CurrentStamina = Mathf.Clamp(CurrentStamina, 0f, MaxStamina.BaseValue);
+        CurrentMana = Mathf.Clamp(CurrentMana, 0f, MaxMana.BaseValue);
     }
 
     private void UpdateHealthUI()
@@ -210,21 +243,6 @@ public class PlayerStats
     private void UpdateStaminaUI()
     {
         staminaBar.fillAmount = CurrentStamina / MaxStamina.BaseValue;
-    }
-
-    public void AddPlayerExperience(float xp)
-    {
-        playerXP += xp;
-
-        if (playerXP >= requiredXP)
-        {
-            float surplus = playerXP - requiredXP;
-            playerLevel++;
-            playerXP = surplus;
-            UpdateStatsUponLevelingUp();
-            //UpdateUI(true, true, true, true);
-        }
-        UpdateExperienceUI();
     }
 
     private void UpdateExperienceUI()

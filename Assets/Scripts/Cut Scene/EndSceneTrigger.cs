@@ -46,6 +46,8 @@ public class EndSceneTrigger : MonoBehaviour
 
             // save player from scene position
             PlayerDataManager.FromSceneSpawnPosition = (int)fromScene;
+            PlayerDataManager.CurrentScene = (int)nextScene;
+            Debug.Log("Saving Current Scene as: " + PlayerDataManager.CurrentScene);
 
             PlayerDataManager.Instance.SaveProgress(PlayerDataManager.Instance);
 

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Prefabs")]
     public GameObject damagePopPrefab;
     public GameObject bloodEffectPrefab;
+    public GameObject levelUpEffectPrefab;
 
     [SerializeField] ScreenFader screenFader;
     [SerializeField] float startNextSceneTimer = 2f;
@@ -31,6 +32,9 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
+        PlayerDataManager.Instance.LoadProgress();
+        Debug.Log("Player Data Loaded From GameManager");
+
         if (screenFader == null)
             screenFader = FindObjectOfType<ScreenFader>();
 
@@ -46,10 +50,7 @@ public class GameManager : MonoBehaviour
             if ((int)scene.FromScene == PlayerDataManager.FromSceneSpawnPosition)
             {
                 PlayerManager.Instance.controller.enabled = false;
-                Debug.Log("scene: " + scene.ToString() + "MATCHED!!");
                 PlayerManager.Instance.transform.position = scene.transform.position;
-                Debug.Log("Player Pos: " + PlayerManager.Instance.transform.position);
-                Debug.Log("Scene from pos: " + scene.transform.position);
                 PlayerManager.Instance.controller.enabled = true;
                 break;
             }

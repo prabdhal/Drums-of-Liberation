@@ -10,6 +10,7 @@ public class PlayerData
     public float currentStamina;
 
     public int fromSceneSpawnPosition;
+    public int currentScene;
 
     public float soundValue;
     public float musicValue;
@@ -29,5 +30,6 @@ public class PlayerData
         currentStamina = PlayerDataManager.CurrentStamina;
 
         fromSceneSpawnPosition = PlayerDataManager.FromSceneSpawnPosition;
+        currentScene = PlayerDataManager.CurrentScene;
     }
 }

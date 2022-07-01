@@ -30,6 +30,7 @@ public class PlayerDataManager : MonoBehaviour
 
     [Header("Scene Information")]
     public static int FromSceneSpawnPosition;
+    public static int CurrentScene;
 
     [Header("Audio")]
     [Range(0, 1)]
@@ -64,6 +65,7 @@ public class PlayerDataManager : MonoBehaviour
         CurrentStamina = data.currentStamina;
 
         FromSceneSpawnPosition = data.fromSceneSpawnPosition;
+        CurrentScene = data.currentScene;
     }
 
     public void ResetProgressButton()

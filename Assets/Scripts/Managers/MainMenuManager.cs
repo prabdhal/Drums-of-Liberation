@@ -39,8 +39,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void ContinueGameButton()
     {
-        SaveSystem.LoadData();
-        GameManager.Instance.LoadScene(StringData.CutSceneOne);
+        PlayerDataManager.Instance.LoadProgress();
+        GameManager.Instance.LoadScene(((SceneNames)PlayerDataManager.CurrentScene).ToString());
     }
 
     public void MainOptionsButton()

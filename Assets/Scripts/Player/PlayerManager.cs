@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] CinemachineFreeLook playerFreeCam;
     [SerializeField] CinemachineVirtualCamera playerLockCam;
 
+    public Transform levelUpEffectOrigin;
+
     // state
     public bool IsGrounded { get { return controller.isGrounded; } }
     public bool IsInteracting { get; set; }
@@ -63,6 +65,8 @@ public class PlayerManager : MonoBehaviour
             controller = GetComponent<CharacterController>();
         statusEffectManager = GetComponentInChildren<StatusEffectManager>();
 
+        Stats.OnLevelUpEvent += LevelUpEffect;
+
         PlayerControls.Instance.OnCycleRightEvent += IncreaseMagicIdx;
         PlayerControls.Instance.OnCycleLeftEvent += DecreaseMagicIdx;
         PlayerControls.Instance.OnPauseEvent += OnPauseMenu;
@@ -87,6 +91,11 @@ public class PlayerManager : MonoBehaviour
         stats.Update();
 
         IsInteracting = anim.GetBool(StringData.IsInteracting);
+    }
+
+    private void LevelUpEffect()
+    {
+        Instantiate(GameManager.Instance.levelUpEffectPrefab, levelUpEffectOrigin.position, Quaternion.identity);
     }
 
     public void IncreaseMagicIdx()

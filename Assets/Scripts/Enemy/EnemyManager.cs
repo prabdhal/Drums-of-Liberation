@@ -319,7 +319,10 @@ public class EnemyManager : MonoBehaviour
         anim.SetBool(StringData.IsInteracting, true);
         anim.SetBool(StringData.IsDead, true);
         anim.Play(StringData.Dead);
+
+        // Player Level Up
         PlayerManager.Instance.Stats.AddPlayerExperience(xpReward);
+
         GameManager.Instance.RemoveEnemy(this);
         agent.ResetPath();
         agent.isStopped = true;
