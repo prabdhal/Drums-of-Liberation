@@ -350,4 +350,15 @@ public class EnemyManager : MonoBehaviour
         else if (dir < -0.5f)
             anim.Play(StringData.HitF);
     }
+
+    public void BloodEffect(Transform hitObj)
+    {
+        Vector3 incomingDir = transform.position - hitObj.transform.position;
+        Quaternion lookRot = Quaternion.LookRotation(incomingDir, transform.up);
+        Quaternion bloodRot = Quaternion.RotateTowards(transform.rotation, lookRot, 10000f);
+
+        Vector3 bloodOrigin = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+
+        Instantiate(GameManager.Instance.bloodEffectPrefab, bloodOrigin, bloodRot);
+    }
 }

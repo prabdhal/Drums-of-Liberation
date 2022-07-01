@@ -188,7 +188,7 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     {
         float damage = manager.Stats.MagicalPower.Value - PlayerManager.Instance.Stats.MagicResistance.Value;
 
-        PlayerManager.Instance.Stats.CurrentHealth -= damage;
+        PlayerManager.Instance.TakeDamage(damage, transform);
 
         // apply stun
         TempStatDebuffEffect effect = new TempStatDebuffEffect(0, skillStunDuration01, 1f, skillDebuffType);

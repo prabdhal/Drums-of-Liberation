@@ -30,15 +30,16 @@ public class MainMenuManager : MonoBehaviour
         mainMenuPanel.SetActive(true);
     }
 
-
-
     public void NewGameButton()
     {
+        ResetGameProgress();
         GameManager.Instance.LoadScene(StringData.CutSceneOne);
+        Debug.Log("New Game Button");
     }
 
     public void ContinueGameButton()
     {
+        SaveSystem.LoadData();
         GameManager.Instance.LoadScene(StringData.CutSceneOne);
     }
 
@@ -56,6 +57,12 @@ public class MainMenuManager : MonoBehaviour
 
         mainMenuPanel.SetActive(true);
         backgroundPanel.SetActive(true);
+    }
+
+    private void ResetGameProgress()
+    {
+        SaveSystem.DeleteData();
+        PlayerDataManager.Instance.ResetProgressButton();
     }
 
     public void QuitButton()

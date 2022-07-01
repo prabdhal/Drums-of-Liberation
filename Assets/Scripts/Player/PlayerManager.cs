@@ -1,13 +1,13 @@
 using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
     // components
     private Animator anim;
-    private CharacterController controller;
+    public CharacterController controller;
 
     [SerializeField] CinemachineFreeLook playerFreeCam;
     [SerializeField] CinemachineVirtualCamera playerLockCam;
@@ -24,7 +24,9 @@ public class PlayerManager : MonoBehaviour
     public bool TargetLock { get; set; }
     public bool OnPause { get { return onPause; } }
     private bool onPause = false;
-    public bool IsDead { get { return isDead; }  }
+    public bool InCombat { get { return inCombat; } }
+    private bool inCombat = false;
+    public bool IsDead { get { return isDead; } }
     private bool isDead = false;
 
     public Transform popupPos;
@@ -32,11 +34,14 @@ public class PlayerManager : MonoBehaviour
     // stats
     public PlayerStats Stats { get { return stats; } set { stats = value; } }
     [SerializeField] PlayerStats stats;
-    public StatusEffectManager StatusEffectManager { get { return statusEffectManager;} set { StatusEffectManager = value; } }
+    public StatusEffectManager StatusEffectManager { get { return statusEffectManager; } set { StatusEffectManager = value; } }
     [SerializeField] StatusEffectManager statusEffectManager;
 
     public EnemyManager lockOnTarget;
     public bool isDiving = false;
+
+    [SerializeField] float inCombatStartTimer = 30f;
+    private float inCombatCurrTimer = 0f;
 
 
     #region Singleton
@@ -54,12 +59,15 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        controller = GetComponent<CharacterController>();
+        if (controller == null)
+            controller = GetComponent<CharacterController>();
         statusEffectManager = GetComponentInChildren<StatusEffectManager>();
 
         PlayerControls.Instance.OnCycleRightEvent += IncreaseMagicIdx;
         PlayerControls.Instance.OnCycleLeftEvent += DecreaseMagicIdx;
         PlayerControls.Instance.OnPauseEvent += OnPauseMenu;
+
+        PlayerDataManager.Instance.LoadProgress();
 
         Stats.Init();
         magicIdx = 0;
@@ -72,6 +80,11 @@ public class PlayerManager : MonoBehaviour
             Dead();
             return;
         }
+        if (!InCombat)
+            stats.PassiveRegen();
+        
+        InCombatHandler();
+        stats.Update();
 
         IsInteracting = anim.GetBool(StringData.IsInteracting);
     }
@@ -87,6 +100,66 @@ public class PlayerManager : MonoBehaviour
         magicIdx--;
         if (MagicIdx < 0)
             magicIdx = maxMagicIdx;
+    }
+
+    private void InCombatHandler()
+    {
+        if (inCombat)
+        {
+            if (inCombatCurrTimer <= 0)
+            {
+                inCombatCurrTimer = inCombatStartTimer;
+                inCombat = false;
+            }
+            else
+            {
+                inCombatCurrTimer -= Time.deltaTime;
+            }
+        }
+    }
+
+    private void ResetCombatTimer()
+    {
+        inCombat = true;
+        inCombatCurrTimer = inCombatStartTimer;
+    }
+
+    public void TakeDamage(float amount, Transform hitObj)
+    {
+        ResetCombatTimer();
+        stats.CurrentHealth -= amount;
+        stats.UpdateUI(true,false,false,false);
+        GetHitDirection(hitObj);
+        BloodEffect(hitObj);
+    }
+
+    private void BloodEffect(Transform hitObj)
+    {
+        Vector3 incomingDir = transform.position - hitObj.transform.position;
+        Quaternion lookRot = Quaternion.LookRotation(incomingDir, transform.up);
+        Quaternion bloodRot = Quaternion.RotateTowards(transform.rotation, lookRot, 10000f);
+
+        Vector3 bloodOrigin = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+
+        Instantiate(GameManager.Instance.bloodEffectPrefab, bloodOrigin, bloodRot);
+    }
+
+    public bool CanUseSpell(float cost)
+    {
+        if (stats.CurrentMana < cost) return false;
+
+        stats.CurrentMana -= cost;
+        stats.UpdateUI(false,true,false,false);
+        return true;
+    }
+
+    public bool HasEnoughStamina(float cost)
+    {
+        if (stats.CurrentStamina < cost) return false;
+
+        stats.CurrentStamina -= cost;
+        stats.UpdateUI(false,false,true,false);
+        return true;
     }
 
     public void OnLock(Transform lookAt)
@@ -121,5 +194,27 @@ public class PlayerManager : MonoBehaviour
         tag = StringData.Untagged;
         anim.Play(StringData.Dead);
         GameManager.Instance.ResetScene();
+    }
+
+    public void GetHitDirection(Transform hitObj)
+    {
+        if (anim.GetBool(StringData.IsInteracting)) return;
+
+        Vector3 incomingDir = transform.position - hitObj.position;
+
+        float dir = Vector3.Dot(transform.forward, incomingDir);
+
+        if (dir > 0.5f)
+            anim.Play(StringData.HitB);
+        else if (dir < 0.5f && dir > -0.5f)
+        {
+            dir = Vector3.Dot(transform.right, incomingDir);
+            if (dir < 0)
+                anim.Play(StringData.HitR);
+            else
+                anim.Play(StringData.HitL);
+        }
+        else if (dir < -0.5f)
+            anim.Play(StringData.HitF);
     }
 }

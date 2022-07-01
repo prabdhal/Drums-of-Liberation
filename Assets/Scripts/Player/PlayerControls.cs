@@ -17,8 +17,6 @@ public class PlayerControls : MonoBehaviour
     private InputAction lockOn;
     private InputAction pause;
 
-    //public event OnJumpDel OnJumpEvent;
-    //public delegate void OnJumpDel();
     public event OnLightAttackDel OnLightAttackEvent;
     public delegate void OnLightAttackDel();
     public event OnHeavyAttackDel OnHeavyAttackEvent;
@@ -46,10 +44,8 @@ public class PlayerControls : MonoBehaviour
     private Vector2 _cameraDirection;
     public Vector2 RotationDirection { get { return _rotationDirection; } }
     private Vector2 _rotationDirection;
-    public bool IsSprinting { get { return _isSprinting; } }
+    public bool IsSprinting { get { return _isSprinting && PlayerManager.Instance.HasEnoughStamina(0.1f); } }
     private bool _isSprinting = false;
-    //public bool IsJumpPressed { get { return _isJumpPressed; } }
-    //private bool _isJumpPressed = false;
     public bool GetInteractingValue { get { return interacting; } }
     private bool interacting = false;
 
@@ -76,10 +72,6 @@ public class PlayerControls : MonoBehaviour
         camera = playerInput.Player.Camera;
         sprint = playerInput.Player.Sprint;
         dive = playerInput.Player.Dive;
-
-        //playerInput.Player.Jump.started += OnJumpStart;
-        //playerInput.Player.Jump.canceled += OnJumpEnd;
-        //playerInput.Player.Jump.Enable();
 
         playerInput.Player.Interact.performed += OnInteract;
         playerInput.Player.Interact.Enable();
@@ -121,10 +113,6 @@ public class PlayerControls : MonoBehaviour
 
     private void OnDisable()
     {
-        //playerInput.Player.Jump.started -= OnJumpStart;
-        //playerInput.Player.Jump.canceled -= OnJumpEnd;
-        //playerInput.Player.Jump.Disable();
-
         playerInput.Player.Interact.performed -= OnInteract;
         playerInput.Player.Interact.Disable();
 
@@ -173,46 +161,27 @@ public class PlayerControls : MonoBehaviour
         _cameraDirection = movement.ReadValue<Vector2>();
     }
 
-    //private void OnJumpStart(InputAction.CallbackContext context)
-    //{
-    //    if (PlayerManager.Instance.IsInteracting || !PlayerManager.Instance.IsGrounded) return;
-
-    //    _isJumpPressed = true;
-    //    Debug.Log("jump true: " + _isJumpPressed);
-    //}
-
-    //private void OnJumpEnd(InputAction.CallbackContext context)
-    //{
-    //    _isJumpPressed = false;
-    //    Debug.Log("jump false: " + _isJumpPressed);
-    //}
-
     private void OnInteract(InputAction.CallbackContext context)
     {
-        //Debug.Log("Interact");
     }
     private void OnInteractActive(InputAction.CallbackContext obj)
     {
-        //Debug.Log("Interacting is TRUE");
         interacting = true;
     }
 
     private void OnInteractDisable(InputAction.CallbackContext obj)
     {
-        //Debug.Log("Interacting is FALSE");
         interacting = false;
     }
 
     private void OnSprint(InputAction.CallbackContext obj)
     {
         _isSprinting = true;
-        //Debug.Log("Sprinting");
     }
 
     private void OffSprint(InputAction.CallbackContext obj)
     {
         _isSprinting = false;
-        //Debug.Log("Not Sprinting");
     }
 
     private void OnLightAttack(InputAction.CallbackContext obj)
@@ -220,7 +189,6 @@ public class PlayerControls : MonoBehaviour
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnLightAttackEvent?.Invoke();
-        //Debug.Log("Light Attack Event Invoked!");
     }
 
     private void OnHeavyAttack(InputAction.CallbackContext obj)
@@ -228,7 +196,6 @@ public class PlayerControls : MonoBehaviour
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnHeavyAttackEvent?.Invoke();
-        //Debug.Log("Heavy Attack Event Invoked!");
     }
 
     private void OnMagicAttack(InputAction.CallbackContext obj)
@@ -236,19 +203,16 @@ public class PlayerControls : MonoBehaviour
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnMagicAttackEvent?.Invoke();
-        //Debug.Log("Magic Attack Event Invoked!");
     }
 
     private void OnCycleRight(InputAction.CallbackContext obj)
     {
         OnCycleRightEvent?.Invoke();
-        //Debug.Log("On Cycle Right Invoked!");
     }
 
     private void OnCycleLeft(InputAction.CallbackContext obj)
     {
         OnCycleLeftEvent?.Invoke();
-        //Debug.Log("On Cycle Left Invoked!");
     }
 
     private void OnDive(InputAction.CallbackContext obj)
@@ -256,7 +220,6 @@ public class PlayerControls : MonoBehaviour
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnDiveEvent?.Invoke();
-        //Debug.Log("On Dive Event Invoked!");
     }
 
     private void OnLockOn(InputAction.CallbackContext obj)
@@ -278,7 +241,6 @@ public class PlayerControls : MonoBehaviour
         }
 
         OnLockOnEvent?.Invoke();
-        //Debug.Log("On Lock On Event Invoked!");
     }
 
     private void OnPause(InputAction.CallbackContext obj)

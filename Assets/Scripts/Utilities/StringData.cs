@@ -48,8 +48,6 @@ public static class StringData
     public static string RollZ = "rollZ";
     public static string Popup = "Popup";
 
-
-
     // Enemy
     public static string EnemyMoveState = "state";
     public static string Attack01 = "Attack01";
@@ -64,7 +62,17 @@ public static class StringData
     public static string MainMenuScene = "MainMenuScene";
     public static string CutSceneOne = "CutSceneOne";
     public static string LevelOneScene = "LevelOneScene";
-
     public static string TargetCamera = "TargetCamera";
     public static string FollowCamera = "FollowCamera";
+
+    // UI Names
+    public static string HealthBG = "HealthBG";
+    public static string HealthBar = "HealthBar";
+    public static string ManaBG = "ManaBG";
+    public static string ManaBar = "ManaBar";
+    public static string StaminaBG = "StaminaBG";
+    public static string StaminaBar = "StaminaBar";
+    public static string ExperienceBG = "ExperienceBG";
+    public static string ExperienceBar = "ExperienceBar";
+    public static string PlayerLevelText = "PlayerLevelText";
 }

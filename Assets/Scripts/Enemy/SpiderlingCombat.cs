@@ -190,7 +190,7 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
     {
         float damage = manager.Stats.MagicalPower.Value - PlayerManager.Instance.Stats.MagicResistance.Value;
 
-        PlayerManager.Instance.Stats.CurrentHealth -= damage;
+        PlayerManager.Instance.TakeDamage(damage, transform);
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);
@@ -202,12 +202,11 @@ public class SpiderlingCombat : MonoBehaviour, ICombat
     {
         float damage = manager.Stats.MagicalPower.Value - PlayerManager.Instance.Stats.MagicResistance.Value;
 
-        PlayerManager.Instance.Stats.CurrentHealth -= damage;
+        PlayerManager.Instance.TakeDamage(damage, transform);
 
         // apply poison
         DamageOverTimeEffect effect = new DamageOverTimeEffect(poisonDamage, poisonDuration, 0.5f, effectType);
         PlayerManager.Instance.StatusEffectManager.ApplyStatusEffects(effect);
-        Debug.Log("Player took " + damage + " from " + skillName02);
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);

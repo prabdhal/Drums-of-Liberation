@@ -9,58 +9,46 @@ public class PlayerCombat : MonoBehaviour
     private PlayerAttackCollider weaponCol;
 
     // combat
-    [SerializeField]
-    private GameObject weaponColGO;
+    [SerializeField] GameObject weaponColGO;
 
     //stats
-    [SerializeField]
     [Range(1, 2)]
-    private float heavyAttackRatio = 1.5f;
+    [SerializeField] float heavyAttackRatio = 1.5f;
+    [SerializeField] float heavyAttackCost = 10f;
 
     // variables
-    [SerializeField]
-    private float startComboTimer = 1f;
+    [SerializeField] float startComboTimer = 1f;
     private float curComboTimer;
 
-    [SerializeField]
-    private GameObject magicAttack01Prefab;
-    [SerializeField]
-    private Transform magicAttack01Origin;
-    [SerializeField]
+    [SerializeField] GameObject magicAttack01Prefab;
+    [SerializeField] Transform magicAttack01Origin;
     [Range(0, 1000)]
-    private float baseMagicAttack01Damage;
-    [SerializeField]
+    [SerializeField] float baseMagicAttack01Damage;
     [Range(0, 1000)]
-    private float baseMagicAttack01Speed = 500f;
-    [SerializeField]
+    [SerializeField] float baseMagicAttack01Speed = 500f;
     [Range(0, 1000)]
-    private float baseMagicAttack01Range = 200f;
+    [SerializeField] float baseMagicAttack01Range = 200f;
+    [SerializeField] float spellCost01;
 
-    [SerializeField]
-    private GameObject magicAttack02Prefab;
-    [SerializeField]
-    private Transform magicAttack02Origin;
-    [SerializeField]
+    [SerializeField] GameObject magicAttack02Prefab;
+    [SerializeField] Transform magicAttack02Origin;
     [Range(0, 1000)]
-    private float baseMagicAttack02Damage;
+    [SerializeField] float baseMagicAttack02Damage;
     [Range(0, 1000)]
-    private float baseMagicAttack02Speed = 500f;
-    [SerializeField]
+    [SerializeField] float baseMagicAttack02Speed = 500f;
     [Range(0, 1000)]
-    private float baseMagicAttack02Range = 200f;
+    [SerializeField] float baseMagicAttack02Range = 200f;
+    [SerializeField] float spellCost02;
 
-    [SerializeField]
-    private GameObject magicAttack03Prefab;
-    [SerializeField]
-    private Transform magicAttack03Origin;
-    [SerializeField]
+    [SerializeField] GameObject magicAttack03Prefab;
+    [SerializeField] Transform magicAttack03Origin;
     [Range(0, 1000)]
-    private float baseMagicAttack03Damage;
+    [SerializeField] float baseMagicAttack03Damage;
     [Range(0, 1000)]
-    private float baseMagicAttack03Speed = 500f;
-    [SerializeField]
+    [SerializeField] float baseMagicAttack03Speed = 500f;
     [Range(0, 1000)]
-    private float baseMagicAttack03Range = 200f;
+    [SerializeField] float baseMagicAttack03Range = 200f;
+    [SerializeField] float spellCost03;
 
 
     private void Start()
@@ -121,7 +109,6 @@ public class PlayerCombat : MonoBehaviour
         physicalDamage = Mathf.Clamp(physicalDamage, 0, physicalDamage);
 
         enemy.Stats.CurrentHealth -= physicalDamage;
-        Debug.Log(enemy.name + " was attacked and took " + physicalDamage + " points of light physical damage");
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, enemy.popupPos);
@@ -131,6 +118,7 @@ public class PlayerCombat : MonoBehaviour
     private void OnHeavyAttack()
     {
         if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
+        if (!PlayerManager.Instance.HasEnoughStamina(heavyAttackCost)) return;
 
         switch (manager.CombatIdx)
         {
@@ -155,7 +143,6 @@ public class PlayerCombat : MonoBehaviour
         physicalDamage = Mathf.Clamp(physicalDamage, 0, physicalDamage);
 
         enemy.Stats.CurrentHealth -= physicalDamage;
-        Debug.Log(enemy.name + " was attacked and took " + physicalDamage + " points of heavy physical damage");
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, enemy.popupPos);
@@ -169,15 +156,36 @@ public class PlayerCombat : MonoBehaviour
         switch (manager.MagicIdx)
         {
             case 0:
-                anim.Play(StringData.MagicAttack01);
+                MagicSpell01();
                 break;
             case 1:
-                anim.Play(StringData.MagicAttack02);
+                MagicSpell02();
                 break;
             case 2:
-                anim.Play(StringData.MagicAttack03);
+                MagicSpell03();
                 break;
         }
+    }
+
+    private void MagicSpell01()
+    {
+        if (!PlayerManager.Instance.CanUseSpell(spellCost01)) return;
+
+        anim.Play(StringData.MagicAttack01);
+    }
+
+    private void MagicSpell02()
+    {
+        if (!PlayerManager.Instance.CanUseSpell(spellCost02)) return;
+
+        anim.Play(StringData.MagicAttack02);
+    }
+
+    private void MagicSpell03()
+    {
+        if (!PlayerManager.Instance.CanUseSpell(spellCost03)) return;
+
+        anim.Play(StringData.MagicAttack03);
     }
 
     public void InstantiateMagicAttack01()
@@ -200,7 +208,6 @@ public class PlayerCombat : MonoBehaviour
         magicalDamage = Mathf.Clamp(magicalDamage, 0, magicalDamage);
 
         enemy.Stats.CurrentHealth -= magicalDamage;
-        //Debug.Log(enemy.name + " was attacked and took " + magicalDamage + " points of magical damage");
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, enemy.popupPos);
@@ -227,7 +234,6 @@ public class PlayerCombat : MonoBehaviour
         magicalDamage = Mathf.Clamp(magicalDamage, 0, magicalDamage);
 
         enemy.Stats.CurrentHealth -= magicalDamage;
-        Debug.Log(enemy.name + " was attacked and took " + magicalDamage + " points of magical damage");
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, enemy.popupPos);
@@ -254,7 +260,6 @@ public class PlayerCombat : MonoBehaviour
         magicalDamage = Mathf.Clamp(magicalDamage, 0, magicalDamage);
 
         enemy.Stats.CurrentHealth -= magicalDamage;
-        Debug.Log(enemy.name + " was attacked and took " + magicalDamage + " points of magical damage");
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, enemy.popupPos);

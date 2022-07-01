@@ -91,9 +91,9 @@ public class Projectile : MonoBehaviour
             OnHitEvent(col.gameObject);
             if (GameManager.Instance.Enemies.TryGetValue(col.collider.name, out EnemyManager enemy))
             {
-                enemy.GetHitDirection(transform);
                 enemy.PlayerIsDetected(true);
-                // add particle effects 
+                enemy.GetHitDirection(transform);
+                //enemy.BloodEffect(transform);
             }
             Instantiate(collisionEffect, contact.point, transform.rotation);
             Destroy(gameObject);

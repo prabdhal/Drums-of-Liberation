@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanCombat : MonoBehaviour, ICombat
+public class BarbarianGiantCombat : MonoBehaviour, ICombat
 {
     private EnemyManager manager;
     public float BasicAttackRange { get { return basicAttackRange; } }
@@ -17,10 +19,10 @@ public class HumanCombat : MonoBehaviour, ICombat
 
     [Header("Skill 01")]
     [SerializeField]
-    private string skillName01 = "Acid";
+    private string skillName01 = "";
     [SerializeField]
     [TextArea(2, 3)]
-    private string skillDescription01 = "A vicious left claw swipe, capable of causing the opponent to take bleed damage over time";
+    private string skillDescription01 = "";
     [SerializeField]
     private float skillRange01 = 3f;
     [SerializeField]
@@ -35,10 +37,10 @@ public class HumanCombat : MonoBehaviour, ICombat
 
     [Header("Skill 02")]
     [SerializeField]
-    private string skillName02 = "Acid Shot";
+    private string skillName02 = "";
     [SerializeField]
     [TextArea(2, 3)]
-    private string skillDescription02 = "A vicious right claw swipe that deals extra damage, capable of causing the opponent to take bleed damage over time";
+    private string skillDescription02 = "";
     [SerializeField]
     private float skillRange02 = 3f;
     [SerializeField]
@@ -81,7 +83,7 @@ public class HumanCombat : MonoBehaviour, ICombat
         else
             canUseSkill = false;
 
-            CooldownHandler();
+        CooldownHandler();
     }
 
     private void CooldownHandler()
@@ -129,7 +131,7 @@ public class HumanCombat : MonoBehaviour, ICombat
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);
         go.GetComponent<DamagePopup>().Init(damage, DamageType.Physical);
-        attackColliderScript02.OnApplyDamageEvent -= ApplyDamageAttack02;
+        attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack02;
     }
 
     #endregion

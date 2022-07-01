@@ -1,20 +1,21 @@
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public List<EnemyManager> enemies = new List<EnemyManager>();
     public Dictionary<string, EnemyManager> Enemies = new Dictionary<string, EnemyManager>();
 
+    public List<ScenePosition> fromScenes = new List<ScenePosition>();
+
     [Header("Prefabs")]
     public GameObject damagePopPrefab;
+    public GameObject bloodEffectPrefab;
 
     [SerializeField] ScreenFader screenFader;
     [SerializeField] float startNextSceneTimer = 2f;
     private float curNextSceneTimer = 0f;
-
-
 
     #region Singleton
     public static GameManager Instance;
@@ -35,7 +36,23 @@ public class GameManager : MonoBehaviour
 
         foreach (var enemy in enemies)
         {
+            if (Enemies.ContainsKey(enemy.name)) continue;
+
             Enemies.Add(enemy.name, enemy);
+        }
+
+        foreach (var scene in fromScenes)
+        {
+            if ((int)scene.FromScene == PlayerDataManager.FromSceneSpawnPosition)
+            {
+                PlayerManager.Instance.controller.enabled = false;
+                Debug.Log("scene: " + scene.ToString() + "MATCHED!!");
+                PlayerManager.Instance.transform.position = scene.transform.position;
+                Debug.Log("Player Pos: " + PlayerManager.Instance.transform.position);
+                Debug.Log("Scene from pos: " + scene.transform.position);
+                PlayerManager.Instance.controller.enabled = true;
+                break;
+            }
         }
     }
 

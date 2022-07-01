@@ -2,6 +2,14 @@ public enum SceneNames
 {
     MainMenuScene,
     CutSceneOne,
-    SceneOne,
+    CutSceneTwo,
+    TutorialScene,
+    HumanSoldiersSceneOne,
+    HumanSoldiersSceneTwo,
+    BigOrcsSceneTwo,
+    BigOrcsSceneOne,
     ForestWitchScene,
+    BarbarianGiantScene,
+    SafeZoneSceneOne,
+    SafeZoneSceneTwo,
 }

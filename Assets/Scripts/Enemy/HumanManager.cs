@@ -35,8 +35,6 @@ public class HumanManager : EnemyManager
 
     protected override void StateHandler()
     {
-        Debug.Log("Is searching: " + IsSearching);
-        Debug.Log("Is detected: " + IsDetected); 
         float distanceFromPlayer = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
 
         if (IsInteracting) agent.speed = 0.1f;

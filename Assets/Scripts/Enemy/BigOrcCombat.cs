@@ -112,8 +112,7 @@ public class BigOrcCombat : MonoBehaviour, ICombat
     {
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
 
-        PlayerManager.Instance.Stats.CurrentHealth -= damage;
-        Debug.Log("Player took " + damage + " from skill one");
+        PlayerManager.Instance.TakeDamage(damage, transform);
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);
@@ -125,8 +124,7 @@ public class BigOrcCombat : MonoBehaviour, ICombat
     {
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
 
-        PlayerManager.Instance.Stats.CurrentHealth -= damage;
-        Debug.Log("Player took " + damage + " from skill two");
+        PlayerManager.Instance.TakeDamage(damage, transform);
 
         // add damage popup 
         GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);

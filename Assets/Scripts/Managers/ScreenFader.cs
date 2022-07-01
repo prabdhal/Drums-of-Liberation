@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class ScreenFader : MonoBehaviour
 {
@@ -7,40 +6,23 @@ public class ScreenFader : MonoBehaviour
     [SerializeField] GameObject blackScreen;
 
 
-    [SerializeField] PlayableDirector director;
-    [SerializeField] float timeBeforeEndOfTimeline = 4f;
+    #region Singleton
+    public static ScreenFader Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
 
-    [SerializeField] EndSceneTrigger endSceneTrigger;
-
-    [SerializeField] bool hasDirector;
-
-
+    }
+    #endregion
 
     private void Start()
     {
         anim = GetComponent<Animator>();
-        if (hasDirector)
-            director = FindObjectOfType<PlayableDirector>();
-
         blackScreen.SetActive(true);
         FadeToScreen();
-    }
-
-    private void Update()
-    {
-        if (hasDirector)
-        {
-            Debug.Log("duration: " + director.duration);
-            Debug.Log("time: " + director.time);
-            if (director.duration - director.time <= timeBeforeEndOfTimeline)
-                FadeToBlack();
-            if (director.duration - director.time <= 0.1f)
-            {
-                Debug.Log("Get next scene");
-                endSceneTrigger.EndScene();
-            }
-
-        }
     }
 
     public void FadeToBlack()
