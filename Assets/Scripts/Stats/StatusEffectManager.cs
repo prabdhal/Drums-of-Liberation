@@ -13,6 +13,9 @@ public class StatusEffectManager : MonoBehaviour
     public List<DamageOverTimeEffect> damageOverTimeEffects = new List<DamageOverTimeEffect>();
     public bool HasDebuffEffect { get { return tempStatDebuffEffects.Count > 0; } }
     public List<TempStatDebuffEffect> tempStatDebuffEffects = new List<TempStatDebuffEffect>();
+    public bool HasStatModifierEffect { get { return tempStatModifierEffects.Count > 0; } }
+    public List<TempStatModifier> tempStatModifierEffects = new List<TempStatModifier>();
+
     public bool IsSlowed;
     public bool IsRooted;
     public bool IsStunned;
@@ -24,6 +27,7 @@ public class StatusEffectManager : MonoBehaviour
         if (damageOverTimeEffects.Count <= 1)
             StartCoroutine(StatusEffectHandler());
     }
+
     public void ApplyDebuffEffects(TempStatDebuffEffect effect)
     {
         tempStatDebuffEffects.Add(effect);
@@ -36,6 +40,38 @@ public class StatusEffectManager : MonoBehaviour
 
         if (tempStatDebuffEffects.Count <= 1)
             StartCoroutine(DebuffEffectHandler());
+    }
+
+    public void ApplyStatBuffs(TempStatModifier mod)
+    {
+        tempStatModifierEffects.Add(mod);
+        switch (mod.StatType)
+        {
+            case StatType.Health:
+                PlayerManager.Instance.Stats.MaxHealth.AddTempModifier(mod);
+                break;
+            case StatType.Mana:
+                PlayerManager.Instance.Stats.MaxMana.AddTempModifier(mod);
+                break;
+            case StatType.Stamina:
+                PlayerManager.Instance.Stats.MaxStamina.AddTempModifier(mod);
+                break;
+            case StatType.Physical:
+                PlayerManager.Instance.Stats.PhysicalPower.AddTempModifier(mod);
+                break;
+            case StatType.Magical:
+                PlayerManager.Instance.Stats.MagicalPower.AddTempModifier(mod);
+                break;
+            case StatType.Armor:
+                PlayerManager.Instance.Stats.Armor.AddTempModifier(mod);
+                break;
+            case StatType.MagicResist:
+                PlayerManager.Instance.Stats.MagicResistance.AddTempModifier(mod);
+                break;
+        }
+
+        if (tempStatModifierEffects.Count <= 1)
+            StartCoroutine(TempStatModifierHandler());
     }
 
     private void ApplySlow(float amount)
@@ -62,15 +98,14 @@ public class StatusEffectManager : MonoBehaviour
             for (int i = 0; i < damageOverTimeEffects.Count - 1; i++)
             {
                 PlayerManager.Instance.Stats.CurrentHealth -= damageOverTimeEffects[i].Damage;
-
                 DisplayDamagePopup(damageOverTimeEffects[i]);
 
-                damageOverTimeEffects[i].Duration -= 0.5f;
+                damageOverTimeEffects[i].Duration -= 1f;
                 Debug.Log("Status Effect: " + damageOverTimeEffects[i].DamageOverTimeEffectType + " deals " + damageOverTimeEffects[i].Damage
                   + " current duration: " + damageOverTimeEffects[i].Duration);
             }
             damageOverTimeEffects.RemoveAll(effect => effect.Duration <= 0);
-            //StatsPanel.Instance.UpdateUI();
+            PlayerManager.Instance.Stats.UpdateUI(true, true, true, true);
         }
     }
 
@@ -106,7 +141,50 @@ public class StatusEffectManager : MonoBehaviour
             else ApplySlow(slowAmount);
 
             tempStatDebuffEffects.RemoveAll(effect => effect.Duration <= 0);
-            //StatsPanel.Instance.UpdateUI();
+            PlayerManager.Instance.Stats.UpdateUI(true, true, true, true);
+        }
+    }
+
+    private IEnumerator TempStatModifierHandler()
+    {
+        while (tempStatModifierEffects.Count > 0)
+        {
+            yield return new WaitForSeconds(1f);
+
+            for (int i = 0; i < tempStatModifierEffects.Count - 1; i++)
+            {
+                tempStatModifierEffects[i].Duration -= 1f;
+                if (tempStatModifierEffects[i].Duration <= 0)
+                {
+                    switch (tempStatModifierEffects[i].StatType)
+                    {
+                        case StatType.Health:
+                            PlayerManager.Instance.Stats.MaxHealth.RemoveTempModifier(tempStatModifierEffects[i]);
+                            break;
+                        case StatType.Mana:
+                            PlayerManager.Instance.Stats.MaxMana.RemoveTempModifier(tempStatModifierEffects[i]);
+                            break;
+                        case StatType.Stamina:
+                            PlayerManager.Instance.Stats.MaxStamina.RemoveTempModifier(tempStatModifierEffects[i]);
+                            break;
+                        case StatType.Physical:
+                            PlayerManager.Instance.Stats.PhysicalPower.RemoveTempModifier(tempStatModifierEffects[i]);
+                            break;
+                        case StatType.Magical:
+                            PlayerManager.Instance.Stats.MagicalPower.RemoveTempModifier(tempStatModifierEffects[i]);
+                            break;
+                        case StatType.Armor:
+                            PlayerManager.Instance.Stats.Armor.RemoveTempModifier(tempStatModifierEffects[i]);
+                            break;
+                        case StatType.MagicResist:
+                            PlayerManager.Instance.Stats.MagicResistance.RemoveTempModifier(tempStatModifierEffects[i]);
+                            break;
+                    }
+                    Debug.Log("cur mod#" + i + ": " + tempStatModifierEffects[i].Duration);
+                }
+            }
+            tempStatModifierEffects.RemoveAll(effect => effect.Duration <= 0);
+            PlayerManager.Instance.Stats.UpdateUI(true, true, true, true);
         }
     }
 
@@ -128,6 +206,16 @@ public class StatusEffectManager : MonoBehaviour
                 break;
         }
         //StatsPanel.Instance.UpdateUI();
+    }
+
+    public void ClearDebuffEffects()
+    {
+        tempStatDebuffEffects.Clear();
+    }
+
+    public void ClearTempModifiersEffects()
+    {
+        tempStatModifierEffects.Clear();
     }
 
     private void DisplayDamagePopup(DamageOverTimeEffect effect)

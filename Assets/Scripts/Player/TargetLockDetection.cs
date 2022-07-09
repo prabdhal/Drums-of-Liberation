@@ -20,6 +20,7 @@ public class TargetLockDetection : MonoBehaviour
         {
             if (CurrentTargetOutsideOfRange(PlayerManager.Instance.lockOnTarget.transform) || PlayerManager.Instance.lockOnTarget.CompareTag(StringData.Untagged))
             {
+                targets.RemoveAll(e => e.tag.Equals(StringData.Untagged));
                 PlayerManager.Instance.TargetLock = false;
                 PlayerManager.Instance.lockOnTarget = null;
                 PlayerManager.Instance.OnLock(null);

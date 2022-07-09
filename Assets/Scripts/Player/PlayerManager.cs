@@ -1,7 +1,5 @@
 using Cinemachine;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -11,13 +9,22 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] CinemachineFreeLook playerFreeCam;
     [SerializeField] CinemachineVirtualCamera playerLockCam;
+    [SerializeField] float yCamSpeed = 2f;
+    [SerializeField] float xCamSpeed = 300f;
 
     public Transform levelUpEffectOrigin;
 
+    public float Gold { get; set; }
+
     // state
     public bool IsGrounded { get { return controller.isGrounded; } }
+    public bool IsSprinting { get; set; }
     public bool IsInteracting { get; set; }
+    public bool IsLightAttacking { get; set; }
+    public bool IsHeavyAttacking { get; set; }
+    public bool IsMagicAttacking { get; set; }
     public int CombatIdx { get; set; }
+    public int ComboIdx { get; set; }
     public int MagicIdx { get { return magicIdx; } }
     private int magicIdx = 0;
     public int MaxMagicIdx { get { return maxMagicIdx; } }
@@ -60,6 +67,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
+        Gold += 2000f;
         anim = GetComponentInChildren<Animator>();
         if (controller == null)
             controller = GetComponent<CharacterController>();
@@ -79,6 +87,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        CameraHandler();
+
         if (stats.CurrentHealth <= 0)
         {
             Dead();
@@ -86,11 +96,41 @@ public class PlayerManager : MonoBehaviour
         }
         if (!InCombat)
             stats.PassiveRegen();
-        
+
+        CanSprint();
         InCombatHandler();
         stats.Update();
 
         IsInteracting = anim.GetBool(StringData.IsInteracting);
+    }
+
+    private void CameraHandler()
+    {
+        if (!PlayerControls.Instance.canRotate)
+        {
+            playerFreeCam.m_YAxis.m_MaxSpeed = 0f;
+            playerFreeCam.m_XAxis.m_MaxSpeed = 0f;
+        }
+        else
+        {
+            playerFreeCam.m_YAxis.m_MaxSpeed = yCamSpeed;
+            playerFreeCam.m_XAxis.m_MaxSpeed = xCamSpeed;
+        }
+    }
+
+    private void CanSprint()
+    {
+        if (PlayerControls.Instance.IsSprinting && !IsInteracting && PlayerControls.Instance.MovementDirection.x != 0 ||
+            PlayerControls.Instance.IsSprinting && !IsInteracting && PlayerControls.Instance.MovementDirection.y != 0)
+        {
+            if (HasEnoughStamina(0.1f))
+                IsSprinting = true;
+            else
+                IsSprinting = false;
+        }
+        else
+            IsSprinting = false;
+
     }
 
     private void LevelUpEffect()
@@ -103,12 +143,14 @@ public class PlayerManager : MonoBehaviour
         magicIdx++;
         if (MagicIdx > maxMagicIdx)
             magicIdx = 0;
+        Debug.Log("Current magic idx " + magicIdx);
     }
     public void DecreaseMagicIdx()
     {
         magicIdx--;
         if (MagicIdx < 0)
             magicIdx = maxMagicIdx;
+        Debug.Log("Current magic idx " + magicIdx);
     }
 
     private void InCombatHandler()
@@ -133,17 +175,20 @@ public class PlayerManager : MonoBehaviour
         inCombatCurrTimer = inCombatStartTimer;
     }
 
-    public void TakeDamage(float amount, Transform hitObj)
+    public void TakeDamage(float amount, Transform hitObj = null)
     {
         ResetCombatTimer();
         stats.CurrentHealth -= amount;
-        stats.UpdateUI(true,false,false,false);
+        stats.UpdateUI(true, false, false, false);
         GetHitDirection(hitObj);
         BloodEffect(hitObj);
     }
 
     private void BloodEffect(Transform hitObj)
     {
+        if (hitObj == null)
+            return;
+
         Vector3 incomingDir = transform.position - hitObj.transform.position;
         Quaternion lookRot = Quaternion.LookRotation(incomingDir, transform.up);
         Quaternion bloodRot = Quaternion.RotateTowards(transform.rotation, lookRot, 10000f);
@@ -158,7 +203,7 @@ public class PlayerManager : MonoBehaviour
         if (stats.CurrentMana < cost) return false;
 
         stats.CurrentMana -= cost;
-        stats.UpdateUI(false,true,false,false);
+        stats.UpdateUI(false, true, false, false);
         return true;
     }
 
@@ -167,7 +212,7 @@ public class PlayerManager : MonoBehaviour
         if (stats.CurrentStamina < cost) return false;
 
         stats.CurrentStamina -= cost;
-        stats.UpdateUI(false,false,true,false);
+        stats.UpdateUI(false, false, true, false);
         return true;
     }
 
@@ -196,18 +241,37 @@ public class PlayerManager : MonoBehaviour
             GameMenuManager.Instance.ResumeGame();
     }
 
+    public void FullRestore()
+    {
+        statusEffectManager.ClearStatusEffects();
+        statusEffectManager.ClearDebuffEffects();
+        statusEffectManager.ClearTempModifiersEffects();
+
+        stats.FullRestore();
+    }
+
     private void Dead()
     {
         isDead = true;
         IsInteracting = true;
         tag = StringData.Untagged;
         anim.Play(StringData.Dead);
-        GameManager.Instance.ResetScene();
+        FullRestore();
+        if (PlayerDataManager.TutorialFinished)
+            GameManager.Instance.LoadScene(SceneNames.SafeZoneSceneOne.ToString());
+        else
+            GameManager.Instance.ResetScene();
     }
 
     public void GetHitDirection(Transform hitObj)
     {
         if (anim.GetBool(StringData.IsInteracting)) return;
+
+        if (hitObj == null)
+        {
+            anim.Play(StringData.HitF2);
+            return;
+        }
 
         Vector3 incomingDir = transform.position - hitObj.position;
 

@@ -120,6 +120,13 @@ public class PlayerStats
         AttackSpeed = new CharacterStat(0);
     }
 
+    public void FullRestore()
+    {
+         CurrentHealth = MaxHealth.BaseValue;
+        CurrentMana = MaxMana.BaseValue;
+        CurrentStamina = MaxStamina.BaseValue;
+    }
+
     public void AddPlayerExperience(float xp)
     {
         playerXP += xp;

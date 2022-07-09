@@ -2,12 +2,9 @@ using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject backgroundPanel;
-    [SerializeField]
-    private GameObject mainMenuPanel;
-    [SerializeField]
-    private GameObject optionsPanel;
+    [SerializeField] GameObject backgroundPanel;
+    [SerializeField] GameObject mainMenuPanel;
+    [SerializeField] GameObject optionsPanel;
 
     #region Singleton
     public static MainMenuManager Instance;
@@ -34,7 +31,6 @@ public class MainMenuManager : MonoBehaviour
     {
         ResetGameProgress();
         GameManager.Instance.LoadScene(StringData.CutSceneOne);
-        Debug.Log("New Game Button");
     }
 
     public void ContinueGameButton()
@@ -43,7 +39,7 @@ public class MainMenuManager : MonoBehaviour
         GameManager.Instance.LoadScene(((SceneNames)PlayerDataManager.CurrentScene).ToString());
     }
 
-    public void MainOptionsButton()
+    public void OpenOptionsPanelButton()
     {
         CloseAllMenus();
 
@@ -51,11 +47,33 @@ public class MainMenuManager : MonoBehaviour
         backgroundPanel.SetActive(true);
     }
 
-    public void BackMainMenuButton()
+    public void OpenSoundsPanelButton()
+    {
+        CloseAllMenus();
+
+        backgroundPanel.SetActive(true);
+    }
+
+    public void OpenGraphicsPanelButton()
+    {
+        CloseAllMenus();
+
+        backgroundPanel.SetActive(true);
+    }
+
+    public void BackToMainMenuButton()
     {
         CloseAllMenus();
 
         mainMenuPanel.SetActive(true);
+        backgroundPanel.SetActive(true);
+    }
+
+    public void BackToOptionsButton()
+    {
+        CloseAllMenus();
+
+        optionsPanel.SetActive(true);
         backgroundPanel.SetActive(true);
     }
 

@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat(StringData.MoveSpeed, moveSpeed.magnitude);
         anim.SetFloat(StringData.MoveSpeedX, controls.MovementDirection.x);
         anim.SetFloat(StringData.MoveSpeedY, controls.MovementDirection.y);
-        anim.SetBool(StringData.IsSprinting, controls.IsSprinting);
+        anim.SetBool(StringData.IsSprinting, PlayerManager.Instance.IsSprinting);
         anim.SetBool(StringData.LockOn, manager.TargetLock);
 
         anim.SetBool(StringData.IsGrounded, controller.isGrounded);

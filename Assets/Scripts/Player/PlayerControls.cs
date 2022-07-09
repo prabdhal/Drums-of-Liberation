@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerControls : MonoBehaviour
 {
-    private TargetLockDetection targetLockDetection;
+    private Animator anim;
+    public TargetLockDetection targetLockDetection;
     private PlayerInputActions playerInput;
     private InputAction interact;
     private InputAction movement;
@@ -12,7 +14,6 @@ public class PlayerControls : MonoBehaviour
     private InputAction mouseX;
     private InputAction mouseY;
     private InputAction sprint;
-    private InputAction zoom;
     private InputAction dive;
     private InputAction lockOn;
     private InputAction pause;
@@ -38,13 +39,19 @@ public class PlayerControls : MonoBehaviour
     public event OnInteractDel OnInteractEvent;
     public delegate void OnInteractDel();
 
+    [Header("Tutorial Limiters")]
+    public bool canMove = false;
+    public bool canRotate = false;
+    public bool canSprint = false;
+    public bool canLightAttack = false;
+    public bool canHeavyAttack = false;
+    public bool canMagicAttack = false;
+    public bool canLockOn = false;
+    public bool canDive = false;
+
     public Vector2 MovementDirection { get { return _movementDirection; } }
     private Vector2 _movementDirection;
-    public Vector2 CameraDirection { get { return _cameraDirection; } }
-    private Vector2 _cameraDirection;
-    public Vector2 RotationDirection { get { return _rotationDirection; } }
-    private Vector2 _rotationDirection;
-    public bool IsSprinting { get { return _isSprinting && PlayerManager.Instance.HasEnoughStamina(0.1f); } }
+    public bool IsSprinting { get { return _isSprinting; } }
     private bool _isSprinting = false;
     public bool GetInteractingValue { get { return interacting; } }
     private bool interacting = false;
@@ -66,15 +73,13 @@ public class PlayerControls : MonoBehaviour
     }
     #endregion
 
+
     private void OnEnable()
     {
         movement = playerInput.Player.Move;
         camera = playerInput.Player.Camera;
         sprint = playerInput.Player.Sprint;
         dive = playerInput.Player.Dive;
-
-        playerInput.Player.Interact.performed += OnInteract;
-        playerInput.Player.Interact.Enable();
 
         playerInput.Player.Sprint.performed += OnSprint;
         playerInput.Player.Sprint.canceled += OffSprint;
@@ -99,6 +104,7 @@ public class PlayerControls : MonoBehaviour
         playerInput.Player.MenuButton.Enable();
 
         playerInput.Player.Interact.started += OnInteractActive;
+        playerInput.Player.Interact.performed += OnInteract;
         playerInput.Player.Interact.canceled += OnInteractDisable;
         playerInput.Player.Interact.Enable();
 
@@ -113,8 +119,6 @@ public class PlayerControls : MonoBehaviour
 
     private void OnDisable()
     {
-        playerInput.Player.Interact.performed -= OnInteract;
-        playerInput.Player.Interact.Disable();
 
         playerInput.Player.Sprint.performed -= OnSprint;
         playerInput.Player.Sprint.canceled -= OffSprint;
@@ -139,8 +143,10 @@ public class PlayerControls : MonoBehaviour
         playerInput.Player.MenuButton.Disable();
 
         playerInput.Player.Interact.started -= OnInteractActive;
+        playerInput.Player.Interact.performed -= OnInteract;
         playerInput.Player.Interact.canceled -= OnInteractDisable;
         playerInput.Player.Interact.Disable();
+
         playerInput.Player.Dive.performed -= OnDive;
         playerInput.Player.Dive.canceled -= OnDive;
         playerInput.Player.Dive.Disable();
@@ -152,21 +158,57 @@ public class PlayerControls : MonoBehaviour
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().name.Equals(SceneNames.TutorialScene.ToString()))
+        {
+            FullPlayerControl(false);
+        }
+        else
+        {
+            FullPlayerControl(true);
+        }
+
         targetLockDetection = GameObject.FindGameObjectWithTag(StringData.TargetDetection).GetComponent<TargetLockDetection>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
     {
-        _movementDirection = movement.ReadValue<Vector2>();
-        _cameraDirection = movement.ReadValue<Vector2>();
+        if (canMove)
+            _movementDirection = movement.ReadValue<Vector2>();
+        else
+            _movementDirection = new Vector2(0, 0);
+
+        if (SceneManager.GetActiveScene().name.Equals(SceneNames.TutorialScene.ToString()))
+        {
+            if (DialogueManager.Instance.dialoguePanel.activeInHierarchy)
+                FullPlayerControl(false);
+            else if (!SceneManager.GetActiveScene().name.Equals(SceneNames.TutorialScene.ToString()))
+                FullPlayerControl(true);
+        }
     }
 
-    private void OnInteract(InputAction.CallbackContext context)
+    public void FullPlayerControl(bool allow)
     {
+        canMove = allow;
+        canRotate = allow;
+        canSprint = allow;
+        canLightAttack = allow;
+        canHeavyAttack = allow;
+        canMagicAttack = allow;
+        canLockOn = allow;
+        canDive = allow;
     }
+
     private void OnInteractActive(InputAction.CallbackContext obj)
     {
         interacting = true;
+        if (DialogueManager.Instance.dialoguePanel.activeInHierarchy)
+            DialogueManager.Instance.ContinueDialogue();
+    }
+
+    private void OnInteract(InputAction.CallbackContext obj)
+    {
+
     }
 
     private void OnInteractDisable(InputAction.CallbackContext obj)
@@ -176,6 +218,8 @@ public class PlayerControls : MonoBehaviour
 
     private void OnSprint(InputAction.CallbackContext obj)
     {
+        if (!canSprint) return;
+
         _isSprinting = true;
     }
 
@@ -186,6 +230,7 @@ public class PlayerControls : MonoBehaviour
 
     private void OnLightAttack(InputAction.CallbackContext obj)
     {
+        if (!canLightAttack) return;
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnLightAttackEvent?.Invoke();
@@ -193,6 +238,7 @@ public class PlayerControls : MonoBehaviour
 
     private void OnHeavyAttack(InputAction.CallbackContext obj)
     {
+        if (!canHeavyAttack) return;
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnHeavyAttackEvent?.Invoke();
@@ -200,6 +246,7 @@ public class PlayerControls : MonoBehaviour
 
     private void OnMagicAttack(InputAction.CallbackContext obj)
     {
+        if (!canMagicAttack) return;
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnMagicAttackEvent?.Invoke();
@@ -217,6 +264,7 @@ public class PlayerControls : MonoBehaviour
 
     private void OnDive(InputAction.CallbackContext obj)
     {
+        if (!canDive) return;
         if (PlayerManager.Instance.IsGrounded == false || PlayerManager.Instance.IsInteracting) return;
 
         OnDiveEvent?.Invoke();
@@ -224,6 +272,7 @@ public class PlayerControls : MonoBehaviour
 
     private void OnLockOn(InputAction.CallbackContext obj)
     {
+        if (!canLockOn) return;
         GameObject target = targetLockDetection.GetClosestTarget();
         if (target != null && PlayerManager.Instance.TargetLock == false)
         {

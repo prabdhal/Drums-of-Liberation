@@ -40,8 +40,8 @@ public class TargetLock : MonoBehaviour
   {
     if (!isTargeting)
     {
-      mouseX = PlayerControls.Instance.CameraDirection.x;
-      mouseY = PlayerControls.Instance.CameraDirection.y;
+      //mouseX = PlayerControls.Instance.CameraDirection.x;
+      //mouseY = PlayerControls.Instance.CameraDirection.y;
     }
     else
     {

@@ -6,17 +6,18 @@ public class EndSceneTrigger : MonoBehaviour
     [SerializeField] SceneNames nextScene;
     [SerializeField] SceneNames fromScene;
 
-    private delegate bool IsSceneComplete();
-    private IsSceneComplete isSceneComplete;
+    public delegate bool IsSceneComplete();
+    public IsSceneComplete isSceneComplete;
     [SerializeField] float startSceneLoadTimer = 2f;
     private float curSceneLoadTimer;
-    private bool initiateNextScene = false;
+    public bool initiateNextScene = false;
 
-    private void Start()
+    private void Awake()
     {
         isSceneComplete += SceneCompletionConditions;
         curSceneLoadTimer = startSceneLoadTimer; 
         initiateNextScene = false;
+        Debug.Log(isSceneComplete);
     }
 
     private void Update()
@@ -52,6 +53,7 @@ public class EndSceneTrigger : MonoBehaviour
             PlayerDataManager.Instance.SaveProgress(PlayerDataManager.Instance);
 
             EndScene();
+            PlayerControls.Instance.FullPlayerControl(false);
         }
     }
 

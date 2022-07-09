@@ -47,6 +47,18 @@ public static class StringData
     public static string RollX = "rollX";
     public static string RollZ = "rollZ";
     public static string Popup = "Popup";
+    public static string IsAttacking02 = "isAttacking02";
+    public static string IsTalking01 = "isTalking01";
+    public static string IsTalking02 = "isTalking02";
+    public static string IsTalking03 = "isTalking03";
+    public static string IsTalking04 = "isTalking04";
+    public static string IsTalking05 = "isTalking05";
+    public static string IsTalking06 = "isTalking06";
+    public static string IsTalking07 = "isTalking07";
+    public static string IsTalking08 = "isTalking08";
+    public static string OpenLeft = "openLeft";
+    public static string OpenRight = "openRight";
+
 
     // Enemy
     public static string EnemyMoveState = "state";

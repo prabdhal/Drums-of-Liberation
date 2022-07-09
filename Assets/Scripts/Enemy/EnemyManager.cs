@@ -49,6 +49,7 @@ public class EnemyManager : MonoBehaviour
     public bool IsSearching { get { return SearchingPlayer(); } }
     public Vector3? TargetPos { get { return targetPos; } }
     protected Vector3? targetPos = null;
+    public bool CanInterrupt { get; set; }
     public bool IsInteracting { get { return anim.GetBool(StringData.IsInteracting); } }
     public bool IsDead { get { return isDead; } }
     protected bool isDead = false;
@@ -334,24 +335,25 @@ public class EnemyManager : MonoBehaviour
 
     public void GetHitDirection(Transform hitObj)
     {
-        if (anim.GetBool(StringData.IsInteracting)) return; 
-
-        Vector3 incomingDir = transform.position - hitObj.position;
-
-        float dir = Vector3.Dot(transform.forward, incomingDir);
-
-        if (dir > 0.5f)
-            anim.Play(StringData.HitB);
-        else if (dir < 0.5f && dir > -0.5f)
+        if (CanInterrupt && PlayerManager.Instance.IsHeavyAttacking || !anim.GetBool(StringData.IsInteracting))
         {
-            dir = Vector3.Dot(transform.right, incomingDir);
-            if (dir < 0)
-                anim.Play(StringData.HitR);
-            else
-                anim.Play(StringData.HitL);
+            Vector3 incomingDir = transform.position - hitObj.position;
+
+            float dir = Vector3.Dot(transform.forward, incomingDir);
+
+            if (dir > 0.5f)
+                anim.Play(StringData.HitB);
+            else if (dir < 0.5f && dir > -0.5f)
+            {
+                dir = Vector3.Dot(transform.right, incomingDir);
+                if (dir < 0)
+                    anim.Play(StringData.HitR);
+                else
+                    anim.Play(StringData.HitL);
+            }
+            else if (dir < -0.5f)
+                anim.Play(StringData.HitF);
         }
-        else if (dir < -0.5f)
-            anim.Play(StringData.HitF);
     }
 
     public void BloodEffect(Transform hitObj)

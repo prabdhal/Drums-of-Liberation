@@ -39,6 +39,8 @@ public class PlayerCombat : MonoBehaviour
     [Range(0, 1000)]
     [SerializeField] float baseMagicAttack02Range = 200f;
     [SerializeField] float spellCost02;
+    [SerializeField] float startShadowAuraTimer = 10f;
+    private float curShadowAuraTimer = 10f;
 
     [SerializeField] GameObject magicAttack03Prefab;
     [SerializeField] Transform magicAttack03Origin;
@@ -64,11 +66,13 @@ public class PlayerCombat : MonoBehaviour
 
         weaponColGO.SetActive(false);
         curComboTimer = startComboTimer;
+        curShadowAuraTimer = startShadowAuraTimer;
     }
 
     public void CombatUpdate()
     {
         CombatTimerHandler();
+        ShadowAuraHandler();
     }
 
     private void CombatTimerHandler()
@@ -86,15 +90,20 @@ public class PlayerCombat : MonoBehaviour
     {
         if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
 
+        PlayerManager.Instance.IsLightAttacking = true;
+
         switch (manager.CombatIdx)
         {
             case 0:
+                PlayerManager.Instance.ComboIdx = 1;
                 anim.Play(StringData.LightAttack01);
                 break;
             case 1:
+                PlayerManager.Instance.ComboIdx = 2;
                 anim.Play(StringData.LightAttack02);
                 break;
             case 2:
+                PlayerManager.Instance.ComboIdx = 3;
                 anim.Play(StringData.LightAttack03);
                 break;
         }
@@ -120,15 +129,20 @@ public class PlayerCombat : MonoBehaviour
         if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
         if (!PlayerManager.Instance.HasEnoughStamina(heavyAttackCost)) return;
 
+        PlayerManager.Instance.IsHeavyAttacking = true;
+
         switch (manager.CombatIdx)
         {
             case 0:
+                PlayerManager.Instance.ComboIdx = 1;
                 anim.Play(StringData.HeavyAttack01);
                 break;
             case 1:
+                PlayerManager.Instance.ComboIdx = 2;
                 anim.Play(StringData.HeavyAttack02);
                 break;
             case 2:
+                PlayerManager.Instance.ComboIdx = 3;
                 anim.Play(StringData.HeavyAttack03);
                 break;
         }
@@ -152,6 +166,9 @@ public class PlayerCombat : MonoBehaviour
     private void OnMagicAttack()
     {
         if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
+
+        PlayerManager.Instance.IsMagicAttacking = true;
+        Debug.Log(PlayerManager.Instance.IsMagicAttacking);
 
         switch (manager.MagicIdx)
         {
@@ -217,9 +234,33 @@ public class PlayerCombat : MonoBehaviour
 
     public void InstantiateMagicAttack02()
     {
-        var go = Instantiate(magicAttack01Prefab, magicAttack01Origin.position, magicAttack01Origin.transform.rotation);
-        var proj = go.GetComponent<Projectile>();
-        proj.OnHitEvent += ApplyMagicDamage02;
+        var go = Instantiate(magicAttack02Prefab, magicAttack02Origin.transform, false);
+        ActivateShadowAura();
+    }
+
+    private void ShadowAuraHandler()
+    {
+        if (weaponCol.shadowAura.activeSelf)
+        {
+            if (curShadowAuraTimer <= 0)
+            {
+                curShadowAuraTimer = startShadowAuraTimer;
+                weaponCol.shadowAura.SetActive(false);
+            }
+            else
+                curShadowAuraTimer -= Time.deltaTime;
+        }
+    }
+
+    private void ActivateShadowAura()
+    {
+        weaponCol.shadowAura.SetActive(true);
+        curShadowAuraTimer = startShadowAuraTimer;
+        TempStatModifier physicalMod = new TempStatModifier(10f, startShadowAuraTimer, StatType.Physical, StatModType.Flat); 
+        TempStatModifier magicalMod = new TempStatModifier(10f, startShadowAuraTimer, StatType.Magical, StatModType.Flat);
+
+        PlayerManager.Instance.StatusEffectManager.ApplyStatBuffs(physicalMod);
+        PlayerManager.Instance.StatusEffectManager.ApplyStatBuffs(magicalMod);
     }
 
     private void ApplyMagicDamage02(GameObject target)
@@ -286,5 +327,7 @@ public class PlayerCombat : MonoBehaviour
         weaponColGO.SetActive(false);
         weaponCol.OnAttackEvent -= ApplyHeavyAttackDamage;
         weaponCol.OnAttackEvent -= ApplyLightAttackDamage;
+        PlayerManager.Instance.IsHeavyAttacking = false;
+        PlayerManager.Instance.IsLightAttacking = false;
     }
 }

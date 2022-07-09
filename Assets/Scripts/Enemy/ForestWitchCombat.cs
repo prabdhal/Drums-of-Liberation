@@ -133,7 +133,6 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
         var proj = go.GetComponent<EnemyProjectile>();
         proj.Init(skillSpeed01, skillRange01);
         proj.OnHitPlayerEvent += ApplyDamageAttack01;
-
     }
 
     public void InstantiateSpell02()

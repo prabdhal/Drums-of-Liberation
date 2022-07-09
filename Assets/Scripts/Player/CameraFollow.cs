@@ -62,9 +62,9 @@ public class CameraFollow : MonoBehaviour
 
   private void CameraTargetRotation()
   {
-    Vector2 mouseAxis = new Vector2(PlayerControls.Instance.CameraDirection.x, PlayerControls.Instance.CameraDirection.y);
-    rotX += (mouseAxis.x * senstivity) * Time.deltaTime;
-    rotY -= (mouseAxis.y * senstivity) * Time.deltaTime;
+    //Vector2 mouseAxis = new Vector2(PlayerControls.Instance.CameraDirection.x, PlayerControls.Instance.CameraDirection.y);
+    //rotX += (mouseAxis.x * senstivity) * Time.deltaTime;
+    //rotY -= (mouseAxis.y * senstivity) * Time.deltaTime;
 
     rotY = Mathf.Clamp(rotY, clampAxis.x, clampAxis.y);
 

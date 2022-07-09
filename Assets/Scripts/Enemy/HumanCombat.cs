@@ -55,10 +55,16 @@ public class HumanCombat : MonoBehaviour, ICombat
     {
         manager = GetComponent<EnemyManager>();
         basicAttackRange = Mathf.Min(skillRange01, skillRange02);
-        attackColliderScript01 = attackCollider01.GetComponent<EnemyAttackCollider>();
-        attackColliderScript02 = attackCollider02.GetComponent<EnemyAttackCollider>();
-        attackCollider01.SetActive(false);
-        attackCollider02.SetActive(false);
+        if (attackCollider01 != null)
+        {
+            attackColliderScript01 = attackCollider01.GetComponent<EnemyAttackCollider>();
+            attackCollider01.SetActive(false);
+        }
+        if (attackCollider02 != null)
+        {
+            attackCollider02.SetActive(false);
+            attackColliderScript02 = attackCollider02.GetComponent<EnemyAttackCollider>();
+        }
     }
 
     public void CombatHandler()
@@ -95,12 +101,14 @@ public class HumanCombat : MonoBehaviour, ICombat
         if (currSkillCooldown01 <= 0 && playerDistance <= skillRange01 && !anim.GetBool(StringData.IsInteracting))
         {
             anim.SetBool(StringData.IsInteracting, true);
+            manager.CanInterrupt = true;
             anim.Play(StringData.Attack01);
             currSkillCooldown01 = startSkillCooldown01;
         }
         if (currSkillCooldown02 <= 0 && playerDistance <= skillRange02 && !anim.GetBool(StringData.IsInteracting))
         {
             anim.SetBool(StringData.IsInteracting, true);
+            manager.CanInterrupt = true;
             anim.Play(StringData.Attack02);
             currSkillCooldown02 = startSkillCooldown02;
         }
@@ -138,25 +146,31 @@ public class HumanCombat : MonoBehaviour, ICombat
 
     public void AttackCollider01Enable()
     {
+        if (attackCollider01 == null) return;
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack01;
     }
 
     public void AttackCollider01Disable()
     {
+        if (attackCollider01 == null) return;
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack01;
+        manager.CanInterrupt = false;
     }
     public void AttackCollider02Enable()
     {
+        if (attackCollider01 == null) return;
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack02;
     }
 
     public void AttackCollider02Disable()
     {
+        if (attackCollider01 == null) return;
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack02;
+        manager.CanInterrupt = false;
     }
 
     #endregion
