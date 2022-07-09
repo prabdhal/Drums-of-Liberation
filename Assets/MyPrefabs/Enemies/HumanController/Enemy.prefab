@@ -7972,7 +7972,7 @@ GameObject:
   - component: {fileID: 1357207249}
   - component: {fileID: 95599410240342589}
   m_Layer: 7
-  m_Name: Chr_FantasyHero_Preset_14(1)
+  m_Name: HumanEnemy01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8090,7 +8090,7 @@ MonoBehaviour:
   col: {fileID: 0}
   popupPos: {fileID: 1723829748}
   stats:
-    maxHealthVal: 100
+    maxHealthVal: 150
     maxManaVal: 100
     physicalPowerVal: 15
     magicalPowerVal: 7
@@ -8121,7 +8121,7 @@ MonoBehaviour:
       m_Bits: 264
     startSearchingTimer: 30
     currSearchingTimer: 30
-  xpReward: 10
+  xpReward: 500
   State: 1
   backStrafeObj: {fileID: 1690539079}
   rightStrafeObj: {fileID: 941653707}
