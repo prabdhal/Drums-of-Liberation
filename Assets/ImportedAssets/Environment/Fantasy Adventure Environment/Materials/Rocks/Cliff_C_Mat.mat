@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cliff_C_Mat
-  m_Shader: {fileID: 4800000, guid: 456a96ef22c5f494db8f3f42751d051e, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_Shader: {fileID: 4800000, guid: 4e923ccb8e9e00643bc6127460e918ad, type: 3}
+  m_ValidKeywords:
+  - _EMISSION
+  m_InvalidKeywords: []
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -63,17 +65,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _CoverageAmount: 1
     - _CoverageTiling: 8
     - _Detailstrength: 0.28
     - _Float4: 0.13
-    - _Globaltiling: 0.163
+    - _Globaltiling: 0.13
     - _MaskClipValue: 0.5
     - _Roughness: 0.276
     - _SnowCover: 1
     - _SnowTiling: 7
     - __dirty: 0
     m_Colors:
-    - _GlobalColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GlobalColor: {r: 0.5882353, g: 0.5294118, b: 0.40784317, a: 1}
     - _ObjectColor: {r: 0.86764705, g: 0.86764705, b: 0.86764705, a: 1}
+  m_BuildTextureStacks: []
