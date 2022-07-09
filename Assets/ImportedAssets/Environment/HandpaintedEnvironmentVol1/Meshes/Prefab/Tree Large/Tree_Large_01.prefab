@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.772, y: 1.823, z: 0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1550863171173076889}
   m_RootOrder: 1
@@ -55,9 +56,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1550863171173076889}
   - component: {fileID: 4030443047270160530}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tree_Large_01
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,6 +73,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7841224239756680661}
   - {fileID: 2153549964969133405}
@@ -114,6 +116,10 @@ PrefabInstance:
       value: SM_Unity_TreeLarge_01_Update
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -124,6 +130,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
       propertyPath: m_LocalRotation.x
@@ -138,14 +148,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -157,10 +159,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 20500000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
-      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
-      value: 0.42976195
-      objectReference: {fileID: 0}
     - target: {fileID: 2300004, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
       propertyPath: m_ScaleInLightmap
       value: 0.5
@@ -169,24 +167,14 @@ PrefabInstance:
       propertyPath: m_ScaleInLightmap
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 20500000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.42976195
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
 --- !u!4 &7841224239756680661 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 3ac5e70902faa554e9577726f0c36c53, type: 3}
   m_PrefabInstance: {fileID: 7841224239757068117}
   m_PrefabAsset: {fileID: 0}
---- !u!41386430 &2186277476908879412
-AssetImporterLog:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Import Logs
-  m_Logs:
-  - error: Some Prefab instances could not be merged.
-    mode: 132
-    line: 475
-    file: C:\buildslave\unity\build\Editor/Src/AssetPipeline/PrefabImporter.cpp
-    object: {fileID: 0}
