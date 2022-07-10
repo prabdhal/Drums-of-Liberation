@@ -45,6 +45,7 @@ public class DialogueManager : MonoBehaviour
         if (dialogueIcon == null) dialogueIcon = dialoguePanel.transform.Find("DialogueIcon").GetComponent<Image>();
         continueButton.onClick.AddListener(delegate { ContinueDialogue(); });
         dialoguePanel.SetActive(false);
+        PlayerControls.Instance.OnInteractEvent += ContinueDialogue;
     }
 
     public void AddNewDialogue(Dialogue dialogue)

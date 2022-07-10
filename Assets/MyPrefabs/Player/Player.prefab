@@ -15684,6 +15684,7 @@ GameObject:
   - component: {fileID: 8210467908745039213}
   - component: {fileID: 8210467908745039212}
   - component: {fileID: 8210467908745039208}
+  - component: {fileID: 9194000866686876768}
   - component: {fileID: 8210467908745039211}
   - component: {fileID: 8210467908745039209}
   m_Layer: 3
@@ -15876,6 +15877,52 @@ MonoBehaviour:
   lockOnTarget: {fileID: 0}
   isDiving: 0
   inCombatStartTimer: 30
+--- !u!114 &9194000866686876768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8210467908745039215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed5a7d42ad7bc794ba946cbad0c07919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxFullRestoreCount: 3
+  baseHealthRestoreAmount:
+  - 30
+  - 62.5
+  - 75
+  - 100
+  - 112.5
+  - 125
+  - 162.5
+  - 200
+  - 250
+  - 325
+  baseManaRestoreAmount:
+  - 50
+  - 62.5
+  - 75
+  - 100
+  - 125
+  - 150
+  - 175
+  - 200
+  - 225
+  - 250
+  baseStaminaRestoreAmount:
+  - 50
+  - 62.5
+  - 75
+  - 87.5
+  - 100
+  - 125
+  - 150
+  - 175
+  - 200
+  - 225
 --- !u!114 &8210467908745039211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15910,6 +15957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb22ba0f16b4b2f43b78c273d45a6bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetLockDetection: {fileID: 0}
   canMove: 0
   canRotate: 0
   canSprint: 0

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -15,40 +16,57 @@ public class PlayerInventory : MonoBehaviour
 
     #endregion
 
+    [SerializeField] TextMeshProUGUI fullRestoreCountText;
+
     [SerializeField] int maxFullRestoreCount = 3;
-    private int fullRestoreCount = 0;
-    [SerializeField] float baseHealthRestoreAmount = 50f;
-    [SerializeField] float baseManaRestoreAmount = 75f;
-    [SerializeField] float baseStaminaRestoreAmount = 100f;
+    private int curFullRestoreCount = 0;
+    public float[] baseHealthRestoreAmount;
+    public float[] baseManaRestoreAmount;
+    public float[] baseStaminaRestoreAmount;
 
 
     public void Start()
     {
-
+        if (fullRestoreCountText == null)
+            fullRestoreCountText = GameObject.FindGameObjectWithTag(StringData.ItemCountText).GetComponent<TextMeshProUGUI>();
+        PlayerControls.Instance.OnUseItemEvent += UseFullRestore;
+        UpdateFullRestoreCountText();
     }
 
-    public void BuyFullRestore(float cost)
+    public bool BuyFullRestore(int count, float cost)
     {
-        if (PlayerManager.Instance.Gold < cost || fullRestoreCount >= maxFullRestoreCount) return;
+        float totalCost = count * cost;
+
+        if (PlayerManager.Instance.Gold < totalCost || curFullRestoreCount + count > maxFullRestoreCount) return false;
 
         PlayerManager.Instance.Gold -= cost;
-        AddFullRestore();
+        AddFullRestore(count);
+        PlayerManager.Instance.UpdateGoldTextUI();
+        return true;
     }
 
-    public void AddFullRestore()
+    public void AddFullRestore(int count)
     {
-        if (fullRestoreCount >= maxFullRestoreCount) return;
+        if (curFullRestoreCount >= maxFullRestoreCount) return;
 
-        fullRestoreCount++;
+        curFullRestoreCount += count;
+        UpdateFullRestoreCountText();
     }
 
     public void UseFullRestore()
     {
-        if (fullRestoreCount <= 0) return;
-        fullRestoreCount--;
+        if (curFullRestoreCount <= 0) return;
+        curFullRestoreCount--; 
+        UpdateFullRestoreCountText();
 
-        PlayerManager.Instance.Stats.CurrentHealth += baseHealthRestoreAmount * PlayerManager.Instance.Stats.playerLevel;
-        PlayerManager.Instance.Stats.CurrentMana += baseManaRestoreAmount * PlayerManager.Instance.Stats.playerLevel;
-        PlayerManager.Instance.Stats.CurrentStamina += baseStaminaRestoreAmount * PlayerManager.Instance.Stats.playerLevel;
+        PlayerManager.Instance.Stats.CurrentHealth += baseHealthRestoreAmount[PlayerManager.Instance.Stats.playerLevel];
+        PlayerManager.Instance.Stats.CurrentMana += baseManaRestoreAmount[PlayerManager.Instance.Stats.playerLevel];
+        PlayerManager.Instance.Stats.CurrentStamina += baseStaminaRestoreAmount[PlayerManager.Instance.Stats.playerLevel];
+        PlayerManager.Instance.Stats.UpdateUI(true, true, true, true);
+    }
+
+    private void UpdateFullRestoreCountText()
+    {
+        fullRestoreCountText.text = curFullRestoreCount.ToString();
     }
 }

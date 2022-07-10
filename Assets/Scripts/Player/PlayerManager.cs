@@ -1,4 +1,5 @@
 using Cinemachine;
+using TMPro;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlayerManager : MonoBehaviour
 
     public Transform levelUpEffectOrigin;
 
+    [SerializeField] TextMeshProUGUI goldText;
     public float Gold { get; set; }
 
     // state
@@ -67,6 +69,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
+        if (goldText == null)
+            goldText = GameObject.FindGameObjectWithTag(StringData.GoldText).GetComponent<TextMeshProUGUI>();
         Gold += 2000f;
         anim = GetComponentInChildren<Animator>();
         if (controller == null)
@@ -82,7 +86,8 @@ public class PlayerManager : MonoBehaviour
         PlayerDataManager.Instance.LoadProgress();
 
         Stats.Init();
-        magicIdx = 0;
+        magicIdx = 0; 
+        UpdateGoldTextUI();
     }
 
     private void Update()
@@ -289,5 +294,10 @@ public class PlayerManager : MonoBehaviour
         }
         else if (dir < -0.5f)
             anim.Play(StringData.HitF);
+    }
+
+    public void UpdateGoldTextUI()
+    {
+        goldText.text = Gold.ToString();
     }
 }

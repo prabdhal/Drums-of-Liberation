@@ -143,6 +143,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""71e92f11-1930-46f4-a6d5-bf5828a15513"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -530,6 +539,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""MenuButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6761ca05-5b07-4997-b536-5f488fce53b4"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -551,6 +571,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_CycleRight = m_Player.FindAction("CycleRight", throwIfNotFound: true);
         m_Player_CycleLeft = m_Player.FindAction("CycleLeft", throwIfNotFound: true);
         m_Player_MenuButton = m_Player.FindAction("MenuButton", throwIfNotFound: true);
+        m_Player_UseItem = m_Player.FindAction("UseItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -623,6 +644,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CycleRight;
     private readonly InputAction m_Player_CycleLeft;
     private readonly InputAction m_Player_MenuButton;
+    private readonly InputAction m_Player_UseItem;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -640,6 +662,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @CycleRight => m_Wrapper.m_Player_CycleRight;
         public InputAction @CycleLeft => m_Wrapper.m_Player_CycleLeft;
         public InputAction @MenuButton => m_Wrapper.m_Player_MenuButton;
+        public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -688,6 +711,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @MenuButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuButton;
                 @MenuButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuButton;
                 @MenuButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuButton;
+                @UseItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
+                @UseItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
+                @UseItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -731,6 +757,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @MenuButton.started += instance.OnMenuButton;
                 @MenuButton.performed += instance.OnMenuButton;
                 @MenuButton.canceled += instance.OnMenuButton;
+                @UseItem.started += instance.OnUseItem;
+                @UseItem.performed += instance.OnUseItem;
+                @UseItem.canceled += instance.OnUseItem;
             }
         }
     }
@@ -750,5 +779,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnCycleRight(InputAction.CallbackContext context);
         void OnCycleLeft(InputAction.CallbackContext context);
         void OnMenuButton(InputAction.CallbackContext context);
+        void OnUseItem(InputAction.CallbackContext context);
     }
 }

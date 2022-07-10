@@ -87,4 +87,7 @@ public static class StringData
     public static string ExperienceBG = "ExperienceBG";
     public static string ExperienceBar = "ExperienceBar";
     public static string PlayerLevelText = "PlayerLevelText";
+    public static string ItemCountText = "ItemCountText";
+    public static string GoldText = "GoldText";
+    public static string ShopPanelUI = "ShopPanelUI";
 }

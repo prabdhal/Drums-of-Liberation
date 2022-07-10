@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerControls : MonoBehaviour
 {
-    private Animator anim;
     public TargetLockDetection targetLockDetection;
     private PlayerInputActions playerInput;
     private InputAction interact;
@@ -38,6 +37,8 @@ public class PlayerControls : MonoBehaviour
     public delegate void OnPauseDel();
     public event OnInteractDel OnInteractEvent;
     public delegate void OnInteractDel();
+    public event OnUseItemDel OnUseItemEvent;
+    public delegate void OnUseItemDel();
 
     [Header("Tutorial Limiters")]
     public bool canMove = false;
@@ -108,6 +109,8 @@ public class PlayerControls : MonoBehaviour
         playerInput.Player.Interact.canceled += OnInteractDisable;
         playerInput.Player.Interact.Enable();
 
+        playerInput.Player.UseItem.performed += OnUseItem;
+
         playerInput.Player.Dive.performed += OnDive;
         playerInput.Player.Dive.canceled += OnDive;
         playerInput.Player.Dive.Enable();
@@ -147,6 +150,8 @@ public class PlayerControls : MonoBehaviour
         playerInput.Player.Interact.canceled -= OnInteractDisable;
         playerInput.Player.Interact.Disable();
 
+        playerInput.Player.UseItem.performed -= OnUseItem;
+
         playerInput.Player.Dive.performed -= OnDive;
         playerInput.Player.Dive.canceled -= OnDive;
         playerInput.Player.Dive.Disable();
@@ -168,7 +173,6 @@ public class PlayerControls : MonoBehaviour
         }
 
         targetLockDetection = GameObject.FindGameObjectWithTag(StringData.TargetDetection).GetComponent<TargetLockDetection>();
-        anim = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -202,13 +206,17 @@ public class PlayerControls : MonoBehaviour
     private void OnInteractActive(InputAction.CallbackContext obj)
     {
         interacting = true;
-        if (DialogueManager.Instance.dialoguePanel.activeInHierarchy)
-            DialogueManager.Instance.ContinueDialogue();
     }
 
     private void OnInteract(InputAction.CallbackContext obj)
     {
+        OnInteractEvent?.Invoke();
+    }
 
+    private void OnUseItem(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Invoke OnUseItem");
+        OnUseItemEvent?.Invoke();
     }
 
     private void OnInteractDisable(InputAction.CallbackContext obj)
