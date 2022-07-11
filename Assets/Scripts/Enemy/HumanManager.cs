@@ -111,7 +111,7 @@ public class HumanManager : EnemyManager
             agent.isStopped = false;
             agent.SetDestination(PlayerManager.Instance.transform.position);
             curStrafeTimer = 0f;
-            Debug.Log(transform.name + " is chasing the player");
+            //Debug.Log(transform.name + " is chasing the player");
             return;
         }
         else if (!isStrafing && targetDis > strafeDistance)
@@ -121,7 +121,7 @@ public class HumanManager : EnemyManager
             agent.isStopped = false;
             agent.SetDestination(PlayerManager.Instance.transform.position);
             curStrafeTimer = 0f;
-            Debug.Log(transform.name + " is chasing the player");
+            //Debug.Log(transform.name + " is chasing the player");
             return;
         }
         else if (targetDis <= chaseDistance && Combat.SkillCooldownIsReady == false)
@@ -133,7 +133,7 @@ public class HumanManager : EnemyManager
                 curStrafeObj = backStrafeObj;
                 strafeDir = (StrafeDirections)curStrafeDir;
                 curStrafeTimer = 1f;
-                Debug.Log(transform.name + " is strafing backwards to safety");
+                //Debug.Log(transform.name + " is strafing backwards to safety");
             }
             else if (curStrafeTimer <= 0)
             {
@@ -156,7 +156,7 @@ public class HumanManager : EnemyManager
                 }
 
                 curStrafeTimer = startStrafeTimer;
-                Debug.Log(transform.name + " is strafing to a new direction: " + ((StrafeDirections)curStrafeDir).ToString());
+                //Debug.Log(transform.name + " is strafing to a new direction: " + ((StrafeDirections)curStrafeDir).ToString());
             }
             else
             {

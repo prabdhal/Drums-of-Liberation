@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,21 +10,31 @@ public class AudioManager : MonoBehaviour
     [SerializeField] Toggle shadowToggle;
     [SerializeField] float musicMaxVolume = 0.05f;
 
-    public bool Shadows { get { return light.shadows.Equals(LightShadows.Soft); } }
+    public int Shadow { get { return shadow; } }
+    private int shadow;
     public bool Mute { get { return audioSource.mute; } }
     public float Volume { get { return audioSource.volume; } }
-    
+    #region Singleton
+    public static AudioManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(this);
+    }
+    #endregion
 
     private void Start()
     {
+        if (light == null)
+            light = FindObjectOfType<Light>();
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
 
-        muteToggle.isOn = Mute;
-        shadowToggle.isOn = Shadows;
+        InitSoundAndGraphicsSettings();
         AdjustVolumeSlider();
-        volumeSlider.value = Volume / musicMaxVolume;
-        Debug.Log("Volume: " + Volume + " musicMaxVolume: " + musicMaxVolume + " volumeSlider: " + Volume / musicMaxVolume);
     }
 
     private void Update()
@@ -34,12 +42,39 @@ public class AudioManager : MonoBehaviour
         AdjustVolumeSlider();
     }
 
+    private void InitSoundAndGraphicsSettings()
+    {
+        audioSource.mute = MenuDataManager.Mute;
+        muteToggle.isOn = MenuDataManager.Mute;
+
+        switch (MenuDataManager.Shadow)
+        {
+            case 0:
+                light.shadows = LightShadows.None;
+                shadowToggle.isOn = false;
+                break;
+            case 2:
+                light.shadows = LightShadows.Soft;
+                shadowToggle.isOn = true;
+                break;
+        }
+
+        volumeSlider.value = MenuDataManager.MusicVolume / musicMaxVolume;
+    }
+
     public void ShadowToggle()
     {
-        if (Shadows)
-            light.shadows = LightShadows.None;
-        else
-            light.shadows = LightShadows.Soft;
+        shadow = shadow == 0 ? 2 : 0;
+
+        switch (shadow)
+        {
+            case 0:
+                light.shadows = LightShadows.None;
+                break;
+            case 2:
+                light.shadows = LightShadows.Soft;
+                break;
+        }
     }
 
     public void MuteToggle()

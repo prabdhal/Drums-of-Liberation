@@ -149,6 +149,7 @@ public class HumanCombat : MonoBehaviour, ICombat
         if (attackCollider01 == null) return;
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack01;
+        manager.CanInterrupt = true;
     }
 
     public void AttackCollider01Disable()
@@ -163,6 +164,7 @@ public class HumanCombat : MonoBehaviour, ICombat
         if (attackCollider01 == null) return;
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack02;
+        manager.CanInterrupt = true;
     }
 
     public void AttackCollider02Disable()

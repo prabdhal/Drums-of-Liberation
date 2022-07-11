@@ -17,7 +17,6 @@ public class EndSceneTrigger : MonoBehaviour
         isSceneComplete += SceneCompletionConditions;
         curSceneLoadTimer = startSceneLoadTimer; 
         initiateNextScene = false;
-        Debug.Log(isSceneComplete);
     }
 
     private void Update()
@@ -44,11 +43,23 @@ public class EndSceneTrigger : MonoBehaviour
             PlayerDataManager.CurrentHealth = PlayerManager.Instance.Stats.CurrentHealth;
             PlayerDataManager.CurrentMana = PlayerManager.Instance.Stats.CurrentMana;
             PlayerDataManager.CurrentStamina = PlayerManager.Instance.Stats.CurrentStamina;
+            PlayerDataManager.PlayerXP = PlayerManager.Instance.Stats.playerXP;
 
             // save player from scene position
             PlayerDataManager.FromSceneSpawnPosition = (int)fromScene;
             PlayerDataManager.CurrentScene = (int)nextScene;
             Debug.Log("Saving Current Scene as: " + PlayerDataManager.CurrentScene);
+
+            // save player inventory
+            PlayerDataManager.PlayerGold = PlayerManager.Instance.Gold;
+            PlayerDataManager.FullRestorePotionCount = PlayerInventory.Instance.curFullRestoreCount;
+
+            // save sound settings
+            MenuDataManager.MusicVolume = AudioManager.Instance.Volume;
+            //PlayerDataManager.SoundValue = AudioManager.Instance.Sound;
+            MenuDataManager.Mute = AudioManager.Instance.Mute;
+            MenuDataManager.Shadow = AudioManager.Instance.Shadow;
+
 
             PlayerDataManager.Instance.SaveProgress(PlayerDataManager.Instance);
 

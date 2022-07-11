@@ -100,7 +100,6 @@ public class StatusEffectManager : MonoBehaviour
                 PlayerManager.Instance.Stats.CurrentHealth -= damageOverTimeEffects[i].Damage;
                 DisplayDamagePopup(damageOverTimeEffects[i]);
 
-                damageOverTimeEffects[i].Duration -= 1f;
                 Debug.Log("Status Effect: " + damageOverTimeEffects[i].DamageOverTimeEffectType + " deals " + damageOverTimeEffects[i].Damage
                   + " current duration: " + damageOverTimeEffects[i].Duration);
             }
@@ -117,7 +116,7 @@ public class StatusEffectManager : MonoBehaviour
             float slowCount = 0;
             float rootCount = 0;
             float stunCount  = 0;
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
 
             for (int i = 0; i < tempStatDebuffEffects.Count - 1; i++)
             {
@@ -131,7 +130,6 @@ public class StatusEffectManager : MonoBehaviour
                 if (tempStatDebuffEffects[i].TempStatDebuffType.Equals(TempStatDebuffType.Stun))
                     stunCount++;
 
-                tempStatDebuffEffects[i].Duration -= 0.5f;
                 Debug.Log("Status Effect: " + tempStatDebuffEffects[i].TempStatDebuffType + " is in effect slowing target by " + tempStatDebuffEffects[i].Amount + " current duration left: " + tempStatDebuffEffects[i].Duration);
             }
 
@@ -147,13 +145,16 @@ public class StatusEffectManager : MonoBehaviour
 
     private IEnumerator TempStatModifierHandler()
     {
+        float timer = 10f;
         while (tempStatModifierEffects.Count > 0)
         {
+            Debug.Log("First Time: " + timer);
             yield return new WaitForSeconds(1f);
 
+            timer -= 1f;
+            Debug.Log("Last Time: " + timer);
             for (int i = 0; i < tempStatModifierEffects.Count - 1; i++)
             {
-                tempStatModifierEffects[i].Duration -= 1f;
                 if (tempStatModifierEffects[i].Duration <= 0)
                 {
                     switch (tempStatModifierEffects[i].StatType)
@@ -180,8 +181,9 @@ public class StatusEffectManager : MonoBehaviour
                             PlayerManager.Instance.Stats.MagicResistance.RemoveTempModifier(tempStatModifierEffects[i]);
                             break;
                     }
-                    Debug.Log("cur mod#" + i + ": " + tempStatModifierEffects[i].Duration);
                 }
+                Debug.Log("Spell buff duration: " + tempStatModifierEffects[i].StatType.ToString());
+                Debug.Log("Spell buff duration: " + tempStatModifierEffects[i].Duration);
             }
             tempStatModifierEffects.RemoveAll(effect => effect.Duration <= 0);
             PlayerManager.Instance.Stats.UpdateUI(true, true, true, true);

@@ -25,26 +25,19 @@ public class PlayerStats
 
 
     public CharacterStat MaxHealth { get; set; }
-    //[SerializeField] float maxHealthVal;
     public float CurrentHealth { get; set; }
     public CharacterStat MaxStamina { get; set; }
-    //[SerializeField] float maxStaminaVal;
     public float CurrentStamina { get; set; }
     public CharacterStat MaxMana { get; set; }
-    //[SerializeField] float maxManaVal;
     public float CurrentMana { get; set; }
     public CharacterStat PhysicalPower { get; set; }
-    //[SerializeField] float physicalPowerVal;
     public CharacterStat MagicalPower { get; set; }
-    //[SerializeField] float magicalPowerVal;
     public CharacterStat Armor { get; set; }
-    //[SerializeField] float armorVal;
     public CharacterStat MagicResistance { get; set; }
-    //[SerializeField] float magicResistanceVal;
     public CharacterStat AttackSpeed { get; set; }
-    //[SerializeField] float attackSpeed;
     public CharacterStat MovementSpeed { get; set; }
-    //[SerializeField] float movementSpeedVal;
+
+
 
     [Header("Health Regen Rate")]
     [SerializeField] float regenHpAmountPerTimeUnit = 1f;
@@ -83,7 +76,7 @@ public class PlayerStats
             experienceBar = GameObject.FindGameObjectWithTag(StringData.ExperienceBar).GetComponent<Image>();
         if (playerLevelText == null)
             playerLevelText = GameObject.FindGameObjectWithTag(StringData.PlayerLevelText).GetComponent<TextMeshProUGUI>();
-        
+
         InitPlayerStats();
         UpdateUI(true, true, true, true);
     }
@@ -122,7 +115,7 @@ public class PlayerStats
 
     public void FullRestore()
     {
-         CurrentHealth = MaxHealth.BaseValue;
+        CurrentHealth = MaxHealth.BaseValue;
         CurrentMana = MaxMana.BaseValue;
         CurrentStamina = MaxStamina.BaseValue;
     }
@@ -139,6 +132,7 @@ public class PlayerStats
             UpdateStatsUponLevelingUp();
             OnLevelUpEvent?.Invoke();
         }
+        UpdateUI(true, true, true, true);
     }
 
     public void UpdateStatsUponLevelingUp()
@@ -147,7 +141,6 @@ public class PlayerStats
             UpdateCurrentValuesUponLevelUp();
         else
             UpdateCurrentValuesUponLevelUp(0);
-
 
         UpdateUI(true, true, true, true);
     }

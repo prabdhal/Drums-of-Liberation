@@ -168,7 +168,6 @@ public class PlayerCombat : MonoBehaviour
         if (PlayerManager.Instance.StatusEffectManager.IsStunned) return;
 
         PlayerManager.Instance.IsMagicAttacking = true;
-        Debug.Log(PlayerManager.Instance.IsMagicAttacking);
 
         switch (manager.MagicIdx)
         {

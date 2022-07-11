@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         PlayerDataManager.Instance.LoadProgress();
-        Debug.Log("Player Data Loaded From GameManager");
 
         if (screenFader == null)
             screenFader = FindObjectOfType<ScreenFader>();

@@ -9,6 +9,8 @@ public class GameMenuManager : MonoBehaviour
     [SerializeField] Light light;
     private bool shadowOn = true;
 
+    public bool ignore = false;
+
     #region Singleton
     public static GameMenuManager Instance;
 
@@ -25,6 +27,7 @@ public class GameMenuManager : MonoBehaviour
 
     private void Start()
     {
+        if (ignore) return;
         CloseAllMenus();
         shadowOn = true;
     }

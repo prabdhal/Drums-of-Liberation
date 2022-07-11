@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerDataManager : MonoBehaviour
 {
@@ -17,32 +16,25 @@ public class PlayerDataManager : MonoBehaviour
     }
     #endregion
 
-    MainMenuManager main;
-
+    [Header("Main")]
     public static bool TutorialFinished;
-    public static bool ResetGame;
 
     [Header("Player Stats")]
     public static int PlayerLevel;
     public static float CurrentHealth;
     public static float CurrentMana;
     public static float CurrentStamina;
+    public static float PlayerXP;
+
+    [Header("Player Inventory")]
+    public static float PlayerGold;
+    public static int FullRestorePotionCount;
 
     [Header("Scene Information")]
     public static int FromSceneSpawnPosition;
     public static int CurrentScene;
 
-    [Header("Audio")]
-    [Range(0, 1)]
-    public static float SoundValue;
-    [Range(0, 1)]
-    public static float MusicValue;
 
-
-    void Start()
-    {
-        main = MainMenuManager.Instance;
-    }
 
     public void SaveProgress(PlayerDataManager data)
     {
@@ -51,13 +43,9 @@ public class PlayerDataManager : MonoBehaviour
 
     public void LoadProgress()
     {
-        PlayerData data = SaveSystem.LoadData();
+        PlayerData data = SaveSystem.LoadPlayerData();
 
         TutorialFinished = data.tutorialFinished;
-        ResetGame = data.resetGame;
-
-        SoundValue = data.soundValue;
-        MusicValue = data.musicValue;
 
         PlayerLevel = data.playerLevel;
         CurrentHealth = data.currentHealth;
@@ -70,30 +58,22 @@ public class PlayerDataManager : MonoBehaviour
 
     public void ResetProgressButton()
     {
-        SaveSystem.DeleteData();
+        SaveSystem.DeletePlayerData();
 
         TutorialFinished = false;
 
-        SoundValue = 1f;
-        MusicValue = 1f;
-
         PlayerLevel = 0;
-        CurrentHealth = 100f;
+        CurrentHealth = 500f;
         CurrentMana = 100f;
         CurrentStamina = 100f;
-        Debug.Log("Game has been reset: Current HP: " + CurrentHealth);
 
         SaveProgress(this);
-    }
-
-    public void UpdateCurrency()
-    {
     }
 
     public void OnApplicationPause(bool pause)
     {
         //if (pause)
-            //SaveProgress(this);
+        //SaveProgress(this);
     }
 
     public void OnApplicationQuit()

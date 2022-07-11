@@ -29,13 +29,16 @@ public class MainMenuManager : MonoBehaviour
 
     public void NewGameButton()
     {
+        SaveMenuSettings();
         ResetGameProgress();
         GameManager.Instance.LoadScene(StringData.CutSceneOne);
     }
 
     public void ContinueGameButton()
     {
+        SaveMenuSettings();
         PlayerDataManager.Instance.LoadProgress();
+        MenuDataManager.Instance.LoadProgress();
         GameManager.Instance.LoadScene(((SceneNames)PlayerDataManager.CurrentScene).ToString());
     }
 
@@ -79,8 +82,24 @@ public class MainMenuManager : MonoBehaviour
 
     private void ResetGameProgress()
     {
-        SaveSystem.DeleteData();
+        SaveSystem.DeletePlayerData();
         PlayerDataManager.Instance.ResetProgressButton();
+    }
+
+    private void SaveMenuSettings()
+    {
+        MenuDataManager.MusicVolume = AudioManager.Instance.Volume;
+        //MenuDataManager.SoundValue = AudioManager.Instance.Sound;
+        MenuDataManager.Mute = AudioManager.Instance.Mute;
+        MenuDataManager.Shadow = AudioManager.Instance.Shadow;
+
+        MenuDataManager.Instance.SaveProgress(MenuDataManager.Instance);
+    }
+
+    public void BackToMainMenu()
+    {
+        SaveMenuSettings();
+        GameManager.Instance.LoadScene(SceneNames.MainMenuScene.ToString());
     }
 
     public void QuitButton()

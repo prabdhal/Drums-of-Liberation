@@ -48,6 +48,15 @@ public class DialogueManager : MonoBehaviour
         PlayerControls.Instance.OnInteractEvent += ContinueDialogue;
     }
 
+    private void Update()
+    {
+        if (dialoguePanel.activeInHierarchy)
+        {
+            if (PlayerControls.Instance.GetInteractingValue)
+                ContinueDialogue();
+        }
+    }
+
     public void AddNewDialogue(Dialogue dialogue)
     {
         dialogueLines.Clear();

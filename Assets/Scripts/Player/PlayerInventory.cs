@@ -19,7 +19,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] TextMeshProUGUI fullRestoreCountText;
 
     [SerializeField] int maxFullRestoreCount = 3;
-    private int curFullRestoreCount = 0;
+    public int curFullRestoreCount = 0;
     public float[] baseHealthRestoreAmount;
     public float[] baseManaRestoreAmount;
     public float[] baseStaminaRestoreAmount;
@@ -56,7 +56,7 @@ public class PlayerInventory : MonoBehaviour
     public void UseFullRestore()
     {
         if (curFullRestoreCount <= 0) return;
-        curFullRestoreCount--; 
+        curFullRestoreCount--;
         UpdateFullRestoreCountText();
 
         PlayerManager.Instance.Stats.CurrentHealth += baseHealthRestoreAmount[PlayerManager.Instance.Stats.playerLevel];

@@ -130,13 +130,133 @@ PrefabInstance:
       propertyPath: stats.playerLevelText
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[0]
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[1]
+      value: 550
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[2]
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[3]
+      value: 650
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[4]
+      value: 700
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[5]
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[6]
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[7]
+      value: 850
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[8]
+      value: 900
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMaxHealthIncreasePerLevel.Array.data[9]
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[0]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[1]
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[2]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[3]
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[4]
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[5]
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[6]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[7]
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[8]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerMagicalPowerIncreasePerLevel.Array.data[9]
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[0]
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[1]
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[2]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[3]
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[4]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[5]
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[6]
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[7]
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[8]
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210467908745039208, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
+      propertyPath: stats.playerPhysicalPowerIncreasePerLevel.Array.data[9]
+      value: 85
+      objectReference: {fileID: 0}
     - target: {fileID: 8210467908745039210, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8210467908745039210, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -882.3065
+      value: -876.3
       objectReference: {fileID: 0}
     - target: {fileID: 8210467908745039210, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -144,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8210467908745039210, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -169.31113
+      value: -144
       objectReference: {fileID: 0}
     - target: {fileID: 8210467908745039210, guid: 4b8878c39af34b64d98078b6be27856f, type: 3}
       propertyPath: m_LocalRotation.w

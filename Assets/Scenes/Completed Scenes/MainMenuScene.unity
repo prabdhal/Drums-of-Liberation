@@ -246,6 +246,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &540893541 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2336361446735363596, guid: 473fafe29c1be6545b4fba602751e458, type: 3}
+  m_PrefabInstance: {fileID: 3816442947816701275}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &553742367
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,6 +810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1786574847}
   - component: {fileID: 1786574846}
+  - component: {fileID: 1786574848}
   m_Layer: 0
   m_Name: SaveSystem
   m_TagString: Untagged
@@ -833,6 +845,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1786574848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786574845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e844456b9803ccc4b8366aae85b50c7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1003425776957849463
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -891,7 +915,7 @@ PrefabInstance:
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: muteToggle
       value: 
-      objectReference: {fileID: 831039363}
+      objectReference: {fileID: 540893541}
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: shadowToggle
       value: 
@@ -900,6 +924,10 @@ PrefabInstance:
       propertyPath: volumeSlider
       value: 
       objectReference: {fileID: 2748912552449389142}
+    - target: {fileID: 1003425778111823892, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1003425778111823893, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: m_Name
       value: AudioManager

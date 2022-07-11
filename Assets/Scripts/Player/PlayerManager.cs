@@ -71,7 +71,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (goldText == null)
             goldText = GameObject.FindGameObjectWithTag(StringData.GoldText).GetComponent<TextMeshProUGUI>();
-        Gold += 2000f;
+
         anim = GetComponentInChildren<Animator>();
         if (controller == null)
             controller = GetComponent<CharacterController>();
@@ -84,9 +84,9 @@ public class PlayerManager : MonoBehaviour
         PlayerControls.Instance.OnPauseEvent += OnPauseMenu;
 
         PlayerDataManager.Instance.LoadProgress();
-
+        MenuDataManager.Instance.LoadProgress();
         Stats.Init();
-        magicIdx = 0; 
+        magicIdx = 0;
         UpdateGoldTextUI();
     }
 
@@ -148,14 +148,12 @@ public class PlayerManager : MonoBehaviour
         magicIdx++;
         if (MagicIdx > maxMagicIdx)
             magicIdx = 0;
-        Debug.Log("Current magic idx " + magicIdx);
     }
     public void DecreaseMagicIdx()
     {
         magicIdx--;
         if (MagicIdx < 0)
             magicIdx = maxMagicIdx;
-        Debug.Log("Current magic idx " + magicIdx);
     }
 
     private void InCombatHandler()
@@ -294,6 +292,12 @@ public class PlayerManager : MonoBehaviour
         }
         else if (dir < -0.5f)
             anim.Play(StringData.HitF);
+    }
+
+    public void AddPlayerGold(float gold)
+    {
+        Gold += gold;
+        UpdateGoldTextUI();
     }
 
     public void UpdateGoldTextUI()

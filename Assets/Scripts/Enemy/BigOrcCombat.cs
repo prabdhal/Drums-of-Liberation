@@ -94,12 +94,14 @@ public class BigOrcCombat : MonoBehaviour, ICombat
     {
         if (currSkillCooldown01 <= 0 && playerDistance <= skillRange01 && !anim.GetBool(StringData.IsInteracting))
         {
+            manager.CanInterrupt = true;
             anim.SetBool(StringData.IsInteracting, true);
             anim.Play(StringData.Attack01);
             currSkillCooldown01 = startSkillCooldown01;
         }
         if (currSkillCooldown02 <= 0 && playerDistance <= skillRange02 && !anim.GetBool(StringData.IsInteracting))
         {
+            manager.CanInterrupt = true;
             anim.SetBool(StringData.IsInteracting, true);
             anim.Play(StringData.Attack02);
             currSkillCooldown02 = startSkillCooldown02;
@@ -140,23 +142,27 @@ public class BigOrcCombat : MonoBehaviour, ICombat
     {
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack01;
+        manager.CanInterrupt = true;
     }
 
     public void AttackCollider01Disable()
     {
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack01;
+        manager.CanInterrupt = false;
     }
     public void AttackCollider02Enable()
     {
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack02;
+        manager.CanInterrupt = true;
     }
 
     public void AttackCollider02Disable()
     {
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack02;
+        manager.CanInterrupt = false;
     }
 
     #endregion

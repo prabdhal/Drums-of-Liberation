@@ -8,10 +8,10 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour
 {
     //components
-    [HideInInspector] public NavMeshAgent agent;
-    [HideInInspector] public Rigidbody rb;
-    [HideInInspector] public Animator anim;
-    [HideInInspector] public CapsuleCollider col;
+    public NavMeshAgent agent;
+    public Rigidbody rb;
+    public Animator anim;
+    public CapsuleCollider col;
     protected PerfectLookAt lookAt;
 
     public Transform popupPos;
@@ -42,6 +42,8 @@ public class EnemyManager : MonoBehaviour
     [Tooltip("The XP reward upon killing this enemy.")]
     [SerializeField]
     protected float xpReward = 150f;
+    [SerializeField]
+    protected float goldReward = 15f;
     public EnemyState State = EnemyState.Patrol;
 
     // Important properties for state handler
@@ -66,12 +68,18 @@ public class EnemyManager : MonoBehaviour
     {
         Stats.Init();
 
-        rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
-        col = GetComponent<CapsuleCollider>();
-        anim = GetComponent<Animator>();
-        Combat = GetComponent<ICombat>();
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
+        if (anim == null)
+            anim = GetComponent<Animator>();
+        if (agent == null)
+            agent = GetComponent<NavMeshAgent>();
+        if (col == null)
+            col = GetComponent<CapsuleCollider>();
+        if (anim == null)
+            anim = GetComponent<Animator>();
+        if (Combat == null)
+            Combat = GetComponent<ICombat>();
         //lookAt = GetComponent<PerfectLookAt>();
 
         rb.isKinematic = true;
@@ -87,9 +95,7 @@ public class EnemyManager : MonoBehaviour
         col.height = 2f;
 
         _lastPosition = gameObject.transform.position;
-
         Patrol.currWP = Random.Range(0, Patrol.waypoints.Length - 1);
-
         transform.tag = StringData.EnemyTag;
 
         OnDeathEvent += OnDeath_EnemyManager;
@@ -323,6 +329,8 @@ public class EnemyManager : MonoBehaviour
 
         // Player Level Up
         PlayerManager.Instance.Stats.AddPlayerExperience(xpReward);
+        PlayerManager.Instance.AddPlayerGold(goldReward);
+        Debug.Log("Player gained " + xpReward + " points in experience");
 
         GameManager.Instance.RemoveEnemy(this);
         agent.ResetPath();
