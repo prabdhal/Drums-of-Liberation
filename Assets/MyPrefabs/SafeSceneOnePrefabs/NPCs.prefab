@@ -46,6 +46,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Bld_Stall_03
       objectReference: {fileID: 0}
+    - target: {fileID: 162386, guid: 9f5eeb56cc1751143955526d56c06622, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 471866, guid: 9f5eeb56cc1751143955526d56c06622, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -108,6 +112,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Bld_Stall_04
       objectReference: {fileID: 0}
+    - target: {fileID: 117632, guid: 4afbbe7358b8769449ec9a275aeb7d4f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 436948, guid: 4afbbe7358b8769449ec9a275aeb7d4f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -169,6 +177,10 @@ PrefabInstance:
     - target: {fileID: 198702, guid: 156f67e924f48da4990472c91c068932, type: 3}
       propertyPath: m_Name
       value: Character_Weapon_ShopKeeper
+      objectReference: {fileID: 0}
+    - target: {fileID: 198702, guid: 156f67e924f48da4990472c91c068932, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 435920, guid: 156f67e924f48da4990472c91c068932, type: 3}
       propertyPath: m_RootOrder
@@ -294,6 +306,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9521986, guid: 4b94a93fa70935041b61d500fb573a22, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: bcf5fdf7a29d6be40831caf9c1c723ca, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b94a93fa70935041b61d500fb573a22, type: 3}
 --- !u!1 &8454557785313727254 stripped
@@ -328,8 +344,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 0}
   shopPanelUI: {fileID: 0}
+  shopPanelFeedbackText: {fileID: 0}
+  purchaseItemCountSlider: {fileID: 0}
+  purchaseItemCountText: {fileID: 0}
+  itemDescription: {fileID: 0}
   fullRestoreCost: 640000007d00000096000000af000000c8000000e1000000fa000000130100002c0100005e010000
-  costScalingPerLevel: 2
 --- !u!4 &8454557785313913916 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 472458, guid: 4b94a93fa70935041b61d500fb573a22, type: 3}

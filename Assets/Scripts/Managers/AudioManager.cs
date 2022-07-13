@@ -4,16 +4,23 @@ using UnityEngine.UI;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] Light light;
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource musicAudioSource;
     [SerializeField] Slider volumeSlider;
     [SerializeField] Toggle muteToggle;
     [SerializeField] Toggle shadowToggle;
     [SerializeField] float musicMaxVolume = 0.05f;
 
+    public AudioSource playerFootStepAudioSource;
+    public AudioSource playerSwordSwingAudioSource;
+    public AudioSource playerSwordImpactAudioSource;
+
     public int Shadow { get { return shadow; } }
     private int shadow;
-    public bool Mute { get { return audioSource.mute; } }
-    public float Volume { get { return audioSource.volume; } }
+    public bool Mute { get { return musicAudioSource.mute; } }
+    public float Volume { get { return musicAudioSource.volume; } }
+
+    public bool isMainMenu = false;
+
     #region Singleton
     public static AudioManager Instance;
 
@@ -30,8 +37,18 @@ public class AudioManager : MonoBehaviour
     {
         if (light == null)
             light = FindObjectOfType<Light>();
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
+        if (musicAudioSource == null)
+            musicAudioSource = GetComponent<AudioSource>();
+        if (!isMainMenu)
+        {
+            if (playerFootStepAudioSource == null)
+                playerFootStepAudioSource = PlayerManager.Instance.GetComponentInChildren<AudioSource>();
+            if (playerFootStepAudioSource == null)
+                playerSwordSwingAudioSource = GameObject.FindGameObjectWithTag(StringData.PlayerWeaponTag).GetComponent<AudioSource>();
+            if (playerFootStepAudioSource == null)
+                playerSwordSwingAudioSource = GameObject.FindGameObjectWithTag(StringData.PlayerWeaponTag).GetComponent<AudioSource>();
+            playerFootStepAudioSource.volume = 0.1f;
+        }
 
         InitSoundAndGraphicsSettings();
         AdjustVolumeSlider();
@@ -44,7 +61,7 @@ public class AudioManager : MonoBehaviour
 
     private void InitSoundAndGraphicsSettings()
     {
-        audioSource.mute = MenuDataManager.Mute;
+        musicAudioSource.mute = MenuDataManager.Mute;
         muteToggle.isOn = MenuDataManager.Mute;
 
         switch (MenuDataManager.Shadow)
@@ -79,7 +96,7 @@ public class AudioManager : MonoBehaviour
 
     public void MuteToggle()
     {
-        audioSource.mute = !audioSource.mute;
+        musicAudioSource.mute = !musicAudioSource.mute;
     }
 
     private void AdjustVolumeSlider()
@@ -90,7 +107,7 @@ public class AudioManager : MonoBehaviour
 
     private void AdjustMusicVolume(float volume)
     {
-        audioSource.volume = volume * musicMaxVolume;
+        musicAudioSource.volume = volume * musicMaxVolume;
     }
 
     private void AdjustSoundVolume()

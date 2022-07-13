@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class TutorialGuy : MonoBehaviour
@@ -12,6 +13,25 @@ public class TutorialGuy : MonoBehaviour
     [SerializeField] Dialogue magicAttackTrainingDialogue;
     [SerializeField] Dialogue sparCombatTrainingDialogue;
     [SerializeField] Dialogue finalTrainingDialogue;
+
+    [SerializeField] TextMeshProUGUI movementTitleTutorial;
+    [SerializeField] TextMeshProUGUI movementTutorial;
+    [SerializeField] TextMeshProUGUI sprintTitleTutorial;
+    [SerializeField] TextMeshProUGUI sprintTutorial;
+    [SerializeField] TextMeshProUGUI diveTitleTutorial;
+    [SerializeField] TextMeshProUGUI diveTutorial;
+    [SerializeField] TextMeshProUGUI lightAttackTitleTutorial;
+    [SerializeField] TextMeshProUGUI lightAttackTutorial;
+    [SerializeField] TextMeshProUGUI heavyAttackTitleTutorial;
+    [SerializeField] TextMeshProUGUI heavyAttackTutorial;
+    [SerializeField] TextMeshProUGUI LockOnTitleTutorial;
+    [SerializeField] TextMeshProUGUI LockOnTutorial;
+    [SerializeField] TextMeshProUGUI magicAttackTitleTutorial;
+    [SerializeField] TextMeshProUGUI magicAttackTutorial;
+
+    [SerializeField] Color32 activeColor;
+    [SerializeField] Color32 completeColor;
+    [SerializeField] Color32 todoColor;
 
     [SerializeField] bool init = true;
     [SerializeField] float startDialogueTimer = 2f;
@@ -37,6 +57,8 @@ public class TutorialGuy : MonoBehaviour
         TutorialManager.Instance.OnLockOnTutorialComplete += MagicAttackTrainingTalk;
         TutorialManager.Instance.OnMagicAttackTutorialComplete += SparCombatTrainingTalk;
         TutorialManager.Instance.OnSparCombatTutorialComplete += FinalTrainingTalk;
+
+        InitTutorialToDoList();
     }
 
     private void Update()
@@ -59,6 +81,10 @@ public class TutorialGuy : MonoBehaviour
 
     private void SprintTrainingTalk()
     {
+        movementTitleTutorial.color = completeColor;
+        movementTutorial.color = completeColor;
+        sprintTitleTutorial.color = activeColor;
+        sprintTutorial.color = activeColor;
         anim.CrossFade(StringData.IsTalking02, 0.2f);
         DialogueManager.Instance.AddNewDialogue(sprintTrainingDialogue);
         DialogueManager.Instance.OnDialogueCompleteEvent += AllowPlayerSprint;
@@ -66,6 +92,10 @@ public class TutorialGuy : MonoBehaviour
 
     private void DiveTrainingTalk()
     {
+        sprintTitleTutorial.color = completeColor;
+        sprintTutorial.color = completeColor;
+        diveTitleTutorial.color = activeColor;
+        diveTutorial.color = activeColor;
         anim.CrossFade(StringData.IsTalking02, 0.2f);
         DialogueManager.Instance.AddNewDialogue(diveTrainingDialogue);
         DialogueManager.Instance.OnDialogueCompleteEvent += AllowPlayerDive;
@@ -73,6 +103,10 @@ public class TutorialGuy : MonoBehaviour
 
     private void LightAttackTrainingTalk()
     {
+        diveTitleTutorial.color = completeColor;
+        diveTutorial.color = completeColor;
+        lightAttackTutorial.color = activeColor;
+        lightAttackTitleTutorial.color = activeColor;
         anim.CrossFade(StringData.IsTalking02, 0.2f);
         DialogueManager.Instance.AddNewDialogue(lightAttackTrainingDialogue);
         DialogueManager.Instance.OnDialogueCompleteEvent += AllowPlayerLightAttack;
@@ -80,6 +114,10 @@ public class TutorialGuy : MonoBehaviour
 
     private void HeavyAttackTrainingTalk()
     {
+        lightAttackTutorial.color = completeColor;
+        lightAttackTitleTutorial.color = completeColor;
+        heavyAttackTitleTutorial.color = activeColor;
+        heavyAttackTutorial.color = activeColor;
         anim.CrossFade(StringData.IsTalking02, 0.2f);
         DialogueManager.Instance.AddNewDialogue(heavyAttackTrainingDialogue);
         DialogueManager.Instance.OnDialogueCompleteEvent += AllowPlayerHeavyAttack;
@@ -87,6 +125,10 @@ public class TutorialGuy : MonoBehaviour
 
     private void LockOnTrainingTalk()
     {
+        heavyAttackTitleTutorial.color = completeColor;
+        heavyAttackTutorial.color = completeColor;
+        LockOnTitleTutorial.color = activeColor;
+        LockOnTutorial.color = activeColor;
         anim.CrossFade(StringData.IsTalking02, 0.2f);
         DialogueManager.Instance.AddNewDialogue(lockOnTargetTrainingDialogue);
         DialogueManager.Instance.OnDialogueCompleteEvent += AllowPlayerLockOn;
@@ -94,6 +136,10 @@ public class TutorialGuy : MonoBehaviour
 
     private void MagicAttackTrainingTalk()
     {
+        LockOnTitleTutorial.color = completeColor;
+        LockOnTutorial.color = completeColor;
+        magicAttackTitleTutorial.color = activeColor;
+        magicAttackTutorial.color = activeColor;
         anim.CrossFade(StringData.IsTalking02, 0.2f);
         DialogueManager.Instance.AddNewDialogue(magicAttackTrainingDialogue);
         DialogueManager.Instance.OnDialogueCompleteEvent += AllowPlayerMagicAttack;
@@ -101,6 +147,8 @@ public class TutorialGuy : MonoBehaviour
 
     private void SparCombatTrainingTalk()
     {
+        magicAttackTitleTutorial.color = completeColor;
+        magicAttackTutorial.color = completeColor;
         anim.CrossFade(StringData.IsTalking02, 0.2f);
         DialogueManager.Instance.AddNewDialogue(sparCombatTrainingDialogue);
         DialogueManager.Instance.OnDialogueCompleteEvent += AllowPlayerProceedToSparring;
@@ -158,6 +206,28 @@ public class TutorialGuy : MonoBehaviour
     private void AllowPlayerToFinishTutorial()
     {
         TutorialManager.Instance.tutorialComplete = true;
+    }
+
+    private void InitTutorialToDoList()
+    {
+        activeColor = Color.white;
+        todoColor = sprintTitleTutorial.color;
+        completeColor= magicAttackTitleTutorial.color;
+
+        movementTitleTutorial.color = activeColor;
+        movementTutorial.color = activeColor;
+        sprintTitleTutorial.color = todoColor;
+        sprintTutorial.color = todoColor;
+        diveTitleTutorial.color = todoColor;
+        diveTutorial.color = todoColor;
+        lightAttackTitleTutorial.color = todoColor;
+        lightAttackTutorial.color = todoColor;
+        heavyAttackTitleTutorial.color = todoColor;
+        heavyAttackTutorial.color = todoColor;
+        LockOnTitleTutorial.color = todoColor;
+        LockOnTutorial.color = todoColor;
+        magicAttackTitleTutorial.color = todoColor;
+        magicAttackTutorial.color = todoColor;
     }
 }
 

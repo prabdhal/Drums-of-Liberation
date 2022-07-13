@@ -2308,18 +2308,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6edebdf50e25ce14a95dceefe6179496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  rb: {fileID: 0}
-  anim: {fileID: 0}
-  col: {fileID: 0}
+  agent: {fileID: 2936255031246038076}
+  rb: {fileID: 2936255031246038066}
+  anim: {fileID: 2936255031246038079}
+  col: {fileID: 2936255031246038077}
   popupPos: {fileID: 3021429558207096782}
   stats:
     maxHealthVal: 100
     maxManaVal: 0
-    physicalPowerVal: 25
-    magicalPowerVal: 25
-    armorVal: 0
-    magicResistanceVal: 5
+    physicalPowerVal: 50
+    magicalPowerVal: 50
+    armorVal: 5
+    magicResistanceVal: 10
     movementSpeedVal: 3
   rotSpeed: 500
   head: {fileID: 0}
@@ -2342,6 +2342,7 @@ MonoBehaviour:
     startSearchingTimer: 10
     currSearchingTimer: 10
   xpReward: 1
+  goldReward: 25
   State: 0
   attackDistanceFromSummoner: 0
   chaseRange: 1.5
@@ -2365,11 +2366,11 @@ MonoBehaviour:
   clawAttackCollider: {fileID: 5559430335141578113}
   skillName02: Poison Shot
   skillDescription02: 
-  skillRange02: 7
+  skillRange02: 10
   skillSpeed02: 500
-  startSkillCooldown02: 10
+  startSkillCooldown02: 20
   poisonDamage: 2
-  poisonDuration: 5
+  poisonDuration: 10
   effectType: 1
   spellPrefab02: {fileID: 3108980923506858475, guid: dc679314ef6b19446ac176aa573387aa, type: 3}
   spellOrigin02: {fileID: 1149578390}

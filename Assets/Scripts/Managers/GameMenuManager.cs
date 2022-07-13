@@ -1,15 +1,18 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameMenuManager : MonoBehaviour
 {
     [SerializeField] GameObject backgroundPanel;
     [SerializeField] GameObject menuPanel;
     [SerializeField] GameObject optionsPanel;
+    [SerializeField] GameObject tutorialScrollViewPanel;
 
     [SerializeField] Light light;
     private bool shadowOn = true;
 
     public bool ignore = false;
+    public bool isTutorial = false;
 
     #region Singleton
     public static GameMenuManager Instance;
@@ -30,6 +33,11 @@ public class GameMenuManager : MonoBehaviour
         if (ignore) return;
         CloseAllMenus();
         shadowOn = true;
+
+        if (tutorialScrollViewPanel == null)
+            tutorialScrollViewPanel = GameObject.FindGameObjectWithTag(StringData.TutorialScrollView).GetComponent<Image>().gameObject;
+        if (!isTutorial)
+            tutorialScrollViewPanel.SetActive(false);
     }
 
     public void ResumeGame()

@@ -142,27 +142,27 @@ public class BigOrcCombat : MonoBehaviour, ICombat
     {
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack01;
-        manager.CanInterrupt = true;
+        //manager.CanInterrupt = true;
     }
 
     public void AttackCollider01Disable()
     {
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack01;
-        manager.CanInterrupt = false;
+        //manager.CanInterrupt = false;
     }
     public void AttackCollider02Enable()
     {
         attackCollider01.SetActive(true);
         attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack02;
-        manager.CanInterrupt = true;
+        //manager.CanInterrupt = true;
     }
 
     public void AttackCollider02Disable()
     {
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack02;
-        manager.CanInterrupt = false;
+        //manager.CanInterrupt = false;
     }
 
     #endregion

@@ -7,6 +7,11 @@ public class PlayerAttackCollider : MonoBehaviour
     public delegate void OnAttackDel(EnemyManager enemy);
     public event OnAttackDel OnAttackEvent;
 
+    [Header("Sword Audio")]
+    [SerializeField] AudioSource swordSwing;
+    [SerializeField] AudioSource swordImpact;
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(StringData.EnemyTag))
@@ -17,6 +22,7 @@ public class PlayerAttackCollider : MonoBehaviour
                 enemy.PlayerIsDetected(true);
                 enemy.GetHitDirection(transform);
                 enemy.BloodEffect(transform);
+                swordImpact.Play();
             }
         }
     }

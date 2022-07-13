@@ -100,6 +100,7 @@ public class StatusEffectManager : MonoBehaviour
                 PlayerManager.Instance.Stats.CurrentHealth -= damageOverTimeEffects[i].Damage;
                 DisplayDamagePopup(damageOverTimeEffects[i]);
 
+                damageOverTimeEffects[i].Duration -= 1f;
                 Debug.Log("Status Effect: " + damageOverTimeEffects[i].DamageOverTimeEffectType + " deals " + damageOverTimeEffects[i].Damage
                   + " current duration: " + damageOverTimeEffects[i].Duration);
             }
@@ -129,6 +130,8 @@ public class StatusEffectManager : MonoBehaviour
                     rootCount++;
                 if (tempStatDebuffEffects[i].TempStatDebuffType.Equals(TempStatDebuffType.Stun))
                     stunCount++;
+
+                tempStatDebuffEffects[i].Duration -= 1f;
 
                 Debug.Log("Status Effect: " + tempStatDebuffEffects[i].TempStatDebuffType + " is in effect slowing target by " + tempStatDebuffEffects[i].Amount + " current duration left: " + tempStatDebuffEffects[i].Duration);
             }

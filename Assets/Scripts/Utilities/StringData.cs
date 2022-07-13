@@ -35,6 +35,8 @@ public static class StringData
     public static string MagicAttack01 = "MagicAttack01";
     public static string MagicAttack02 = "MagicAttack02";
     public static string MagicAttack03 = "MagicAttack03";
+    public static string KnockBack = "KnockBack";
+    public static string IsKnockedBack = "isKnockedBack";
     public static string HitF = "HitF";
     public static string HitF2 = "HitF2";
     public static string HitB = "HitB";
@@ -56,6 +58,8 @@ public static class StringData
     public static string IsTalking06 = "isTalking06";
     public static string IsTalking07 = "isTalking07";
     public static string IsTalking08 = "isTalking08";
+    public static string IsBlocking = "isBlocking";
+    public static string Block = "Block";
     public static string OpenLeft = "openLeft";
     public static string OpenRight = "openRight";
 
@@ -65,6 +69,7 @@ public static class StringData
     public static string Attack01 = "Attack01";
     public static string Attack02 = "Attack02";
     public static string Attack03 = "Attack03";
+    public static string Attack04 = "Attack04";
 
     // Scene Manager
     public static string ClearScreen = "ClearScreen";
@@ -90,4 +95,5 @@ public static class StringData
     public static string ItemCountText = "ItemCountText";
     public static string GoldText = "GoldText";
     public static string ShopPanelUI = "ShopPanelUI";
+    public static string TutorialScrollView = "TutorialScrollView";
 }

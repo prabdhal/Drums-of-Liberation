@@ -23,7 +23,7 @@ public class BarbarianGiantManager : EnemyManager
 
     protected override void StateHandler()
     {
-        if (IsInteracting)
+        if (IsInteracting && !barbarianGiantCombat.isAttacking02)
             agent.speed = 0f;
         else
             agent.speed = currSpeed;

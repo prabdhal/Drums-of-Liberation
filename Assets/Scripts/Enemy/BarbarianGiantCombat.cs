@@ -38,7 +38,7 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
     private float currSkillCooldown02 = 10f;
     [SerializeField] float startAttacking02Cooldown = 5f;
     private float curAttacking02Cooldown = 5f;
-    private bool isAttacking02 = false;
+    public bool isAttacking02 = false;
     [Tooltip("The attack collider gameobject of attack 02.")]
     [SerializeField] GameObject attackCollider02;
     private EnemyAttackCollider attackColliderScript02;
@@ -55,6 +55,19 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
     [Tooltip("The attack collider gameobject of attack 03.")]
     [SerializeField] GameObject skillPrefab03;
 
+    [Space]
+
+    [Header("Skill 03")]
+    [SerializeField] string skillName04 = "";
+    [TextArea(2, 3)]
+    [SerializeField] string skillDescription04 = "";
+    [SerializeField] float skillRange04 = 3f;
+    [SerializeField] float startSkillCooldown04 = 10f;
+    private float currSkillCooldown04 = 10f;
+    [Tooltip("The attack collider gameobject of attack 04.")]
+    [SerializeField] GameObject attackCollider04;
+    private EnemyAttackCollider attackColliderScript04;
+
 
 
     private void Start()
@@ -64,27 +77,31 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
         basicAttackRange = Mathf.Min(skillRange01, skillRange02);
         attackColliderScript01 = attackCollider01.GetComponent<EnemyAttackCollider>();
         attackColliderScript02 = attackCollider02.GetComponent<EnemyAttackCollider>();
+        attackColliderScript04 = attackCollider04.GetComponent<EnemyAttackCollider>();
         attackCollider01.SetActive(false);
         attackCollider02.SetActive(false);
+        attackCollider04.SetActive(false);
     }
 
     public void CombatHandler()
     {
         float playerDis = Vector3.Distance(PlayerManager.Instance.transform.position, transform.position);
 
-        if (currSkillCooldown01 <= 0 || currSkillCooldown02 <= 0 || currSkillCooldown03 <= 0)
+        if (currSkillCooldown01 <= 0 || currSkillCooldown02 <= 0 || currSkillCooldown03 <= 0 || currSkillCooldown04 <= 0)
             skillCooldownIsReady = true;
         else
             skillCooldownIsReady = false;
 
-        if (playerDis <= skillRange01 || playerDis <= skillRange02 || playerDis >= skillRange03)
+        if (playerDis <= skillRange01 || playerDis <= skillRange02 || playerDis >= skillRange03 || playerDis >= skillRange04)
             isInRange = true;
         else
             isInRange = false;
 
         if (currSkillCooldown01 <= 0 && playerDis <= skillRange01 ||
             currSkillCooldown02 <= 0 && playerDis <= skillRange02 ||
-            currSkillCooldown03 <= 0 && playerDis <= skillRange03)
+            currSkillCooldown03 <= 0 && playerDis <= skillRange03 || 
+            currSkillCooldown04 <= 0 && playerDis <= skillRange04 || 
+            isAttacking02)
             canUseSkill = true;
         else
             canUseSkill = false;
@@ -95,8 +112,12 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
             {
                 curAttacking02Cooldown = startAttacking02Cooldown;
                 anim.SetBool(StringData.IsAttacking02, false);
+                isAttacking02 = false;
             }
             else curAttacking02Cooldown -= Time.deltaTime;
+            manager.agent.SetDestination(PlayerManager.Instance.transform.position);
+            manager.agent.isStopped = false;
+            manager.agent.speed = manager.Stats.MovementSpeed.Value;
         }
 
         CooldownHandler();
@@ -107,6 +128,7 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
         currSkillCooldown01 = Mathf.Clamp(currSkillCooldown01 -= Time.deltaTime, 0f, startSkillCooldown01);
         currSkillCooldown02 = Mathf.Clamp(currSkillCooldown02 -= Time.deltaTime, 0f, startSkillCooldown02);
         currSkillCooldown03 = Mathf.Clamp(currSkillCooldown03 -= Time.deltaTime, 0f, startSkillCooldown03);
+        currSkillCooldown04 = Mathf.Clamp(currSkillCooldown04 -= Time.deltaTime, 0f, startSkillCooldown04);
     }
 
     public void AttackHandler(Animator anim, float playerDistance)
@@ -133,6 +155,12 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
             anim.Play(StringData.Attack03);
             currSkillCooldown03 = startSkillCooldown03;
         }
+        if (currSkillCooldown04 <= 0 && playerDistance <= skillRange04 && !anim.GetBool(StringData.IsInteracting))
+        {
+            anim.SetBool(StringData.IsInteracting, true);
+            anim.Play(StringData.Attack04);
+            currSkillCooldown04 = startSkillCooldown04;
+        }
     }
 
     #region Attack Damage & Effect Methods
@@ -140,6 +168,7 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
     private void ApplyDamageAttack01()
     {
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
+        damage = Mathf.Clamp(damage, 0, damage);
 
         PlayerManager.Instance.TakeDamage(damage, transform);
 
@@ -152,6 +181,7 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
     private void ApplyDamageAttack02()
     {
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
+        damage = Mathf.Clamp(damage, 0, damage);
 
         PlayerManager.Instance.TakeDamage(damage, transform);
 
@@ -176,6 +206,19 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
         go.GetComponent<DamagePopup>().Init(physicalDamage, DamageType.Physical);
         go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);
         go.GetComponent<DamagePopup>().Init(magicalDamage, DamageType.Magical);
+    }
+
+    private void ApplyDamageAttack04()
+    {
+        float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
+        damage = Mathf.Clamp(damage, 0f, damage);
+
+        PlayerManager.Instance.TakeDamage(damage, transform);
+        PlayerManager.Instance.ApplyBarbarianGiantKickBack(transform);
+
+        // add damage popup 
+        GameObject go = Instantiate(GameManager.Instance.damagePopPrefab, PlayerManager.Instance.popupPos);
+        go.GetComponent<DamagePopup>().Init(damage, DamageType.Physical);
     }
 
     #endregion
@@ -204,16 +247,29 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
         attackCollider01.SetActive(false);
         attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack01;
     }
+
     public void AttackCollider02Enable()
     {
-        attackCollider01.SetActive(true);
-        attackColliderScript01.OnApplyDamageEvent += ApplyDamageAttack02;
+        attackCollider02.SetActive(true);
+        attackColliderScript02.OnApplyDamageEvent += ApplyDamageAttack02;
     }
 
     public void AttackCollider02Disable()
     {
-        attackCollider01.SetActive(false);
-        attackColliderScript01.OnApplyDamageEvent -= ApplyDamageAttack02;
+        attackCollider02.SetActive(false);
+        attackColliderScript02.OnApplyDamageEvent -= ApplyDamageAttack02;
+    }
+
+    public void AttackCollider04Enable()
+    {
+        attackCollider04.SetActive(true);
+        attackColliderScript04.OnApplyDamageEvent += ApplyDamageAttack04;
+    }
+
+    public void AttackCollider04Disable()
+    {
+        attackCollider04.SetActive(false);
+        attackColliderScript04.OnApplyDamageEvent -= ApplyDamageAttack04;
     }
 
     #endregion

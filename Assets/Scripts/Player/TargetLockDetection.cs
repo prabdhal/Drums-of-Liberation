@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +17,8 @@ public class TargetLockDetection : MonoBehaviour
     {
         if (PlayerManager.Instance.TargetLock)
         {
-            if (CurrentTargetOutsideOfRange(PlayerManager.Instance.lockOnTarget.transform))
+            if (CurrentTargetOutsideOfRange(PlayerManager.Instance.lockOnTarget.transform) || 
+                PlayerManager.Instance.lockOnTarget.CompareTag(StringData.Untagged))
             {
                 PlayerManager.Instance.TargetLock = false;
                 PlayerManager.Instance.lockOnTarget = null;
@@ -27,6 +27,7 @@ public class TargetLockDetection : MonoBehaviour
         }
 
         targets.RemoveAll(e => e.tag.Equals(StringData.Untagged));
+
     }
 
     private void OnTriggerEnter(Collider other)

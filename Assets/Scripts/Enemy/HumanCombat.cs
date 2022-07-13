@@ -119,6 +119,7 @@ public class HumanCombat : MonoBehaviour, ICombat
     private void ApplyDamageAttack01()
     {
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
+        damage = Mathf.Clamp(damage, 0, damage);
 
         PlayerManager.Instance.TakeDamage(damage, transform);
 
@@ -131,6 +132,7 @@ public class HumanCombat : MonoBehaviour, ICombat
     private void ApplyDamageAttack02()
     {
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
+        damage = Mathf.Clamp(damage, 0, damage);
 
         PlayerManager.Instance.TakeDamage(damage, transform);
 

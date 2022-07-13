@@ -51,6 +51,10 @@ public class PlayerDataManager : MonoBehaviour
         CurrentHealth = data.currentHealth;
         CurrentMana = data.currentMana;
         CurrentStamina = data.currentStamina;
+        PlayerXP = data.playerXP;
+
+        PlayerGold = data.playerGold;
+        FullRestorePotionCount = data.fullRestorePotionCount;
 
         FromSceneSpawnPosition = data.fromSceneSpawnPosition;
         CurrentScene = data.currentScene;
@@ -66,6 +70,7 @@ public class PlayerDataManager : MonoBehaviour
         CurrentHealth = 500f;
         CurrentMana = 100f;
         CurrentStamina = 100f;
+        PlayerXP = 0f;
 
         SaveProgress(this);
     }

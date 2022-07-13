@@ -24672,8 +24672,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   increaseHealth: 0
+  healthRateOfIncrease: 200
   increaseStamina: 1
+  staminaRateOfIncrease: 200
   increaseMana: 0
+  manaRateOfIncrease: 200
 --- !u!1 &2611676095914435295
 GameObject:
   m_ObjectHideFlags: 0
@@ -24787,8 +24790,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   increaseHealth: 1
+  healthRateOfIncrease: 200
   increaseStamina: 0
+  staminaRateOfIncrease: 200
   increaseMana: 0
+  manaRateOfIncrease: 200
 --- !u!1 &2611676095950808748
 GameObject:
   m_ObjectHideFlags: 0
@@ -24902,8 +24908,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   increaseHealth: 0
+  healthRateOfIncrease: 200
   increaseStamina: 0
+  staminaRateOfIncrease: 200
   increaseMana: 1
+  manaRateOfIncrease: 200
 --- !u!1 &4400236970367125319
 GameObject:
   m_ObjectHideFlags: 0

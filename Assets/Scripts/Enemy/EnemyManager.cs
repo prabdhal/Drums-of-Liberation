@@ -37,6 +37,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] protected Pursue Pursue;
     [SerializeField] protected ICombat Combat;
 
+    private float startInteruptTimer = 1f;
+    private float curInteruptTimer;
+
     [Space]
 
     [Tooltip("The XP reward upon killing this enemy.")]
@@ -98,6 +101,8 @@ public class EnemyManager : MonoBehaviour
         Patrol.currWP = Random.Range(0, Patrol.waypoints.Length - 1);
         transform.tag = StringData.EnemyTag;
 
+        curInteruptTimer = startInteruptTimer;
+
         OnDeathEvent += OnDeath_EnemyManager;
     }
 
@@ -118,6 +123,17 @@ public class EnemyManager : MonoBehaviour
 
         GetRelativeMoveDirection();
         StateHandler();
+
+        if (CanInterrupt)
+        {
+            if (curInteruptTimer <= 0)
+            {
+                curInteruptTimer = startInteruptTimer;
+                CanInterrupt = false;
+            }
+            else
+                curInteruptTimer -= Time.deltaTime;
+        }
     }
 
     protected virtual void GetRelativeMoveDirection()

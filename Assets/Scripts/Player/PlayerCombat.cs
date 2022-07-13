@@ -239,7 +239,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void ShadowAuraHandler()
     {
-        if (weaponCol.shadowAura.activeSelf)
+        if (weaponCol.shadowAura.activeInHierarchy)
         {
             if (curShadowAuraTimer <= 0)
             {

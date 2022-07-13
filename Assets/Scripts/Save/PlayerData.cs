@@ -2,7 +2,6 @@
 public class PlayerData
 {
     public bool tutorialFinished;
-    public bool resetGame;
 
     public int playerLevel;
     public float currentHealth;
@@ -25,6 +24,9 @@ public class PlayerData
         currentMana = PlayerDataManager.CurrentMana;
         currentStamina = PlayerDataManager.CurrentStamina;
         playerXP = PlayerDataManager.PlayerXP;
+
+        playerGold = PlayerDataManager.PlayerGold;
+        fullRestorePotionCount = PlayerDataManager.FullRestorePotionCount;
 
         fromSceneSpawnPosition = PlayerDataManager.FromSceneSpawnPosition;
         currentScene = PlayerDataManager.CurrentScene;

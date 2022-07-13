@@ -30,7 +30,7 @@ public class PlayerManager : MonoBehaviour
     public int MagicIdx { get { return magicIdx; } }
     private int magicIdx = 0;
     public int MaxMagicIdx { get { return maxMagicIdx; } }
-    private int maxMagicIdx = 2;
+    private int maxMagicIdx = 0;
     public bool IsJumping { get; set; }
     public bool TargetLock { get; set; }
     public bool OnPause { get { return onPause; } }
@@ -53,6 +53,20 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] float inCombatStartTimer = 30f;
     private float inCombatCurrTimer = 0f;
+
+    [Header("Player KnockBack Values")]
+    private bool warchiefKnockBack = false;
+    private bool barbarianKnockBack = false;
+    private Vector3 knockBackDir = Vector3.zero;
+    [SerializeField] float maxKnockBackDis = 5f;
+    [SerializeField] float maxBarbarianGiantKnockBackDis = 20f;
+    private Vector3 curKnockBackDis;
+    [SerializeField] float maxWarchiefKnockBackTimer = 1f;
+    [SerializeField] float maxBarbarianGiantKnockBackTimer = 3f;
+    private float curKnockBackTimer = 1f;
+    [SerializeField] float warchiefKnockBackSpeed = 200f;
+    [SerializeField] float barbarianKnockBackSpeed = 50f;
+    [SerializeField] LayerMask knockBackLayer;
 
 
     #region Singleton
@@ -102,6 +116,14 @@ public class PlayerManager : MonoBehaviour
         if (!InCombat)
             stats.PassiveRegen();
 
+        if (warchiefKnockBack)
+            WarChiefKickBackHandler(knockBackDir);
+        if (barbarianKnockBack)
+            BarbarianGiantKickBackHandler(knockBackDir);
+
+        if (stats.playerLevel >= 3)
+            maxMagicIdx = 1;
+
         CanSprint();
         InCombatHandler();
         stats.Update();
@@ -128,7 +150,7 @@ public class PlayerManager : MonoBehaviour
         if (PlayerControls.Instance.IsSprinting && !IsInteracting && PlayerControls.Instance.MovementDirection.x != 0 ||
             PlayerControls.Instance.IsSprinting && !IsInteracting && PlayerControls.Instance.MovementDirection.y != 0)
         {
-            if (HasEnoughStamina(0.1f))
+            if (HasEnoughStamina(0.01f))
                 IsSprinting = true;
             else
                 IsSprinting = false;
@@ -187,6 +209,104 @@ public class PlayerManager : MonoBehaviour
         BloodEffect(hitObj);
     }
 
+    public void ApplyWarChiefKickBack(Transform hitObj)
+    {
+        anim.SetBool(StringData.IsInteracting, true);
+        anim.Play(StringData.KnockBack);
+        anim.SetBool(StringData.IsKnockedBack, true);
+        Vector3 incomingDir = transform.position - hitObj.position;
+        knockBackDir = incomingDir;
+        curKnockBackDis = transform.position;
+        curKnockBackTimer = maxWarchiefKnockBackTimer;
+        warchiefKnockBack = true;
+    }
+
+    public void ApplyBarbarianGiantKickBack(Transform hitObj)
+    {
+        anim.SetBool(StringData.IsInteracting, true);
+        anim.Play(StringData.KnockBack);
+        anim.SetBool(StringData.IsKnockedBack, true);
+        Vector3 incomingDir = transform.position - hitObj.position;
+        knockBackDir = incomingDir;
+        curKnockBackDis = transform.position;
+        curKnockBackTimer = maxBarbarianGiantKnockBackTimer;
+        barbarianKnockBack = true;
+    }
+
+    private void WarChiefKickBackHandler(Vector3 knockbackDir)
+    {
+        RaycastHit hit;
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+        float maxDistance = 2f;
+
+        Debug.DrawRay(origin, knockbackDir * maxDistance, Color.blue);
+        if (Physics.Raycast(origin, knockbackDir, out hit, maxDistance, knockBackLayer))
+        {
+            Debug.Log("Collided with: " + hit.transform.name);
+            anim.SetBool(StringData.IsInteracting, false);
+            anim.SetBool(StringData.IsKnockedBack, false);
+
+            TempStatDebuffEffect effect = new TempStatDebuffEffect(20f, 2f, 1f, TempStatDebuffType.Stun);
+            StatusEffectManager.ApplyDebuffEffects(effect);
+            warchiefKnockBack = false;
+        }
+        if (curKnockBackTimer <= 0)
+        {
+            Debug.Log("Timer is 0");
+            anim.SetBool(StringData.IsInteracting, false);
+            anim.SetBool(StringData.IsKnockedBack, false);
+            warchiefKnockBack = false;
+        }
+        float distance = Vector3.Distance(transform.position, curKnockBackDis);
+        if (distance >= maxKnockBackDis)
+        {
+            Debug.Log("Distance is 0");
+            anim.SetBool(StringData.IsInteracting, false);
+            anim.SetBool(StringData.IsKnockedBack, false);
+            warchiefKnockBack = false;
+        }
+
+        curKnockBackTimer -= Time.deltaTime;
+        controller.Move(knockbackDir * barbarianKnockBackSpeed * Time.deltaTime);
+    }
+
+    private void BarbarianGiantKickBackHandler(Vector3 knockbackDir)
+    {
+        RaycastHit hit;
+        Vector3 origin = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+        float maxDistance = 2f;
+
+        Debug.DrawRay(origin, knockbackDir * maxDistance, Color.blue);
+        if (Physics.Raycast(origin, knockbackDir, out hit, maxDistance, knockBackLayer))
+        {
+            Debug.Log("Collided with: " + hit.transform.name);
+            anim.SetBool(StringData.IsInteracting, false);
+            anim.SetBool(StringData.IsKnockedBack, false);
+
+            TempStatDebuffEffect effect = new TempStatDebuffEffect(20f, 2f, 1f, TempStatDebuffType.Stun);
+            StatusEffectManager.ApplyDebuffEffects(effect);
+            barbarianKnockBack = false;
+        }
+        if (curKnockBackTimer <= 0)
+        {
+            Debug.Log("Timer is 0");
+            anim.SetBool(StringData.IsInteracting, false);
+            anim.SetBool(StringData.IsKnockedBack, false);
+            barbarianKnockBack = false;
+        }
+        float distance = Vector3.Distance(transform.position, curKnockBackDis);
+        if (distance >= maxBarbarianGiantKnockBackDis)
+        {
+            Debug.Log("Distance is 0");
+            anim.SetBool(StringData.IsInteracting, false);
+            anim.SetBool(StringData.IsKnockedBack, false);
+            barbarianKnockBack = false;
+        }
+
+        curKnockBackTimer -= Time.deltaTime;
+        controller.Move(knockbackDir * barbarianKnockBackSpeed * Time.deltaTime);
+    }
+
     private void BloodEffect(Transform hitObj)
     {
         if (hitObj == null)
@@ -212,7 +332,10 @@ public class PlayerManager : MonoBehaviour
 
     public bool HasEnoughStamina(float cost)
     {
-        if (stats.CurrentStamina < cost) return false;
+        if (stats.CurrentStamina < cost && stats.playerLevel < 5) return false;
+
+        if (stats.playerLevel >= 5)
+            cost = 0;
 
         stats.CurrentStamina -= cost;
         stats.UpdateUI(false, false, true, false);

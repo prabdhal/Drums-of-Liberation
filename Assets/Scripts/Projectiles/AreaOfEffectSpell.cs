@@ -11,22 +11,31 @@ public class AreaOfEffectSpell : MonoBehaviour
     [SerializeField] float startTimer = 1f;
     private float curTimer = 0f;
 
+    private bool applyHit = false;
+
 
     void Start()
     {
-        curTimer = 0f;
+        curTimer = 1f;
+    }
+
+    private void Update()
+    {
+        if (curTimer <= 0)
+        {
+            applyHit = true;
+            curTimer = startTimer;
+        }
+        else curTimer -= Time.deltaTime;
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag(StringData.PlayerTag))
+        if (other.CompareTag(StringData.PlayerTag) && applyHit)
         {
-            if (curTimer <= 0)
-            {
-                OnHitPlayerEvent();
-                curTimer = startTimer;
-            }
-            else curTimer -= Time.deltaTime;
+            OnHitPlayerEvent();
+            applyHit = false;
+            curTimer = startTimer;
         }
     }
 }

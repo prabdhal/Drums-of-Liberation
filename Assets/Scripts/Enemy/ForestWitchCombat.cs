@@ -113,12 +113,14 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
         }
         if (currSkillCooldown02 <= 0 && playerDistance <= skillRange02 && !anim.GetBool(StringData.IsInteracting) && spiderlings.Count < maxSpiderlings)
         {
+            manager.CanInterrupt = true;
             anim.SetBool(StringData.IsInteracting, true);
             anim.Play(StringData.Attack02);
             currSkillCooldown02 = startSkillCooldown02;
         }
         if (currSkillCooldown03 <= 0 && playerDistance <= skillRange03 && !anim.GetBool(StringData.IsInteracting))
         {
+            manager.CanInterrupt = true;
             anim.SetBool(StringData.IsInteracting, true);
             anim.Play(StringData.Attack03);
             currSkillCooldown03 = startSkillCooldown03;
@@ -186,6 +188,7 @@ public class ForestWitchCombat : MonoBehaviour, ICombat
     private void ApplyDamageAttack01()
     {
         float damage = manager.Stats.MagicalPower.Value - PlayerManager.Instance.Stats.MagicResistance.Value;
+        damage = Mathf.Clamp(damage, 0, damage);
 
         PlayerManager.Instance.TakeDamage(damage, transform);
 
