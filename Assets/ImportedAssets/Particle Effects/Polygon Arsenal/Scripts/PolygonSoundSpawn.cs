@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PolygonArsenal
 {
     public class PolygonSoundSpawn : MonoBehaviour
     {
-
         public GameObject prefabSound;
 
         public bool destroyWhenDone = true;

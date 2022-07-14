@@ -5,7 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ArrowProjectile : MonoBehaviour
 {
+    [SerializeField]
+    protected AudioSource effectAudio;
+    [SerializeField]
     protected Rigidbody rb;
+    [SerializeField]
     protected BoxCollider col;
 
     protected float speed = 300f;
@@ -42,8 +46,15 @@ public class ArrowProjectile : MonoBehaviour
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRot, 9999);
 
-        rb = GetComponent<Rigidbody>();
-        col = GetComponent<BoxCollider>();
+        if (effectAudio == null)
+            effectAudio = GetComponent<AudioSource>();
+        effectAudio.volume = AudioManager.Instance.SoundVolume;
+        effectAudio.mute = AudioManager.Instance.Mute;
+        if (rb == null)
+        effectAudio.mute = AudioManager.Instance.Mute;
+            rb = GetComponent<Rigidbody>();
+        if (col == null)
+            col = GetComponent<BoxCollider>();
 
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         rb.useGravity = false;

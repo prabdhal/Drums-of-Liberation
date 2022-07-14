@@ -45,22 +45,11 @@ public class MenuDataManager : MonoBehaviour
     {
         SaveSystem.DeleteMenuData();
 
-        SoundVolume = 100f;
         MusicVolume = 100f;
+        SoundVolume = 100f;
         Mute = false;
-        Shadow = 2;
+        //Shadow = 2;
 
         SaveProgress(this);
-    }
-
-    public void OnApplicationPause(bool pause)
-    {
-        //if (pause)
-        //SaveProgress(this);
-    }
-
-    public void OnApplicationQuit()
-    {
-        //SaveProgress(this);
     }
 }

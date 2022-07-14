@@ -3571,12 +3571,17 @@ Transform:
   m_PrefabAsset: {fileID: 0}
 --- !u!82 &1414070855 stripped
 AudioSource:
-  m_CorrespondingSourceObject: {fileID: 2211474839236029562, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
+  m_CorrespondingSourceObject: {fileID: 303541893563428082, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
   m_PrefabInstance: {fileID: 1414070852}
   m_PrefabAsset: {fileID: 0}
 --- !u!82 &1414070856 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 4649331693508344099, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
+  m_PrefabInstance: {fileID: 1414070852}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1414070857 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 889971791596894578, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
   m_PrefabInstance: {fileID: 1414070852}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1452571092
@@ -3641,6 +3646,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6469423226639399818, guid: c6f581b8caf943c49aeb8c9e8d04f776, type: 3}
   m_PrefabInstance: {fileID: 1452571092}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1471186119 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6317163927158459378, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+  m_PrefabInstance: {fileID: 15592642}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1479372709
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4249,6 +4265,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 15592648}
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: soundSlider
+      value: 
+      objectReference: {fileID: 1471186119}
+    - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: shadowToggle
       value: 
       objectReference: {fileID: 15592647}
@@ -4271,7 +4291,7 @@ PrefabInstance:
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: playerSwordImpactAudioSource
       value: 
-      objectReference: {fileID: 1414070855}
+      objectReference: {fileID: 1414070857}
     - target: {fileID: 1003425778111823892, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: m_audioClip
       value: 

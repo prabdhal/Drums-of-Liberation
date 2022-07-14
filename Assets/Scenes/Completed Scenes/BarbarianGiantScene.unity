@@ -1779,9 +1779,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1302845610}
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: soundSlider
+      value: 
+      objectReference: {fileID: 1931050910}
+    - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: shadowToggle
       value: 
-      objectReference: {fileID: 1302845609}
+      objectReference: {fileID: 0}
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: volumeSlider
       value: 
@@ -1796,6 +1800,10 @@ PrefabInstance:
       objectReference: {fileID: 358567093}
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: playerSwordSwingAudioSource
+      value: 
+      objectReference: {fileID: 98676181}
+    - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: playerSwordImpactAudioSource
       value: 
       objectReference: {fileID: 98676181}
     - target: {fileID: 1003425778111823892, guid: 7ebdd249c693cf544988867330245266, type: 3}
@@ -1816,6 +1824,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ebdd249c693cf544988867330245266, type: 3}
+--- !u!114 &1116396579 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+  m_PrefabInstance: {fileID: 1116396578}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ef543ef0d71ba7489c6a20f32219cc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1169819864
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2022,6 +2041,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 856122388775007854, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 985525174787206235, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2169,6 +2192,14 @@ PrefabInstance:
     - target: {fileID: 5879311445204848321, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6317163926670137429, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1116396579}
+    - target: {fileID: 6317163926670137429, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MuteToggle
       objectReference: {fileID: 0}
     - target: {fileID: 6317163926787688154, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2320,17 +2351,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 501dce1d5a5185047b44bc5b6645567f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1302845609 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6317163928026037748, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
-  m_PrefabInstance: {fileID: 1302845606}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1302845610 stripped
@@ -2694,12 +2714,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2121063156}
     - target: {fileID: 1293106590168672924, guid: b93f611d0b5077b41a4079adcbf3ad54, type: 3}
+      propertyPath: stats.maxHealthVal
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293106590168672924, guid: b93f611d0b5077b41a4079adcbf3ad54, type: 3}
+      propertyPath: stats.magicalPowerVal
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293106590168672924, guid: b93f611d0b5077b41a4079adcbf3ad54, type: 3}
       propertyPath: stats.movementSpeedVal
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1293106590168672924, guid: b93f611d0b5077b41a4079adcbf3ad54, type: 3}
       propertyPath: stats.physicalPowerVal
-      value: 10
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 1293106590168672924, guid: b93f611d0b5077b41a4079adcbf3ad54, type: 3}
       propertyPath: Pursue.speedRatioMultiplier
@@ -4402,6 +4430,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4894716211505796, guid: e6e2944b1db977a4b817db1e80c2e48f, type: 3}
   m_PrefabInstance: {fileID: 1926788654}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1931050910 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6317163927158459378, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+  m_PrefabInstance: {fileID: 1302845606}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1962384096
 GameObject:
   m_ObjectHideFlags: 0

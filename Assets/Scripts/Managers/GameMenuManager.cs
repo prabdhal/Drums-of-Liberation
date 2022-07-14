@@ -34,7 +34,11 @@ public class GameMenuManager : MonoBehaviour
 
     private void Start()
     {
-        if (ignore) return;
+        if (ignore) {
+            EventSystem.current.SetSelectedGameObject(menuPanelFirstObject);
+            return;
+        }
+
         CloseAllMenus();
         shadowOn = true;
 

@@ -7,6 +7,8 @@ public static class StringData
     public static string Obstacle = "Obstacle";
     public static string PlayerWeaponTag = "PlayerWeapon";
     public static string TargetDetection = "TargetDetection";
+    public static string SwordImpactSound = "SwordImpactSound";
+    public static string SwordSwingSound = "SwordSwingSound";
 
     // animations
     public static string Idle = "Idle";

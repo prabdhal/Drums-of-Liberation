@@ -41,9 +41,11 @@ public class PlayerDataManager : MonoBehaviour
         SaveSystem.SaveData(data);
     }
 
-    public void LoadProgress()
+    public bool LoadProgress()
     {
         PlayerData data = SaveSystem.LoadPlayerData();
+
+        if (data == null) return false;
 
         TutorialFinished = data.tutorialFinished;
 
@@ -58,6 +60,7 @@ public class PlayerDataManager : MonoBehaviour
 
         FromSceneSpawnPosition = data.fromSceneSpawnPosition;
         CurrentScene = data.currentScene;
+        return true;
     }
 
     public void ResetProgressButton()

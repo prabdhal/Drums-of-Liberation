@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
@@ -67,6 +68,7 @@ public class DialogueManager : MonoBehaviour
         //nameText.text = npcName;
         dialoguePanel.SetActive(true);
         ContinueDialogue();
+        EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
     }
 
     public void ContinueDialogue()

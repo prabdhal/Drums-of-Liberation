@@ -1106,6 +1106,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2006016613}
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: soundSlider
+      value: 
+      objectReference: {fileID: 6317163927969249844}
+    - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: shadowToggle
       value: 
       objectReference: {fileID: 123963332}
@@ -1114,9 +1118,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1965090614}
     - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: musicAudioSource
+      value: 
+      objectReference: {fileID: 342752341}
+    - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: playerFootStepAudioSource
       value: 
       objectReference: {fileID: 276735459}
+    - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: playerSwordSwingAudioSource
+      value: 
+      objectReference: {fileID: 1398103238772743717}
+    - target: {fileID: 1003425778111823891, guid: 7ebdd249c693cf544988867330245266, type: 3}
+      propertyPath: playerSwordImpactAudioSource
+      value: 
+      objectReference: {fileID: 1398103238772743718}
     - target: {fileID: 1003425778111823892, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -1127,6 +1143,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ebdd249c693cf544988867330245266, type: 3}
+--- !u!82 &342752341 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1003425778111823892, guid: 7ebdd249c693cf544988867330245266, type: 3}
+  m_PrefabInstance: {fileID: 342752340}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &386155351 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6831096571908634247, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
@@ -6146,6 +6167,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 303541893563428082, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1398103238129613024, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
       propertyPath: m_LocalPosition.x
       value: -870.3
@@ -6186,6 +6211,10 @@ PrefabInstance:
       propertyPath: stats.playerLevelText
       value: 
       objectReference: {fileID: 556910223}
+    - target: {fileID: 1398103238359130981, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
+      propertyPath: swordSwing
+      value: 
+      objectReference: {fileID: 1398103238772743717}
     - target: {fileID: 2803650406969714254, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -6236,6 +6265,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
+--- !u!82 &1398103238772743717 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 303541893563428082, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
+  m_PrefabInstance: {fileID: 1398103238772743716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1398103238772743718 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 889971791596894578, guid: cd0c4d78df4338f468855bdd26f20f46, type: 3}
+  m_PrefabInstance: {fileID: 1398103238772743716}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &2371153325169537183
 Animator:
   serializedVersion: 4
@@ -7569,6 +7608,10 @@ PrefabInstance:
       value: 15.00531
       objectReference: {fileID: 0}
     - target: {fileID: 3485610766936148205, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3485610766936148205, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 160469261}
@@ -8127,6 +8170,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4262748085432765579, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
   m_PrefabInstance: {fileID: 6317163927969249840}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6317163927969249844 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6317163927158459378, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+  m_PrefabInstance: {fileID: 6317163927969249840}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6872526248020019654
 PrefabInstance:
   m_ObjectHideFlags: 0

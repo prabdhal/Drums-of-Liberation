@@ -5,7 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile : MonoBehaviour
 {
+    [SerializeField]
+    protected AudioSource effectAudio;
+    [SerializeField]
     protected Rigidbody rb;
+    [SerializeField]
     protected SphereCollider col;
 
     protected float speed = 300f;
@@ -20,6 +24,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] LayerMask detectLayer;
 
     [SerializeField] GameObject collisionEffect;
+    [SerializeField] AudioSource collisionAudio;
 
     private float curTimer;
 
@@ -36,8 +41,16 @@ public class Projectile : MonoBehaviour
 
     protected virtual void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        col = GetComponent<SphereCollider>();
+        if (effectAudio == null)
+            effectAudio = GetComponent<AudioSource>();
+        effectAudio.volume = AudioManager.Instance.SoundVolume;
+        effectAudio.mute = AudioManager.Instance.Mute;
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
+        if (col == null)
+            col = GetComponent<SphereCollider>();
+        if (collisionAudio == null)
+            collisionAudio = collisionEffect.GetComponent<AudioSource>();
 
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         rb.useGravity = false;
@@ -82,6 +95,7 @@ public class Projectile : MonoBehaviour
 
             OnHitPlayerEvent();
             Instantiate(collisionEffect, contact.point, transform.rotation);
+            collisionAudio.Play();
             Destroy(gameObject);
         }
         else if (col.collider.CompareTag(StringData.EnemyTag) && tags.Contains(Tags.Enemy))
@@ -96,6 +110,7 @@ public class Projectile : MonoBehaviour
                 //enemy.BloodEffect(transform);
             }
             Instantiate(collisionEffect, contact.point, transform.rotation);
+            collisionAudio.Play();
             Destroy(gameObject);
         }
         else if (col.collider.CompareTag(StringData.Obstacle) && tags.Contains(Tags.Obstacle))
@@ -103,6 +118,7 @@ public class Projectile : MonoBehaviour
             ContactPoint contact = col.contacts[0];
 
             Instantiate(collisionEffect, contact.point, transform.rotation);
+            collisionAudio.Play();
             Destroy(gameObject);
         }
     }

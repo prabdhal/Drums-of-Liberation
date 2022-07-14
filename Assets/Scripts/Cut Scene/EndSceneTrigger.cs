@@ -55,13 +55,14 @@ public class EndSceneTrigger : MonoBehaviour
             PlayerDataManager.FullRestorePotionCount = PlayerInventory.Instance.curFullRestoreCount;
 
             // save sound settings
-            MenuDataManager.MusicVolume = AudioManager.Instance.Volume;
-            //PlayerDataManager.SoundValue = AudioManager.Instance.Sound;
+            MenuDataManager.MusicVolume = AudioManager.Instance.MusicVolume;
+            MenuDataManager.SoundVolume = AudioManager.Instance.SoundVolume;
             MenuDataManager.Mute = AudioManager.Instance.Mute;
-            MenuDataManager.Shadow = AudioManager.Instance.Shadow;
+            //MenuDataManager.Shadow = AudioManager.Instance.Shadow;
 
 
             PlayerDataManager.Instance.SaveProgress(PlayerDataManager.Instance);
+            MenuDataManager.Instance.SaveProgress(MenuDataManager.Instance);
 
             EndScene();
             PlayerControls.Instance.FullPlayerControl(false);

@@ -1,10 +1,16 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] GameObject backgroundPanel;
+    [SerializeField] GameObject newGameFirstGameObjectButton;
     [SerializeField] GameObject mainMenuPanel;
+    [SerializeField] GameObject volumeSliderFirstGameObject;
     [SerializeField] GameObject optionsPanel;
+
+    [SerializeField] GameObject confirmationPanel;
+    [SerializeField] GameObject confirmationPanelFirstGameObject;
 
     #region Singleton
     public static MainMenuManager Instance;
@@ -24,7 +30,7 @@ public class MainMenuManager : MonoBehaviour
         CloseAllMenus();
         Time.timeScale = 1f;
 
-        mainMenuPanel.SetActive(true);
+        BackToMainMenuButton();
     }
 
     public void NewGameButton()
@@ -34,10 +40,20 @@ public class MainMenuManager : MonoBehaviour
         GameManager.Instance.LoadScene(StringData.CutSceneOne);
     }
 
+    public void OpenConfirmationWindow()
+    {
+        CloseAllMenus();
+
+        confirmationPanel.SetActive(true);
+        backgroundPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(confirmationPanelFirstGameObject);
+    }
+
     public void ContinueGameButton()
     {
         SaveMenuSettings();
-        PlayerDataManager.Instance.LoadProgress();
+        if (!PlayerDataManager.Instance.LoadProgress()) NewGameButton();
         MenuDataManager.Instance.LoadProgress();
         GameManager.Instance.LoadScene(((SceneNames)PlayerDataManager.CurrentScene).ToString());
     }
@@ -48,6 +64,8 @@ public class MainMenuManager : MonoBehaviour
 
         optionsPanel.SetActive(true);
         backgroundPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(volumeSliderFirstGameObject);
     }
 
     public void OpenSoundsPanelButton()
@@ -70,6 +88,8 @@ public class MainMenuManager : MonoBehaviour
 
         mainMenuPanel.SetActive(true);
         backgroundPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(newGameFirstGameObjectButton);
     }
 
     public void BackToOptionsButton()
@@ -83,15 +103,17 @@ public class MainMenuManager : MonoBehaviour
     private void ResetGameProgress()
     {
         SaveSystem.DeletePlayerData();
+        SaveSystem.DeleteMenuData();
         PlayerDataManager.Instance.ResetProgressButton();
+        MenuDataManager.Instance.ResetProgressButton();
     }
 
     private void SaveMenuSettings()
     {
-        MenuDataManager.MusicVolume = AudioManager.Instance.Volume;
+        MenuDataManager.MusicVolume = AudioManager.Instance.MusicVolume;
         //MenuDataManager.SoundValue = AudioManager.Instance.Sound;
         MenuDataManager.Mute = AudioManager.Instance.Mute;
-        MenuDataManager.Shadow = AudioManager.Instance.Shadow;
+        //MenuDataManager.Shadow = AudioManager.Instance.Shadow;
 
         MenuDataManager.Instance.SaveProgress(MenuDataManager.Instance);
     }
@@ -111,6 +133,7 @@ public class MainMenuManager : MonoBehaviour
     {
         optionsPanel.SetActive(false);
         mainMenuPanel.SetActive(false);
+        confirmationPanel.SetActive(false);
         backgroundPanel.SetActive(false);
     }
 }

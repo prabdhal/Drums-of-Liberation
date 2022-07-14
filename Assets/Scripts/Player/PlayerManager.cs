@@ -99,6 +99,7 @@ public class PlayerManager : MonoBehaviour
 
         PlayerDataManager.Instance.LoadProgress();
         MenuDataManager.Instance.LoadProgress();
+        Gold = PlayerDataManager.PlayerGold;
         Stats.Init();
         magicIdx = 0;
         UpdateGoldTextUI();
@@ -188,9 +189,7 @@ public class PlayerManager : MonoBehaviour
                 inCombat = false;
             }
             else
-            {
                 inCombatCurrTimer -= Time.deltaTime;
-            }
         }
     }
 
@@ -242,7 +241,6 @@ public class PlayerManager : MonoBehaviour
         Debug.DrawRay(origin, knockbackDir * maxDistance, Color.blue);
         if (Physics.Raycast(origin, knockbackDir, out hit, maxDistance, knockBackLayer))
         {
-            Debug.Log("Collided with: " + hit.transform.name);
             anim.SetBool(StringData.IsInteracting, false);
             anim.SetBool(StringData.IsKnockedBack, false);
 
@@ -252,7 +250,6 @@ public class PlayerManager : MonoBehaviour
         }
         if (curKnockBackTimer <= 0)
         {
-            Debug.Log("Timer is 0");
             anim.SetBool(StringData.IsInteracting, false);
             anim.SetBool(StringData.IsKnockedBack, false);
             warchiefKnockBack = false;
@@ -260,7 +257,6 @@ public class PlayerManager : MonoBehaviour
         float distance = Vector3.Distance(transform.position, curKnockBackDis);
         if (distance >= maxKnockBackDis)
         {
-            Debug.Log("Distance is 0");
             anim.SetBool(StringData.IsInteracting, false);
             anim.SetBool(StringData.IsKnockedBack, false);
             warchiefKnockBack = false;
@@ -279,7 +275,6 @@ public class PlayerManager : MonoBehaviour
         Debug.DrawRay(origin, knockbackDir * maxDistance, Color.blue);
         if (Physics.Raycast(origin, knockbackDir, out hit, maxDistance, knockBackLayer))
         {
-            Debug.Log("Collided with: " + hit.transform.name);
             anim.SetBool(StringData.IsInteracting, false);
             anim.SetBool(StringData.IsKnockedBack, false);
 
@@ -289,7 +284,6 @@ public class PlayerManager : MonoBehaviour
         }
         if (curKnockBackTimer <= 0)
         {
-            Debug.Log("Timer is 0");
             anim.SetBool(StringData.IsInteracting, false);
             anim.SetBool(StringData.IsKnockedBack, false);
             barbarianKnockBack = false;
@@ -297,7 +291,6 @@ public class PlayerManager : MonoBehaviour
         float distance = Vector3.Distance(transform.position, curKnockBackDis);
         if (distance >= maxBarbarianGiantKnockBackDis)
         {
-            Debug.Log("Distance is 0");
             anim.SetBool(StringData.IsInteracting, false);
             anim.SetBool(StringData.IsKnockedBack, false);
             barbarianKnockBack = false;

@@ -183,6 +183,8 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
         damage = Mathf.Clamp(damage, 0, damage);
 
+        damage *= 0.5f;
+
         PlayerManager.Instance.TakeDamage(damage, transform);
 
         // add damage popup 
@@ -197,6 +199,8 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
         float magicalDamage = manager.Stats.MagicalPower.Value - PlayerManager.Instance.Stats.MagicResistance.Value;
         physicalDamage = Mathf.Clamp(physicalDamage, 0f, physicalDamage);
         magicalDamage = Mathf.Clamp(magicalDamage, 0f, magicalDamage);
+        physicalDamage *= 0.7f;
+        
         float damage = physicalDamage + magicalDamage;
 
         PlayerManager.Instance.TakeDamage(damage, transform);
@@ -212,6 +216,8 @@ public class BarbarianGiantCombat : MonoBehaviour, ICombat
     {
         float damage = manager.Stats.PhysicalPower.Value - PlayerManager.Instance.Stats.Armor.Value;
         damage = Mathf.Clamp(damage, 0f, damage);
+
+        damage *= 0.8f;
 
         PlayerManager.Instance.TakeDamage(damage, transform);
         PlayerManager.Instance.ApplyBarbarianGiantKickBack(transform);

@@ -12,6 +12,11 @@ public class PlayerAttackCollider : MonoBehaviour
     [SerializeField] AudioSource swordImpact;
 
 
+    private void OnEnable()
+    {
+        swordSwing.Play();    
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(StringData.EnemyTag))
