@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameMenuManager : MonoBehaviour
 {
+    [SerializeField] EventSystem eventSystem;
     [SerializeField] GameObject backgroundPanel;
     [SerializeField] GameObject menuPanel;
+    [SerializeField] GameObject menuPanelFirstObject;
     [SerializeField] GameObject optionsPanel;
+    [SerializeField] GameObject volumePanelFirstObject;
     [SerializeField] GameObject tutorialScrollViewPanel;
 
     [SerializeField] Light light;
@@ -34,6 +38,8 @@ public class GameMenuManager : MonoBehaviour
         CloseAllMenus();
         shadowOn = true;
 
+        if (eventSystem == null)
+            eventSystem = FindObjectOfType<EventSystem>();
         if (tutorialScrollViewPanel == null)
             tutorialScrollViewPanel = GameObject.FindGameObjectWithTag(StringData.TutorialScrollView).GetComponent<Image>().gameObject;
         if (!isTutorial)
@@ -53,6 +59,8 @@ public class GameMenuManager : MonoBehaviour
 
         menuPanel.SetActive(true);
         backgroundPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(menuPanelFirstObject);
         Time.timeScale = 0f;
     }
 
@@ -62,6 +70,8 @@ public class GameMenuManager : MonoBehaviour
 
         optionsPanel.SetActive(true);
         backgroundPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(volumePanelFirstObject);
     }
 
     public void BackToGameMenuButton()
@@ -70,6 +80,8 @@ public class GameMenuManager : MonoBehaviour
 
         menuPanel.SetActive(true);
         backgroundPanel.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(menuPanelFirstObject);
     }
 
     public void BackToMainMenu()

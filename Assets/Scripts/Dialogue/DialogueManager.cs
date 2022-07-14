@@ -45,16 +45,8 @@ public class DialogueManager : MonoBehaviour
         if (dialogueIcon == null) dialogueIcon = dialoguePanel.transform.Find("DialogueIcon").GetComponent<Image>();
         continueButton.onClick.AddListener(delegate { ContinueDialogue(); });
         dialoguePanel.SetActive(false);
-        PlayerControls.Instance.OnInteractEvent += ContinueDialogue;
-    }
 
-    private void Update()
-    {
-        if (dialoguePanel.activeInHierarchy)
-        {
-            if (PlayerControls.Instance.GetInteractingValue)
-                ContinueDialogue();
-        }
+        PlayerControls.Instance.OnInteractEvent += ContinueDialogue;
     }
 
     public void AddNewDialogue(Dialogue dialogue)
@@ -79,6 +71,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ContinueDialogue()
     {
+        Debug.Log("Continue!");
         if (isTyping) return;
         isTyping = true;
         if (dialogueLines.Count == 0)

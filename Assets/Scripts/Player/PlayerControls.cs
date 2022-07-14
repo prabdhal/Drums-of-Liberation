@@ -211,6 +211,7 @@ public class PlayerControls : MonoBehaviour
     private void OnInteract(InputAction.CallbackContext obj)
     {
         OnInteractEvent?.Invoke();
+        Debug.Log("Interacted!");
     }
 
     private void OnUseItem(InputAction.CallbackContext obj)

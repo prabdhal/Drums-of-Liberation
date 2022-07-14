@@ -99,6 +99,7 @@ public class PlayerStats
         playerLevel = PlayerDataManager.PlayerLevel;
         requiredXP = playerRequiredXpPerLevel[playerLevel];
 
+        playerXP = PlayerDataManager.PlayerXP;
         MaxHealth = new CharacterStat(playerMaxHealthIncreasePerLevel[playerLevel]);
         CurrentHealth = PlayerDataManager.CurrentHealth;
         MaxMana = new CharacterStat(playerMaxManaIncreasePerLevel[playerLevel]);

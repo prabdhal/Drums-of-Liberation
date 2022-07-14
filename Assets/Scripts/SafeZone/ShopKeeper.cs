@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ShopKeeper : MonoBehaviour
@@ -10,8 +11,10 @@ public class ShopKeeper : MonoBehaviour
     [SerializeField] Slider purchaseItemCountSlider; 
     [SerializeField] TextMeshProUGUI purchaseItemCountText;
     [SerializeField] TextMeshProUGUI itemDescription;
-
     [SerializeField] int[] fullRestoreCost;
+
+    
+    [SerializeField] GameObject firstSelectGameObject;
     public float FullRestoreCost { get { return fullRestoreCost[PlayerManager.Instance.Stats.playerLevel]; } }
 
     private bool interact = false;
@@ -32,8 +35,14 @@ public class ShopKeeper : MonoBehaviour
         shopPanelUI.SetActive(false);
     }
 
+    private void Update()
+    {
+        UpdatePurchaseItemCount();
+    }
+
     private void Interact()
     {
+        if (!shopPanelUI.activeInHierarchy)
         interact = true;
     }
 
@@ -41,11 +50,10 @@ public class ShopKeeper : MonoBehaviour
     {
         if (other.CompareTag(StringData.PlayerTag))
         {
-            Debug.Log("Interacting: " + interact);
             if (interact)
             {
-                interact = false;
                 OpenShopPanel();
+                interact = false;
             }
         }
     }
@@ -62,6 +70,9 @@ public class ShopKeeper : MonoBehaviour
     {
         shopPanelUI.SetActive(true);
         shopPanelFeedbackText.text = null;
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(firstSelectGameObject);
         Time.timeScale = 0f;
     }
 

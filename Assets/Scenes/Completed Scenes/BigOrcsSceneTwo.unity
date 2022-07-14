@@ -345,6 +345,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 469644, guid: abfef49904ba663439732a11d0ccd1d1, type: 3}
   m_PrefabInstance: {fileID: 56625339}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &61190433 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+  m_PrefabInstance: {fileID: 990870300}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bcb0c18c5579d340a02ccae12a26186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &71289283
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +647,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 856122388775007854, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 856122388775007854, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 985525174787206235, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
@@ -1333,7 +1348,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1003425778111823890, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1003425778111823890, guid: 7ebdd249c693cf544988867330245266, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1496,6 +1511,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6824829981118841796, guid: d0d2b1c1ff725c640a5155f1e5f4dc98, type: 3}
   m_PrefabInstance: {fileID: 446772913}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &456837831 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+  m_PrefabInstance: {fileID: 848499193}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bcb0c18c5579d340a02ccae12a26186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &460020747
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2461,6 +2487,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_Goblin_WarChief02
       objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.armorVal
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.maxHealthVal
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.physicalPowerVal
+      value: 70
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
 --- !u!4 &794765867 stripped
@@ -2526,6 +2564,18 @@ PrefabInstance:
     - target: {fileID: 2857451816247332967, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
       propertyPath: m_Name
       value: Character_Goblin_WarChief03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.armorVal
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.maxHealthVal
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.physicalPowerVal
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6718019131699051444, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2905,6 +2955,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_Goblin_WarChief04
       objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.armorVal
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.maxHealthVal
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.physicalPowerVal
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 6718019131699051444, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.8200006
@@ -3110,7 +3172,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 455198364291569385, guid: a65024a55dd246942824d910a2c32260, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 455198364291569385, guid: a65024a55dd246942824d910a2c32260, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3161,6 +3223,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 228649102}
     - target: {fileID: 549755374263116395, guid: a65024a55dd246942824d910a2c32260, type: 3}
+      propertyPath: eventSystem
+      value: 
+      objectReference: {fileID: 1082859569}
+    - target: {fileID: 549755374263116395, guid: a65024a55dd246942824d910a2c32260, type: 3}
       propertyPath: optionsPanel
       value: 
       objectReference: {fileID: 228649101}
@@ -3168,6 +3234,14 @@ PrefabInstance:
       propertyPath: backgroundPanel
       value: 
       objectReference: {fileID: 228649103}
+    - target: {fileID: 549755374263116395, guid: a65024a55dd246942824d910a2c32260, type: 3}
+      propertyPath: menuPanelFirstObject
+      value: 
+      objectReference: {fileID: 2050554251}
+    - target: {fileID: 549755374263116395, guid: a65024a55dd246942824d910a2c32260, type: 3}
+      propertyPath: volumePanelFirstObject
+      value: 
+      objectReference: {fileID: 2050554250}
     - target: {fileID: 549755374263116395, guid: a65024a55dd246942824d910a2c32260, type: 3}
       propertyPath: tutorialScrollViewPanel
       value: 
@@ -3194,6 +3268,17 @@ Light:
   m_CorrespondingSourceObject: {fileID: 549755374023781098, guid: a65024a55dd246942824d910a2c32260, type: 3}
   m_PrefabInstance: {fileID: 1082859566}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1082859569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 549755374002707110, guid: a65024a55dd246942824d910a2c32260, type: 3}
+  m_PrefabInstance: {fileID: 1082859566}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1088287458
 GameObject:
   m_ObjectHideFlags: 0
@@ -3618,7 +3703,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6317163926713031942, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
   m_PrefabInstance: {fileID: 228649100}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2050554250}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
@@ -4448,6 +4533,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 407602, guid: 37b8bc688caaa5a44b7dec1fa9ef2d2a, type: 3}
   m_PrefabInstance: {fileID: 1743719336}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1803694269 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+  m_PrefabInstance: {fileID: 794765866}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bcb0c18c5579d340a02ccae12a26186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1856058385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4792,6 +4888,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 4962181548201754849}
+  - {fileID: 1803694269}
+  - {fileID: 456837831}
+  - {fileID: 61190433}
   fromScenes:
   - {fileID: 128462387}
   - {fileID: 1692815496}
@@ -4971,6 +5070,16 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7651120147633673712, guid: 69c4dac6e7f2f2743b95e184b71f8926, type: 3}
   m_PrefabInstance: {fileID: 2021055094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2050554250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6317163926713031940, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+  m_PrefabInstance: {fileID: 228649100}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2050554251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4262748085432765579, guid: 7ba4ddc75751b3e4fa419643b1d4190f, type: 3}
+  m_PrefabInstance: {fileID: 228649100}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2051174540
 GameObject:
@@ -5486,6 +5595,18 @@ PrefabInstance:
     - target: {fileID: 2857451816247332967, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
       propertyPath: m_Name
       value: Character_Goblin_WarChief01
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.armorVal
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.maxHealthVal
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 2857451816254448114, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
+      propertyPath: stats.physicalPowerVal
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6718019131699051444, guid: 9890a8e9e28ca9242b0e671cc17402a2, type: 3}
       propertyPath: m_LocalPosition.x

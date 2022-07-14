@@ -42,15 +42,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
-                    "type": "Button",
-                    "id": "ce1cc003-25ee-4cfe-91a2-eeaa7cbbe570",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "LockOn",
                     "type": "Button",
                     "id": "2c7a3b47-5610-4667-afe9-3350d1ec56ff",
@@ -180,7 +171,7 @@
                 {
                     "name": "",
                     "id": "8b9c3ac9-505b-4936-95f2-00e83792b994",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -191,33 +182,11 @@
                 {
                     "name": "",
                     "id": "09fd7118-7805-41d4-a900-514355a834cc",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "22ea6528-5ab5-436d-abeb-ae32a2588e1e",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "441f2df2-ff4b-4fef-a2db-bbcaf286aa9e",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Jump",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -444,7 +413,7 @@
                 {
                     "name": "",
                     "id": "cdbc71bd-d9a2-4dc3-8c7f-ccf0bbf5ceea",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

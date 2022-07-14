@@ -31,7 +31,7 @@ public class EndSceneTrigger : MonoBehaviour
             else
                 curSceneLoadTimer -= Time.deltaTime;
         }
-
+        Debug.Log(isSceneComplete());
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,10 +84,6 @@ public class EndSceneTrigger : MonoBehaviour
 
     protected virtual bool SceneCompletionConditions()
     {
-        if (GameManager.Instance.enemies.Count <= 5)
-            return true;
-
-        Debug.Log("Enemies left: " + GameManager.Instance.Enemies.Count);
-        return false;
+        return true;
     }
 }
