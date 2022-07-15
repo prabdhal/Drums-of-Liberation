@@ -17,8 +17,8 @@ public class MenuDataManager : MonoBehaviour
     #endregion
 
     [Header("Audio")]
-    public static float SoundVolume;
-    public static float MusicVolume;
+    public static float SoundVolume = 1;
+    public static float MusicVolume = 1;
     public static bool Mute;
 
     [Header("Graphics")]

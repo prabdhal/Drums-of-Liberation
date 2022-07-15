@@ -804,6 +804,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1756269811 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6618258105239815804, guid: 473fafe29c1be6545b4fba602751e458, type: 3}
+  m_PrefabInstance: {fileID: 6618258107021403475}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1786574845
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,8 +1473,16 @@ PrefabInstance:
       value: -100.625
       objectReference: {fileID: 0}
     - target: {fileID: 1355763545441242893, guid: 473fafe29c1be6545b4fba602751e458, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1355763545441242893, guid: 473fafe29c1be6545b4fba602751e458, type: 3}
       propertyPath: m_Navigation.m_SelectOnUp
       value: 
+      objectReference: {fileID: 1756269811}
+    - target: {fileID: 1629741750078612674, guid: 473fafe29c1be6545b4fba602751e458, type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1694923704887413940, guid: 473fafe29c1be6545b4fba602751e458, type: 3}
       propertyPath: m_AnchorMax.y
